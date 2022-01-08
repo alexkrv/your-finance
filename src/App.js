@@ -1,22 +1,20 @@
-import logo from './logo.svg';
+import { Switch, Button, } from 'antd';
+import {
+    EyeOutlined,
+    FlagOutlined,
+    PlusOutlined,
+} from '@ant-design/icons';
+
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+          <Switch />
+          <Button type="text" shape="circle" icon={<PlusOutlined />} size='large' />
+          <Button type="text" shape="circle" icon={<EyeOutlined />} size='large' />
+          <Button type="text" shape="circle" icon={<FlagOutlined />} size='large' />
       </header>
     </div>
   );
