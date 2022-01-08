@@ -1,5 +1,8 @@
 {
   "title": "Your Finance",
+  "i18n": {
+    "lang": "English"
+  },
   "description": {
     "part1": "First description",
     "part2": "Switch language between english and russian using buttons above."
