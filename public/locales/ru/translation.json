@@ -1,5 +1,9 @@
 {
-  "title": "Your Finance",
+  "header": {
+    "title": "Your Finance",
+    "darkTheme": "темная тема",
+    "lightTheme": "светлая тема"
+  },
   "i18n": {
     "lang": "Русский"
   },
