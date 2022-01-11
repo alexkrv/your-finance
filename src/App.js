@@ -7,9 +7,9 @@ import { useTranslation, } from 'react-i18next';
 
 import './App.css';
 
-import HeaderMenu from './features/headerMenu/HeaderMenu'
+import HeaderMenu from './features/headerMenu/HeaderMenu';
 
-function App() {
+const App = () => {
 	const { t, } = useTranslation();
 
 	return (
@@ -22,6 +22,6 @@ function App() {
 			</div>
 		</div>
 	);
-}
+};
 
 export default App;

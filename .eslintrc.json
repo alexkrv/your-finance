@@ -2,6 +2,11 @@
   "root": true,
   "extends": ["react-app"],
   "rules": {
-    "indent": ["error", "tab"]
+    "no-trailing-spaces": "error",
+    "indent": ["error", "tab"],
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "object-curly-spacing": ["error", "always"],
+    "arrow-spacing": ["error", { "before": true, "after": true }]
   }
 }
