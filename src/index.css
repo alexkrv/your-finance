@@ -13,10 +13,11 @@ code {
 }
 
 :root {
-    --main-background-dark: #282c34;
-    --main-background-light: #707173;
+    --page-background: #adadb4;
+    --text-primary: #333;
+}
 
-    --switcher-background-dark: #282c34;
-    --switcher-background-light: #707173;
-
+[data-theme='dark'] {
+    --page-background: #282c34;
+    --text-primary: #d5d5d5;
 }

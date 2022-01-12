@@ -1,15 +1,22 @@
 import React from 'react';
 import { useTranslation, } from 'react-i18next';
 import { Switch, } from 'antd';
-import { useDispatch, useSelector, } from 'react-redux';
+import { useDispatch, } from 'react-redux';
+import useLocalStorage from 'use-local-storage';
 
 import { switchTheme } from './ThemeSwitcherSlice';
 
 const ThemeSwitcher = () => {
 	const { t, } = useTranslation();
+	const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+	const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
 	const dispatch = useDispatch();
-	const theme = useSelector( state => state.theme.value);
-	const switchThemeMode = () => dispatch(switchTheme(theme === 'light' ? 'dark' : 'light'));
+	const switchThemeMode = () => {
+		const newThemeMode = theme === 'light' ? 'dark' : 'light';
+
+		setTheme(newThemeMode);
+		dispatch(switchTheme(newThemeMode));
+	};
 
 	return (
 		<div>
