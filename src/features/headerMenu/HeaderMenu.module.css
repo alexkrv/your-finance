@@ -1,3 +1,7 @@
-.container{}
+.container {
+	color: var(--text-primary);
+}
 
-.caption {}
+.caption {
+	color: var(--text-primary);
+}
