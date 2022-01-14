@@ -1,27 +1,35 @@
-import { Button, } from 'antd';
-import {
-	EyeOutlined,
-	PlusOutlined,
-} from '@ant-design/icons';
-import { useTranslation, } from 'react-i18next';
 import { useSelector, } from 'react-redux';
+import { BrowserRouter, Routes, Route, } from 'react-router-dom';
 
-import styles from './App.module.css';
+import styles from './App.module.scss';
+import { URL_LOGIN, URL_CASH_CATEGORIES, } from './constants/urls';
 
-import HeaderMenu from './features/headerMenu/HeaderMenu';
+import LoginPage from './features/loginPage/LoginPage';
+import Layout from './features/layout/Layout';
+import CashCategoriesPage from './features/cashCategoriesPage/CashCategoriesPage';
+import RequireAuth from './components/RequireAuth/RequireAuth';
 
 const App = () => {
-	const { t, } = useTranslation();
 	const theme = useSelector( state => state.theme.value);
 
 	return (
 		<div className={styles.app} data-theme={theme}>
-			<HeaderMenu/>
-			<div className={styles.appHeader}>
-				<Button type="text" shape="circle" icon={<PlusOutlined />} size='large' />
-				<Button type="text" shape="circle" icon={<EyeOutlined />} size='large' />
-				{t('description.part1')}
-			</div>
+			<BrowserRouter>
+				<Routes>
+					<Route element={<Layout />}>
+						{/*TODO <Route path={URL_PUBLIC} element={<PublicPage />} />*/}
+						<Route path={URL_LOGIN} element={<LoginPage />} />
+						<Route
+							path={URL_CASH_CATEGORIES}
+							element={
+								<RequireAuth>
+									<CashCategoriesPage />
+								</RequireAuth>
+							}
+						/>
+					</Route>
+				</Routes>
+			</BrowserRouter>
 		</div>
 	);
 };

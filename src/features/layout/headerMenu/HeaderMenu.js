@@ -5,7 +5,7 @@ import {
 } from '@ant-design/icons';
 import { Button, } from 'antd';
 
-import ThemeSwitcher from '../themeSwitcher/ThemeSwitcher';
+import ThemeSwitcher from '../../themeSwitcher/ThemeSwitcher';
 
 import styles from './HeaderMenu.module.css';
 
