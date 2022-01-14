@@ -6,7 +6,6 @@ import {
 import { useTranslation, } from 'react-i18next';
 import { useSelector, } from 'react-redux';
 
-import 'antd/dist/antd.css';
 import styles from './App.module.css';
 
 import HeaderMenu from './features/headerMenu/HeaderMenu';

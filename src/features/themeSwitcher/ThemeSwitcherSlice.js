@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const savedTheme = JSON.parse(localStorage.getItem('theme')) || defaultDark;
 const initialState = {
-	value: 'light',
+	value: savedTheme,
 };
 
 export const themeSwitcherSlice = createSlice({
