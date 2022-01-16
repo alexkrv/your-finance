@@ -4,13 +4,13 @@ import {
 	FlagOutlined,
 } from '@ant-design/icons';
 import { Button, } from 'antd';
-import { Link } from 'react-router-dom';
+
+import styles from './HeaderMenu.module.scss';
+
+import { URL_CASH_CATEGORIES, URL_HOME, URL_INVESTMENTS, URL_STATISTICS, } from '../../../constants/urls';
 
 import ThemeSwitcher from '../../themeSwitcher/ThemeSwitcher';
-
-import styles from './HeaderMenu.module.css';
-
-import { URL_CASH_CATEGORIES, URL_INVESTMENTS, URL_STATISTICS, } from '../../../constants/urls';
+import MenuItem from './MenuItem/MenuItem';
 
 const HeaderMenu = () => {
 	const { t, i18n } = useTranslation();
@@ -21,16 +21,23 @@ const HeaderMenu = () => {
 	};
 
 	return (
-		<header className={styles.container}>
-			<h1 className={styles.caption}>{t('header.title')}</h1>
-			<ThemeSwitcher/>
-			<Button type="text" icon={<FlagOutlined />} size='large' onClick={changeLang}>
-				{t('i18n.lang')}
-			</Button>
-			<Link to={URL_CASH_CATEGORIES}>{t('header.cashCategories')}</Link>
-			<Link to={URL_INVESTMENTS}>{t('header.investments')}</Link>
-			<Link to={URL_STATISTICS}>{t('header.statistics')}</Link>
-		</header>
+		<div className={styles.container}>
+			<div className={styles.firstFloorMenu}>
+				<h1 className={styles.caption}>{t('header.title')}</h1>
+				<div className={styles.controls}>
+					<ThemeSwitcher/>
+					<Button type="text" icon={<FlagOutlined />} size='large' onClick={changeLang} className={styles.langSwitcher}>
+						{t('i18n.lang')}
+					</Button>
+				</div>
+			</div>
+			<div className={styles.secondFloorMenu}>
+				<MenuItem navigateTo={URL_HOME}>{t('header.home')}</MenuItem>
+				<MenuItem navigateTo={URL_CASH_CATEGORIES} className={styles.menuLink}>{t('header.cashCategories')}</MenuItem>
+				<MenuItem navigateTo={URL_INVESTMENTS} className={styles.menuLink}>{t('header.investments')}</MenuItem>
+				<MenuItem navigateTo={URL_STATISTICS} className={styles.menuLink}>{t('header.statistics')}</MenuItem>
+			</div>
+		</div>
 
 	);
 };

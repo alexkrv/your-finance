@@ -1,10 +1,32 @@
 {
   "plugins": [
-    "stylelint-scss"
+    "stylelint-scss",
+    "stylelint-order"
   ],
   "extends": "stylelint-config-standard-scss",
   "rules": {
     "indentation": "tab",
-    "selector-class-pattern": "^[a-z][a-zA-Z0-9]+$"
+    "selector-class-pattern": "^[a-z][a-zA-Z0-9]+$",
+    "order/order": [
+      "custom-properties",
+      "declarations"
+    ],
+    "order/properties-order": [
+      ["display",
+        "flex-direction",
+        "align-items",
+        "justify-content",
+        "position",
+        "z-index",
+        "top",
+        "right",
+        "bottom",
+        "left",
+        "width",
+        "height",
+        "color"],
+      {
+        "unspecified": "bottom"
+      }]
   }
 }

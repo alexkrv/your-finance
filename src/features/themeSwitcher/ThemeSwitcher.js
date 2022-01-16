@@ -4,6 +4,8 @@ import { Switch, } from 'antd';
 import { useDispatch, } from 'react-redux';
 import useLocalStorage from 'use-local-storage';
 
+import styles from './ThemeSwitcher.module.scss';
+
 import { switchTheme } from './ThemeSwitcherSlice';
 
 const ThemeSwitcher = () => {
@@ -21,7 +23,7 @@ const ThemeSwitcher = () => {
 	return (
 		<div>
 			{t('header.darkTheme')}
-			<Switch onChange={switchThemeMode} defaultChecked={theme === 'light'}/>
+			<Switch onChange={switchThemeMode} defaultChecked={theme === 'light'} className={styles.switcher}/>
 			{t('header.lightTheme')}
 		</div>
 	);
