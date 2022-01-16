@@ -1,9 +1,10 @@
 import React from 'react';
+import { Input } from 'antd';
 
 const LoginPage = () => {
 	return (
 		<div>
-        Login page
+			<Input />
 		</div>
 	);
 };

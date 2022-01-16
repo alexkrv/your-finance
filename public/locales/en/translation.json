@@ -2,7 +2,10 @@
   "header": {
     "title": "Your Finance",
     "darkTheme": "dark mode",
-    "lightTheme": "light mode"
+    "lightTheme": "light mode",
+    "cashCategories": "Cash Categories",
+    "investments": "Investments",
+    "statistics": "Statistics"
   },
   "i18n": {
     "lang": "English"

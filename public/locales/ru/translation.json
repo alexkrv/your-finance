@@ -2,7 +2,10 @@
   "header": {
     "title": "Your Finance",
     "darkTheme": "темная тема",
-    "lightTheme": "светлая тема"
+    "lightTheme": "светлая тема",
+    "cashCategories": "Категории денег",
+    "investments": "Инвестиции",
+    "statistics": "Статистика"
   },
   "i18n": {
     "lang": "Русский"
