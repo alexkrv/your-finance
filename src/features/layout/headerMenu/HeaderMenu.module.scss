@@ -23,8 +23,6 @@
 
 .secondFloorMenu {
 	@extend .menuFloor;
-
-	margin-bottom: 24px;
 }
 
 .caption {
@@ -46,4 +44,9 @@
 	padding: 5px 7px;
 	margin: 0 5px;
 	font-size: 18px;
+}
+
+.logout,
+.login {
+	color: var(--text-primary);
 }

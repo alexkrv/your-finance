@@ -8,6 +8,14 @@
     "investments": "Инвестиции",
     "statistics": "Статистика"
   },
+  "auth": {
+    "title": "Вход",
+    "placeholderLogin": "Введите логин",
+    "placeholderPassword": "Введите пароль",
+    "login": "Войти",
+    "register": "Зарегистрироваться",
+    "logout": "Выход"
+  },
   "i18n": {
     "lang": "Русский"
   },

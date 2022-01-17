@@ -21,7 +21,7 @@ const ThemeSwitcher = () => {
 	};
 
 	return (
-		<div>
+		<div className={styles.container}>
 			{t('header.darkTheme')}
 			<Switch onChange={switchThemeMode} defaultChecked={theme === 'light'} className={styles.switcher}/>
 			{t('header.lightTheme')}

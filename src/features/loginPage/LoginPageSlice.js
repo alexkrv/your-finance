@@ -8,10 +8,15 @@ export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
-		login: (state, action) => {/*TODO*/},
+		login: (state, action) => {
+			state.isAuthenticated = true; // TODO create functionality
+		},
+		logout: (state, action) => {
+			state.isAuthenticated = false; // TODO create functionality
+		},
 	},
 });
 
-export const { login } = authSlice.actions;
+export const { login, logout, } = authSlice.actions;
 
 export default authSlice.reducer;

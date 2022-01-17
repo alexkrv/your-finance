@@ -8,6 +8,14 @@
     "investments": "Investments",
     "statistics": "Statistics"
   },
+  "auth": {
+    "title": "Log In",
+    "placeholderLogin": "Input login",
+    "placeholderPassword": "Input password",
+    "login": "Log In",
+    "register": "Register",
+    "logout": "Logout"
+  },
   "i18n": {
     "lang": "English"
   },
