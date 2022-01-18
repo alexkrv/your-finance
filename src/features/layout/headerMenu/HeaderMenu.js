@@ -16,6 +16,7 @@ import { URL_CASH_CATEGORIES, URL_HOME, URL_INVESTMENTS, URL_LOGIN, URL_STATISTI
 import ThemeSwitcher from '../../themeSwitcher/ThemeSwitcher';
 import MenuItem from './MenuItem/MenuItem';
 import { logout } from '../../loginPage/LoginPageSlice';
+import { LANG_EN, LANG_RU } from '../../../constants/default-values';
 
 const HeaderMenu = () => {
 	const { t, i18n } = useTranslation();
@@ -23,7 +24,7 @@ const HeaderMenu = () => {
 	const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 	const dispatch = useDispatch();
 	const changeLang = () => {
-		const newLanguage = i18n.resolvedLanguage === 'en' ? 'ru' : 'en';
+		const newLanguage = i18n.resolvedLanguage === LANG_EN ? LANG_RU : LANG_EN;
 
 		i18n.changeLanguage(newLanguage);
 	};

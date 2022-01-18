@@ -22,5 +22,15 @@
   "description": {
     "part1": "Первое описание",
     "part2": "Переключайте язык между английским и русским, используюя кнопку рядом"
+  },
+  "cashCategories": {
+    "incomeSourceName": "Название источника дохода",
+    "incomeSourceValue": "Сумма дохода",
+    "save": "Сохранить",
+    "errorEnterSourceName": "Введите название источника",
+    "errorSourceRequired": "Название обязательно",
+    "errorSourceValueNumber": "Сумма должна быть числом",
+    "errorSourceValuePositive": "Сумма должна быть больше нуля",
+    "errorSourceValueRequired": "Сумма обязательна"
   }
 }

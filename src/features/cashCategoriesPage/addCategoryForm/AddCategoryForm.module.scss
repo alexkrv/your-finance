@@ -1,0 +1,31 @@
+.inputName {
+	grid-area: inputName;
+}
+
+.inputValue {
+	grid-area: inputValue;
+}
+
+.selectCurrency {
+	width: 100px;
+	grid-area: select;
+}
+
+.button {
+	width: 100px;
+	grid-area: button;
+}
+
+.form {
+	display: grid;
+	grid-template-columns: 200px 200px 100px;
+	grid-template-rows: auto;
+	grid-template-areas:
+		"inputName inputValue select"
+		"button . .";
+	column-gap: 8px;
+	row-gap: 16px;
+	border: 2px solid #484747;
+	padding: 16px;
+	border-radius: 10px;
+}

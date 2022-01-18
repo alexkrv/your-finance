@@ -29,11 +29,13 @@ code {
 }
 
 :root {
-	--page-background: #adadb4;
-	--text-primary: #333;
+	--page-background: #f6f6f6;
+	--text-primary: #282c34;
+	--border-primary: #a9b9d9;
 }
 
 [data-theme="dark"] {
 	--page-background: #282c34;
-	--text-primary: #d5d5d5;
+	--text-primary: #f6f6f6;
+	--border-primary: #404652;
 }

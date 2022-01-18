@@ -22,5 +22,15 @@
   "description": {
     "part1": "First description",
     "part2": "Switch language between english and russian using buttons above."
+  },
+  "cashCategories": {
+    "incomeSourceName": "Income source name",
+    "incomeSourceValue": "Income source value",
+    "save": "Save",
+    "errorEnterSourceName": "Enter Source name",
+    "errorSourceRequired": "Source name is required",
+    "errorSourceValueNumber": "Source value should be a number",
+    "errorSourceValuePositive": "Source value should be positive",
+    "errorSourceValueRequired": "Source value is required"
   }
 }
