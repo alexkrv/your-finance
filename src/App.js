@@ -9,6 +9,7 @@ import {
 	URL_INVESTMENTS,
 	URL_STATISTICS,
 	URL_REGISTRATION,
+	URL_TUTORIAL,
 } from './constants/urls';
 
 import LoginPage from './features/loginPage/LoginPage';
@@ -17,6 +18,7 @@ import Layout from './features/layout/Layout';
 import CashCategoriesPage from './features/cashCategoriesPage/CashCategoriesPage';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import RegisterPage from './features/registerPage/registerPage';
+import AddCategoryForm from './features/cashCategoriesPage/addCategoryForm/AddCategoryForm';
 
 const App = () => {
 	const theme = useSelector( state => state.theme.value);
@@ -36,7 +38,9 @@ const App = () => {
 									<CashCategoriesPage />
 								</RequireAuth>
 							}
-						/>
+						>
+							<Route path={URL_TUTORIAL} element={<AddCategoryForm/>}/>
+						</Route>
 						<Route
 							path={URL_INVESTMENTS}
 							element={

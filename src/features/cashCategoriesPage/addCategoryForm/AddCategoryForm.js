@@ -1,81 +1,137 @@
-import React, { useMemo, } from 'react';
-import { Button, Select } from 'antd';
+import React, { useRef, useState, } from 'react';
+import { Form, Input, InputNumber, Button, Select, Space, } from 'antd';
 import { useTranslation } from 'react-i18next';
-import * as yup from 'yup';
-import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './AddCategoryForm.module.scss';
-import { Input } from '../../../components/controls/Input/Input';
 
-import { CUR_EUR, CUR_RUB, CUR_USD, DEFAULT_EMPTY_STRING, LANG_RU, } from '../../../constants/default-values';
+import {
+	CUR_EUR,
+	CUR_RUB,
+	CUR_USD,
+	DEFAULT_EMPTY_STRING,
+	DEFAULT_ZERO,
+	LANG_RU,
+} from '../../../constants/default-values';
+import { addIncome, addSpending, } from '../CashCategoriesSlice';
+import { useNavigate } from 'react-router-dom';
+import { URL_CASH_CATEGORIES } from '../../../constants/urls';
+import useLocalStorage from 'use-local-storage';
 
 const AddCategoryForm = () => {
+	const formRef = useRef();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [, setIsTutorialCompleted] = useLocalStorage('isTutorialCompleted', false);
 	const { t, i18n, } = useTranslation();
-	const currency = i18n.language === LANG_RU ? CUR_RUB : CUR_USD;
-	const validationSchema = useMemo( () => yup.object({
-		sourceName: yup
-			.string(t('cashCategories.errorEnterSourceName'))
-			.required(t('cashCategories.errorSourceRequired')),
-		sourceValue: yup
-			.number()
-			.typeError(t('cashCategories.errorSourceValueNumber'))
-			.positive(t('cashCategories.errorSourceValuePositive'))
-			.required(t('cashCategories.errorSourceValueRequired')),
-	}), [i18n.language]);
+	const [isSpendingMode, setSpendingMode] = useState(false);
 
-	const formik = useFormik({
-		initialValues: {
-			sourceName: DEFAULT_EMPTY_STRING,
-			sourceValue: DEFAULT_EMPTY_STRING,
-			currency
-		},
-		validationSchema: validationSchema,
-		onSubmit: (values) => {
-			console.log(JSON.stringify(values, null, 2));
-			// TODO add saving on server
-			formik.resetForm();
-		},
-	});
-	console.log('test', formik);
+	const { incomes, spending } = useSelector(state => state.cashCategories.categories);
+	const currency = i18n.language === LANG_RU ? CUR_RUB : CUR_USD;
+	const onFinish = (values) => {
+		if(isSpendingMode) {
+			dispatch(addSpending(values));
+		} else {
+			dispatch(addIncome(values));
+		}
+
+		formRef.current.resetFields();
+	};
+	const initialValues = {
+		sourceName: DEFAULT_EMPTY_STRING,
+		sourceValue: DEFAULT_ZERO,
+		currency
+	};
+
+	const goNextHandler = () => {
+		if(isSpendingMode) {
+			navigate(URL_CASH_CATEGORIES);
+			setIsTutorialCompleted(true);
+		} else {
+			setSpendingMode(true);
+		}
+	};
+
+	const goBackHandler = () => setSpendingMode(false);
 
 	return (
-		<form onSubmit={formik.handleSubmit} className={styles.form}>
-			<Input
-				id="sourceName"
-				name="sourceName"
-				value={formik.values.sourceName}
-				onChange={formik.handleChange}
-				onBlur={formik.handleBlur}
-				error={formik.touched.sourceName && Boolean(formik.errors.sourceName)}
-				placeholder={t('cashCategories.incomeSourceName')}
-				className={styles.inputName}
-			/>
-			<Input
-				id="sourceValue"
-				name="sourceValue"
-				value={formik.values.sourceValue}
-				onChange={formik.handleChange}
-				onBlur={formik.handleBlur}
-				error={formik.touched.sourceValue && Boolean(formik.errors.sourceValue)}
-				placeholder={t('cashCategories.incomeSourceValue')}
-				className={styles.inputValue}
-			/>
-			<Select
-				id="currency"
-				name="currency"
-				defaultValue={currency}
-				value={formik.values.currency}
-				onChange={(value) => { formik.setFieldValue('currency', value); }}
-				className={styles.selectCurrency}
-			>
-				<Select.Option value={CUR_RUB}>RUR</Select.Option>
-				<Select.Option value={CUR_USD}>USD</Select.Option>
-				<Select.Option value={CUR_EUR}>EUR</Select.Option>
-			</Select>
-			<Button type="primary" shape="round" size='medium' htmlType="submit" className={styles.button}>
-				{t('cashCategories.save')}
-			</Button>
-		</form>
+		<Form
+			ref={formRef}
+			onFinish={onFinish}
+			initialValues={initialValues}
+			layout="vertical"
+			className={styles.form}
+			wrapperCol={{ span: 100 }}
+		>
+			<h2 className={styles.caption}>{isSpendingMode ?
+				t('cashCategories.addSpending')
+				:t('cashCategories.addIncome')
+			}
+			<Space size='small'>
+				{ isSpendingMode &&
+                <Button shape='round' ghost size='medium' className={styles.button} onClick={goBackHandler}>
+                	{t('cashCategories.back')}
+                </Button> }
+				{ ((!isSpendingMode && Boolean(incomes.length)) || (isSpendingMode && Boolean(spending.length))) &&
+                <Button type="secondary" shape="round" size='medium' className={styles.button} onClick={goNextHandler}>
+                	{t('cashCategories.next')}
+                </Button> }
+			</Space>
+			</h2>
+			<div className={styles.inputControls}>
+				<Space size='small'>
+					<Form.Item
+						name="sourceName"
+						rules={[
+							{
+								required: true,
+								message: t('cashCategories.errorSourceRequired')
+							},
+						]}
+						className={styles.inputControl}
+					>
+						<Input placeholder={t('cashCategories.incomeSourceName')}/>
+					</Form.Item>
+					<Form.Item
+						name="sourceValue"
+						rules={[
+							{
+								required: true,
+								message: t('cashCategories.errorSourceValueRequired')
+							},
+						]}
+						className={styles.inputControl}
+					>
+						<InputNumber
+							style={{ width: '100%' }}
+							min={ isSpendingMode ? Number.NEGATIVE_INFINITY : DEFAULT_ZERO}
+							max={ isSpendingMode ? DEFAULT_ZERO : Number.POSITIVE_INFINITY}
+							placeholder={t('cashCategories.incomeSourceValue')}
+						/>
+					</Form.Item>
+					<Form.Item
+						name="currency"
+						rules={[
+							{
+								required: true,
+							},
+						]}
+						className={styles.inputControl}
+					>
+						<Select placeholder="Select a currency">
+							<Select.Option value={CUR_RUB}>RUR</Select.Option>
+							<Select.Option value={CUR_USD}>USD</Select.Option>
+							<Select.Option value={CUR_EUR}>EUR</Select.Option>
+						</Select>
+					</Form.Item>
+				</Space>
+			</div>
+			<Space size={'small'}>
+				<Button type="primary" shape="round" size='medium' htmlType="submit" className={styles.button}>
+					{t('cashCategories.save')}
+				</Button>
+			</Space>
+		</Form>
 	);
 };
 
