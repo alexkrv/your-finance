@@ -18,7 +18,7 @@ import Layout from './features/layout/Layout';
 import CashCategoriesPage from './features/cashCategoriesPage/CashCategoriesPage';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import RegisterPage from './features/registerPage/registerPage';
-import AddCategoryForm from './features/cashCategoriesPage/addCategoryForm/AddCategoryForm';
+import CashCategoryStarterForm from './features/cashCategoriesPage/СashCategoryStarterForm/CashCategoryStarterForm';
 
 const App = () => {
 	const theme = useSelector( state => state.theme.value);
@@ -39,7 +39,7 @@ const App = () => {
 								</RequireAuth>
 							}
 						>
-							<Route path={URL_TUTORIAL} element={<AddCategoryForm/>}/>
+							<Route path={URL_TUTORIAL} element={<CashCategoryStarterForm/>}/>
 						</Route>
 						<Route
 							path={URL_INVESTMENTS}

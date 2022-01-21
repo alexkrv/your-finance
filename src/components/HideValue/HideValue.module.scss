@@ -1,0 +1,15 @@
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	user-select: none;
+}
+
+.hiddenValue {
+	transition: all 0.3s ease;
+}
+
+.icon {
+	margin-left: 5px;
+	cursor: pointer;
+}

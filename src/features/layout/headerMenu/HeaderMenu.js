@@ -17,6 +17,7 @@ import ThemeSwitcher from '../../themeSwitcher/ThemeSwitcher';
 import MenuItem from './MenuItem/MenuItem';
 import { logout } from '../../loginPage/LoginPageSlice';
 import { LANG_EN, LANG_RU } from '../../../constants/default-values';
+import ValueVisibilitySwitcher from '../../valueVisibilitySwitcher/ValueVisibilitySwitcher';
 
 const HeaderMenu = () => {
 	const { t, i18n } = useTranslation();
@@ -36,6 +37,7 @@ const HeaderMenu = () => {
 			<div className={styles.firstFloorMenu}>
 				<h1 className={styles.caption}>{t('header.title')}</h1>
 				<div className={styles.controls}>
+					<ValueVisibilitySwitcher/>
 					{ isAuthenticated && <Button type="text" icon={<LockOutlined />} size='large' onClick={handleLogout} className={styles.logout}>
 						{t('auth.logout')}
 					</Button> }

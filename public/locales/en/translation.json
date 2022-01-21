@@ -6,7 +6,9 @@
     "home": "Home",
     "cashCategories": "Cash Categories",
     "investments": "Investments",
-    "statistics": "Statistics"
+    "statistics": "Statistics",
+    "show": "Show",
+    "hide": "Hide"
   },
   "auth": {
     "title": "Log In",
@@ -35,6 +37,10 @@
     "errorSourceRequired": "Source name is required",
     "errorSourceValueNumber": "Source value should be a number",
     "errorSourceValuePositive": "Source value should be positive",
-    "errorSourceValueRequired": "Source value is required"
+    "errorSourceValueRequired": "Source value is required",
+    "incomeTitle": "Incomes",
+    "spendingTitle": "Spending",
+    "frozenTitle": "Frozen",
+    "total": "Total"
   }
 }

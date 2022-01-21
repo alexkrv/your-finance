@@ -39,3 +39,7 @@ code {
 	--text-primary: #f6f6f6;
 	--border-primary: #404652;
 }
+
+[data-value-hidden="true"] {
+	filter: blur(4px);
+}

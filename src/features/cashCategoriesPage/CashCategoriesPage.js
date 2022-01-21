@@ -1,5 +1,5 @@
 import React, { useEffect, } from 'react';
-import { useDispatch, } from 'react-redux';
+import { useDispatch, useSelector, } from 'react-redux';
 import { useNavigate, Outlet, } from 'react-router-dom';
 import useLocalStorage from 'use-local-storage';
 
@@ -7,10 +7,14 @@ import styles from './CashCategoriesPage.module.scss';
 
 import { getCategories } from './CashCategoriesSlice';
 import { URL_TUTORIAL } from '../../constants/urls';
+import CategoryBlock from './CategoryBlock/CategoryBlock';
+import { useTranslation } from 'react-i18next';
 
 const CashCategoriesPage = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { incomes, } = useSelector(state => state.cashCategories.categories);// TODO temp
+	const { t } = useTranslation();
 	const [isTutorialCompleted, ] = useLocalStorage('isTutorialCompleted', false);
 
 	useEffect(() => {
@@ -26,8 +30,12 @@ const CashCategoriesPage = () => {
 	return (
 		<div className={styles.container}>
 			{isTutorialCompleted && <div>CATEGORIES</div>}
-
 			<Outlet/>
+			<CategoryBlock
+				title={t('cashCategories.incomeTitle')}
+				items={incomes}
+				addItemHandler={() => console.log(/*TODO*/'ADD ITEM')}
+			/>
 		</div>
 	);
 };

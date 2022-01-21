@@ -6,7 +6,9 @@
     "home": "Home",
     "cashCategories": "Категории денег",
     "investments": "Инвестиции",
-    "statistics": "Статистика"
+    "statistics": "Статистика",
+    "show": "Показывать",
+    "hide": "Скрыть"
   },
   "auth": {
     "title": "Вход",
@@ -35,6 +37,10 @@
     "errorSourceRequired": "Название обязательно",
     "errorSourceValueNumber": "Сумма должна быть числом",
     "errorSourceValuePositive": "Сумма должна быть больше нуля",
-    "errorSourceValueRequired": "Сумма обязательна"
+    "errorSourceValueRequired": "Сумма обязательна",
+    "incomeTitle": "Доходы",
+    "spendingTitle": "Расходы",
+    "frozenTitle": "Заморожено",
+    "total": "Всего"
   }
 }

@@ -3,7 +3,7 @@ import { Form, Input, InputNumber, Button, Select, Space, } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import styles from './AddCategoryForm.module.scss';
+import styles from './CashCategoryStarterForm.module.scss';
 
 import {
 	CUR_EUR,
@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { URL_CASH_CATEGORIES } from '../../../constants/urls';
 import useLocalStorage from 'use-local-storage';
 
-const AddCategoryForm = () => {
+const CashCategoryStarterForm = () => {
 	const formRef = useRef();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -135,4 +135,4 @@ const AddCategoryForm = () => {
 	);
 };
 
-export default AddCategoryForm;
+export default CashCategoryStarterForm;
