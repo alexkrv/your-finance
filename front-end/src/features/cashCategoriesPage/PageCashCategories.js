@@ -3,14 +3,14 @@ import { useDispatch, useSelector, } from 'react-redux';
 import { useNavigate, Outlet, } from 'react-router-dom';
 import useLocalStorage from 'use-local-storage';
 
-import styles from './CashCategoriesPage.module.scss';
+import styles from './PageCashCategories.module.scss';
 
-import { getCategories } from './CashCategoriesSlice';
-import { URL_TUTORIAL } from '../../constants/urls';
+import { getCategories } from './PageCashCategoriesSlice';
+import { ROUTE_TUTORIAL } from '../../constants/routes';
 import CategoryBlock from './CategoryBlock/CategoryBlock';
 import { useTranslation } from 'react-i18next';
 
-const CashCategoriesPage = () => {
+const PageCashCategories = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { incomes, } = useSelector(state => state.cashCategories.categories);// TODO temp
@@ -23,7 +23,7 @@ const CashCategoriesPage = () => {
 
 	useEffect(() => {
 		if(!isTutorialCompleted) {
-			navigate(URL_TUTORIAL);
+			navigate(ROUTE_TUTORIAL);
 		}
 	}, [isTutorialCompleted]);
 
@@ -40,4 +40,4 @@ const CashCategoriesPage = () => {
 	);
 };
 
-export default CashCategoriesPage;
+export default PageCashCategories;

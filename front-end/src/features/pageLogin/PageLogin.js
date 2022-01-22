@@ -7,17 +7,17 @@ import { useFormik } from 'formik';
 
 import { useNavigate, useLocation, } from 'react-router-dom';
 
-import styles from './LoginPage.module.scss';
+import styles from './PageLogin.module.scss';
 
-import { login, } from './LoginPageSlice';
-import { URL_HOME, URL_REGISTRATION } from '../../constants/urls';
+import { login, } from './PageLoginSlice';
+import { ROUTE_HOME, ROUTE_REGISTRATION } from '../../constants/routes';
 
-const LoginPage = () => {
+const PageLogin = () => {
 	const { t, } = useTranslation();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const navigatedFrom = location.state?.from?.pathname || URL_HOME;
+	const navigatedFrom = location.state?.from?.pathname || ROUTE_HOME;
 	const formik = useFormik({
 		initialValues: {
 			login: '',
@@ -28,7 +28,7 @@ const LoginPage = () => {
 			navigate(navigatedFrom, { replace: true });
 		},
 	});
-	const goToRegistration = () => navigate(URL_REGISTRATION, { state: navigatedFrom });
+	const goToRegistration = () => navigate(ROUTE_REGISTRATION, { state: navigatedFrom });
 
 	return (
 		<div className={styles.container}>
@@ -68,4 +68,4 @@ const LoginPage = () => {
 	);
 };
 
-export default LoginPage;
+export default PageLogin;

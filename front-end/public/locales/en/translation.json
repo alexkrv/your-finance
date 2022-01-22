@@ -42,5 +42,8 @@
     "spendingTitle": "Spending",
     "frozenTitle": "Frozen",
     "total": "Total"
+  },
+  "currency": {
+    "selectCurrency": "Select currency"
   }
 }

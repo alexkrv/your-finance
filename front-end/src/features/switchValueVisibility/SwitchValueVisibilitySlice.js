@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	isVisible: false,
 };
-export const valueVisibilitySwitcherSlice = createSlice({
+export const switchValueVisibilitySlice = createSlice({
 	name: 'valueVisibility',
 	initialState,
 	reducers: {
@@ -13,6 +13,6 @@ export const valueVisibilitySwitcherSlice = createSlice({
 	}
 });
 
-export const { toggleVisibility } = valueVisibilitySwitcherSlice.actions;
+export const { toggleVisibility } = switchValueVisibilitySlice.actions;
 
-export default valueVisibilitySwitcherSlice.reducer;
+export default switchValueVisibilitySlice.reducer;

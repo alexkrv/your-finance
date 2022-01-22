@@ -1,21 +1,19 @@
 import React, { useRef, useState, } from 'react';
-import { Form, Input, InputNumber, Button, Select, Space, } from 'antd';
+import { Form, Input, InputNumber, Button, Space, } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './CashCategoryStarterForm.module.scss';
 
 import {
-	CUR_EUR,
-	CUR_RUB,
-	CUR_USD,
 	DEFAULT_EMPTY_STRING,
 	DEFAULT_ZERO,
 } from '../../../constants/default-values';
-import { addIncome, addSpending, } from '../CashCategoriesSlice';
+import { addIncome, addSpending, } from '../PageCashCategoriesSlice';
 import { useNavigate } from 'react-router-dom';
-import { URL_CASH_CATEGORIES } from '../../../constants/urls';
+import { ROUTE_CASH_CATEGORIES } from '../../../constants/routes';
 import useLocalStorage from 'use-local-storage';
+import SelectCurrency from '../../selectCurrency/SelectCurrency';
 
 const CashCategoryStarterForm = () => {
 	const formRef = useRef();
@@ -44,7 +42,7 @@ const CashCategoryStarterForm = () => {
 
 	const goNextHandler = () => {
 		if(isSpendingMode) {
-			navigate(URL_CASH_CATEGORIES);
+			navigate(ROUTE_CASH_CATEGORIES);
 			setIsTutorialCompleted(true);
 		} else {
 			setSpendingMode(true);
@@ -117,11 +115,7 @@ const CashCategoryStarterForm = () => {
 						]}
 						className={styles.inputControl}
 					>
-						<Select placeholder="Select a currency">
-							<Select.Option value={CUR_RUB}>RUR</Select.Option>
-							<Select.Option value={CUR_USD}>USD</Select.Option>
-							<Select.Option value={CUR_EUR}>EUR</Select.Option>
-						</Select>
+						<SelectCurrency/>
 					</Form.Item>
 				</Space>
 			</div>

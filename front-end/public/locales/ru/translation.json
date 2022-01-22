@@ -42,5 +42,8 @@
     "spendingTitle": "Расходы",
     "frozenTitle": "Заморожено",
     "total": "Всего"
+  },
+  "currency": {
+    "selectCurrency": "Выберите валюту"
   }
 }

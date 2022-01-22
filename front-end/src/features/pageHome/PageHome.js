@@ -1,8 +1,8 @@
 import React from 'react';
 
-import styles from './HomePage.module.scss';
+import styles from './PageHome.module.scss';
 
-const HomePage = () => {
+const PageHome = () => {
 	return (
 		<div className={styles.container}>
 			Home Page
@@ -10,4 +10,4 @@ const HomePage = () => {
 	);
 };
 
-export default HomePage;
+export default PageHome;

@@ -3,21 +3,21 @@ import { BrowserRouter, Routes, Route, } from 'react-router-dom';
 
 import styles from './App.module.scss';
 import {
-	URL_LOGIN,
-	URL_CASH_CATEGORIES,
-	URL_HOME,
-	URL_INVESTMENTS,
-	URL_STATISTICS,
-	URL_REGISTRATION,
-	URL_TUTORIAL,
-} from './constants/urls';
+	ROUTE_LOGIN,
+	ROUTE_CASH_CATEGORIES,
+	ROUTE_HOME,
+	ROUTE_INVESTMENTS,
+	ROUTE_STATISTICS,
+	ROUTE_REGISTRATION,
+	ROUTE_TUTORIAL,
+} from './constants/routes';
 
-import LoginPage from './features/loginPage/LoginPage';
-import HomePage from './features/homePage/HomePage';
+import PageLogin from './features/pageLogin/PageLogin';
+import PageHome from './features/pageHome/PageHome';
 import Layout from './features/layout/Layout';
-import CashCategoriesPage from './features/cashCategoriesPage/CashCategoriesPage';
+import PageCashCategories from './features/cashCategoriesPage/PageCashCategories';
 import RequireAuth from './components/RequireAuth/RequireAuth';
-import RegisterPage from './features/registerPage/registerPage';
+import PageRegister from './features/pageRegister/PageRegister';
 import CashCategoryStarterForm from './features/cashCategoriesPage/СashCategoryStarterForm/CashCategoryStarterForm';
 
 const App = () => {
@@ -28,32 +28,32 @@ const App = () => {
 			<BrowserRouter>
 				<Routes>
 					<Route element={<Layout />}>
-						<Route path={URL_HOME} element={<HomePage />} />
-						<Route path={URL_LOGIN} element={<LoginPage />} />
-						<Route path={URL_REGISTRATION} element={<RegisterPage />} />
+						<Route path={ROUTE_HOME} element={<PageHome />} />
+						<Route path={ROUTE_LOGIN} element={<PageLogin />} />
+						<Route path={ROUTE_REGISTRATION} element={<PageRegister />} />
 						<Route
-							path={URL_CASH_CATEGORIES}
+							path={ROUTE_CASH_CATEGORIES}
 							element={
 								<RequireAuth>
-									<CashCategoriesPage />
+									<PageCashCategories />
 								</RequireAuth>
 							}
 						>
-							<Route path={URL_TUTORIAL} element={<CashCategoryStarterForm/>}/>
+							<Route path={ROUTE_TUTORIAL} element={<CashCategoryStarterForm/>}/>
 						</Route>
 						<Route
-							path={URL_INVESTMENTS}
+							path={ROUTE_INVESTMENTS}
 							element={
 								<RequireAuth>
-									<CashCategoriesPage />
+									<PageCashCategories />
 								</RequireAuth>
 							}
 						/>
 						<Route
-							path={URL_STATISTICS}
+							path={ROUTE_STATISTICS}
 							element={
 								<RequireAuth>
-									<CashCategoriesPage />
+									<PageCashCategories />
 								</RequireAuth>
 							}
 						/>

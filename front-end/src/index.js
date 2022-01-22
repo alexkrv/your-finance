@@ -7,10 +7,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import './i18n';
+import { Skeleton } from 'antd';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Suspense fallback="...is loading">
+		<Suspense fallback={<Skeleton active/>}>
 			<Provider store={store}>
 				<App />
 			</Provider>

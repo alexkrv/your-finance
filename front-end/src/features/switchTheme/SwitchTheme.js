@@ -4,11 +4,11 @@ import { Switch, } from 'antd';
 import { useDispatch, } from 'react-redux';
 import useLocalStorage from 'use-local-storage';
 
-import styles from './ThemeSwitcher.module.scss';
+import styles from './SwitchTheme.module.scss';
 
-import { switchTheme } from './ThemeSwitcherSlice';
+import { switchTheme } from './SwitchThemeSlice';
 
-const ThemeSwitcher = () => {
+const SwitchTheme = () => {
 	const { t, } = useTranslation();
 	const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 	const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
@@ -29,4 +29,4 @@ const ThemeSwitcher = () => {
 	);
 };
 
-export default ThemeSwitcher;
+export default SwitchTheme;

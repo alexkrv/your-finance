@@ -6,7 +6,7 @@ const initialState = {
 	value: savedTheme,
 };
 
-export const themeSwitcherSlice = createSlice({
+export const switchThemeSlice = createSlice({
 	name: 'themeSwitcher',
 	initialState,
 	reducers: {
@@ -16,6 +16,6 @@ export const themeSwitcherSlice = createSlice({
 	},
 });
 
-export const { switchTheme } = themeSwitcherSlice.actions;
+export const { switchTheme } = switchThemeSlice.actions;
 
-export default themeSwitcherSlice.reducer;
+export default switchThemeSlice.reducer;

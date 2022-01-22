@@ -11,13 +11,14 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './HeaderMenu.module.scss';
 
-import { URL_CASH_CATEGORIES, URL_HOME, URL_INVESTMENTS, URL_LOGIN, URL_STATISTICS, } from '../../../constants/urls';
+import { ROUTE_CASH_CATEGORIES, ROUTE_HOME, ROUTE_INVESTMENTS, ROUTE_LOGIN, ROUTE_STATISTICS, } from '../../../constants/routes';
 
-import ThemeSwitcher from '../../themeSwitcher/ThemeSwitcher';
+import SwitchTheme from '../../switchTheme/SwitchTheme';
 import MenuItem from './MenuItem/MenuItem';
-import { logout } from '../../loginPage/LoginPageSlice';
+import { logout } from '../../pageLogin/PageLoginSlice';
 import { LANG_EN, LANG_RU } from '../../../constants/default-values';
-import ValueVisibilitySwitcher from '../../valueVisibilitySwitcher/ValueVisibilitySwitcher';
+import SwitchValueVisibility from '../../switchValueVisibility/SwitchValueVisibility';
+import SelectCurrency from '../../selectCurrency/SelectCurrency';
 
 const HeaderMenu = () => {
 	const { t, i18n } = useTranslation();
@@ -30,7 +31,7 @@ const HeaderMenu = () => {
 		i18n.changeLanguage(newLanguage);
 	};
 	const handleLogout = () => dispatch(logout());
-	const handleLogin = () => navigate(URL_LOGIN);
+	const handleLogin = () => navigate(ROUTE_LOGIN);
 
 	return (
 		<div className={styles.container}>
@@ -43,7 +44,7 @@ const HeaderMenu = () => {
 					{ !isAuthenticated && <Button type="text" icon={<UnlockOutlined />} size='large' onClick={handleLogin} className={styles.login}>
 						{t('auth.login')}
 					</Button> }
-					<ThemeSwitcher/>
+					<SwitchTheme/>
 					<Button type="text" icon={<FlagOutlined />} size='large' onClick={changeLang} className={styles.langSwitcher}>
 						{t('i18n.lang')}
 					</Button>
@@ -51,14 +52,15 @@ const HeaderMenu = () => {
 			</div>
 			<div className={styles.secondFloorMenu}>
 				<Space>
-					<MenuItem navigateTo={URL_HOME}>{t('header.home')}</MenuItem>
-					<MenuItem navigateTo={URL_CASH_CATEGORIES} className={styles.menuLink}>{t('header.cashCategories')}</MenuItem>
-					<MenuItem navigateTo={URL_INVESTMENTS} className={styles.menuLink}>{t('header.investments')}</MenuItem>
-					<MenuItem navigateTo={URL_STATISTICS} className={styles.menuLink}>{t('header.statistics')}</MenuItem>
+					<MenuItem navigateTo={ROUTE_HOME}>{t('header.home')}</MenuItem>
+					<MenuItem navigateTo={ROUTE_CASH_CATEGORIES} className={styles.menuLink}>{t('header.cashCategories')}</MenuItem>
+					<MenuItem navigateTo={ROUTE_INVESTMENTS} className={styles.menuLink}>{t('header.investments')}</MenuItem>
+					<MenuItem navigateTo={ROUTE_STATISTICS} className={styles.menuLink}>{t('header.statistics')}</MenuItem>
 				</Space>
-				<Space>
-				    <ValueVisibilitySwitcher/>
-				</Space>
+				{ isAuthenticated && <Space>
+					<SelectCurrency/>
+					<SwitchValueVisibility/>
+				</Space> }
 			</div>
 		</div>
 

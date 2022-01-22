@@ -10,7 +10,7 @@ const initialState = {
 	}
 };
 
-export const cashCategoriesSlice = createSlice({
+export const pageCashCategoriesSlice = createSlice({
 	name: 'cashCategories',
 	initialState,
 	reducers: {
@@ -26,6 +26,6 @@ export const cashCategoriesSlice = createSlice({
 	}
 });
 
-export const { getCategories, addIncome, addSpending, } = cashCategoriesSlice.actions;
+export const { getCategories, addIncome, addSpending, } = pageCashCategoriesSlice.actions;
 
-export default cashCategoriesSlice.reducer;
+export default pageCashCategoriesSlice.reducer;
