@@ -11,7 +11,6 @@ import {
 	CUR_USD,
 	DEFAULT_EMPTY_STRING,
 	DEFAULT_ZERO,
-	LANG_RU,
 } from '../../../constants/default-values';
 import { addIncome, addSpending, } from '../CashCategoriesSlice';
 import { useNavigate } from 'react-router-dom';
@@ -23,11 +22,11 @@ const CashCategoryStarterForm = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [, setIsTutorialCompleted] = useLocalStorage('isTutorialCompleted', false);
-	const { t, i18n, } = useTranslation();
+	const { t, } = useTranslation();
 	const [isSpendingMode, setSpendingMode] = useState(false);
 
 	const { incomes, spending } = useSelector(state => state.cashCategories.categories);
-	const currency = i18n.language === LANG_RU ? CUR_RUB : CUR_USD;
+	const baseCurrency = useSelector(state => state.currencies.baseCurrency);
 	const onFinish = (values) => {
 		if(isSpendingMode) {
 			dispatch(addSpending(values));
@@ -40,7 +39,7 @@ const CashCategoryStarterForm = () => {
 	const initialValues = {
 		sourceName: DEFAULT_EMPTY_STRING,
 		sourceValue: DEFAULT_ZERO,
-		currency
+		currency: baseCurrency
 	};
 
 	const goNextHandler = () => {

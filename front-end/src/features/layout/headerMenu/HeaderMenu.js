@@ -5,7 +5,7 @@ import {
 	LockOutlined,
 	UnlockOutlined,
 } from '@ant-design/icons';
-import { Button, } from 'antd';
+import { Button, Space, } from 'antd';
 import { useSelector, useDispatch, } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,7 +37,6 @@ const HeaderMenu = () => {
 			<div className={styles.firstFloorMenu}>
 				<h1 className={styles.caption}>{t('header.title')}</h1>
 				<div className={styles.controls}>
-					<ValueVisibilitySwitcher/>
 					{ isAuthenticated && <Button type="text" icon={<LockOutlined />} size='large' onClick={handleLogout} className={styles.logout}>
 						{t('auth.logout')}
 					</Button> }
@@ -51,10 +50,15 @@ const HeaderMenu = () => {
 				</div>
 			</div>
 			<div className={styles.secondFloorMenu}>
-				<MenuItem navigateTo={URL_HOME}>{t('header.home')}</MenuItem>
-				<MenuItem navigateTo={URL_CASH_CATEGORIES} className={styles.menuLink}>{t('header.cashCategories')}</MenuItem>
-				<MenuItem navigateTo={URL_INVESTMENTS} className={styles.menuLink}>{t('header.investments')}</MenuItem>
-				<MenuItem navigateTo={URL_STATISTICS} className={styles.menuLink}>{t('header.statistics')}</MenuItem>
+				<Space>
+					<MenuItem navigateTo={URL_HOME}>{t('header.home')}</MenuItem>
+					<MenuItem navigateTo={URL_CASH_CATEGORIES} className={styles.menuLink}>{t('header.cashCategories')}</MenuItem>
+					<MenuItem navigateTo={URL_INVESTMENTS} className={styles.menuLink}>{t('header.investments')}</MenuItem>
+					<MenuItem navigateTo={URL_STATISTICS} className={styles.menuLink}>{t('header.statistics')}</MenuItem>
+				</Space>
+				<Space>
+				    <ValueVisibilitySwitcher/>
+				</Space>
 			</div>
 		</div>
 

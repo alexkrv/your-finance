@@ -22,6 +22,7 @@
 
 .secondFloorMenu {
 	@extend .menuFloor;
+    justify-content: space-between;
 }
 
 .caption {

@@ -4,6 +4,7 @@ import themeSwitcher from './features/themeSwitcher/ThemeSwitcherSlice';
 import auth from './features/loginPage/LoginPageSlice';
 import cashCategories from './features/cashCategoriesPage/CashCategoriesSlice';
 import valueVisibility from './features/valueVisibilitySwitcher/ValueVisibilitySwitcherSlice';
+import currencyOperationsSlice from './commonSlices/currencyOperationsSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -11,5 +12,6 @@ export const store = configureStore({
 		auth,
 		cashCategories,
 		valueVisibility,
+		currencies: currencyOperationsSlice
 	},
 });
