@@ -44,6 +44,8 @@
     "total": "Всего"
   },
   "currency": {
-    "selectCurrency": "Выберите валюту"
+    "selectCurrency": "Выберите валюту",
+    "errorGetCurrListFailedTitle": "К сожалению, не удалось получить список валют",
+    "errorGetCurrListFailedDescription": "Попробуйте позже"
   }
 }

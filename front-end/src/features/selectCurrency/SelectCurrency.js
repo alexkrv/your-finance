@@ -8,30 +8,28 @@ import styles from './Select.module.scss';
 import { useGetAllCurrenciesQuery } from '../../services/currencyApiSlice';
 
 const { Option } = Select;
-const SelectCurrency = () => {
+const SelectCurrency = (props) => {
 	const { t, } = useTranslation();
-	const baseCurrency = useSelector(state => state.currencies.baseCurrency);
-	const { data, error/*TODO create fallback*/, isFetching, } = useGetAllCurrenciesQuery();
-	console.log('data', data, data?.[baseCurrency]);
+	const { baseCurrencyKey } = useSelector(state => state.currencies);
+	const { data, error, isFetching, } = useGetAllCurrenciesQuery();
 
 	return (
-		<>{ isFetching ? <Skeleton.Input style={{ width: 200 }} active/>: <Select
-			showSearch
-			placeholder={t('currency.selectCurrency')}
-			optionFilterProp="children"
-			className={styles.select}
-			defaultValue={`${baseCurrency} - ${data[baseCurrency]?.currencyName}`}
-			// onChange={onChange}
-			// onSearch={onSearch}
-			// filterOption={(input, option) =>
-			// 	option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-			// }
-		>
-			{Object.keys(data)?.map( currencyId =>
-				<Option key={data[currencyId]?.currencyName} value={`${currencyId} - ${data[currencyId]?.currencyName}`} className={styles.currencyOption}>
-					{currencyId}&nbsp;-&nbsp;{data[currencyId]?.currencyName}
-				</Option>)}
-		</Select> }</>
+		<>{ error ?
+			<Skeleton.Input style={{ width: 200 }} active/>
+			: <Select
+				{...props}
+				showSearch
+				placeholder={t('currency.selectCurrency')}
+				optionFilterProp="children"
+				className={styles.select}
+				defaultValue={baseCurrencyKey}
+			    loading={isFetching}
+			>
+				{!isFetching && Object.keys(data)?.map( currencyId =>
+					<Option key={currencyId} value={currencyId} className={styles.currencyOption}>
+						{`${currencyId} - ${data[currencyId]?.currencyName}`}
+					</Option>)}
+			</Select> }</>
 	);
 };
 

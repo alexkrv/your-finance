@@ -1,5 +1,5 @@
-import React, { useRef, useState, } from 'react';
-import { Form, Input, InputNumber, Button, Space, } from 'antd';
+import React, { useEffect, useRef, useState, } from 'react';
+import { Form, Input, InputNumber, Button, Space, notification, } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,17 +14,20 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTE_CASH_CATEGORIES } from '../../../constants/routes';
 import useLocalStorage from 'use-local-storage';
 import SelectCurrency from '../../selectCurrency/SelectCurrency';
+import { useGetAllCurrenciesQuery } from '../../../services/currencyApiSlice';
 
 const CashCategoryStarterForm = () => {
+	const [form] = Form.useForm();
 	const formRef = useRef();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [, setIsTutorialCompleted] = useLocalStorage('isTutorialCompleted', false);
 	const { t, } = useTranslation();
 	const [isSpendingMode, setSpendingMode] = useState(false);
-
+	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
+	const { error } = useGetAllCurrenciesQuery();
 	const { incomes, spending } = useSelector(state => state.cashCategories.categories);
-	const baseCurrency = useSelector(state => state.currencies.baseCurrency);
+	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const onFinish = (values) => {
 		if(isSpendingMode) {
 			dispatch(addSpending(values));
@@ -32,14 +35,13 @@ const CashCategoryStarterForm = () => {
 			dispatch(addIncome(values));
 		}
 
-		formRef.current.resetFields();
+		formRef.current.resetFields(['sourceName', 'sourceValue']);
 	};
 	const initialValues = {
 		sourceName: DEFAULT_EMPTY_STRING,
-		sourceValue: DEFAULT_ZERO,
-		currency: baseCurrency
+		sourceValue: DEFAULT_EMPTY_STRING,
+		currency: baseCurrencyKey
 	};
-
 	const goNextHandler = () => {
 		if(isSpendingMode) {
 			navigate(ROUTE_CASH_CATEGORIES);
@@ -48,13 +50,29 @@ const CashCategoryStarterForm = () => {
 			setSpendingMode(true);
 		}
 	};
-
 	const goBackHandler = () => setSpendingMode(false);
+	const onValuesChange = (changedValues, { sourceName, sourceValue }) => {
+		setIsSaveButtonDisabled(!Boolean(sourceName) || !Boolean(sourceValue));
+	};
+
+	useEffect(() => {
+		if(error) {
+			notification.error({
+				message: t('currency.errorGetCurrListFailedTitle'),
+				description: t('currency.errorGetCurrListFailedDescription'),
+				placement: 'bottomRight',
+				duration: 3,
+			});
+		}
+
+	}, [error]);
 
 	return (
 		<Form
+			form={form}
 			ref={formRef}
 			onFinish={onFinish}
+			onValuesChange={onValuesChange}
 			initialValues={initialValues}
 			layout="vertical"
 			className={styles.form}
@@ -76,7 +94,7 @@ const CashCategoryStarterForm = () => {
 			</Space>
 			</h2>
 			<div className={styles.inputControls}>
-				<Space size='small'>
+				<Space size='small' align='start'>
 					<Form.Item
 						name="sourceName"
 						rules={[
@@ -120,7 +138,7 @@ const CashCategoryStarterForm = () => {
 				</Space>
 			</div>
 			<Space size={'small'}>
-				<Button type="primary" shape="round" size='medium' htmlType="submit" className={styles.button}>
+				<Button disabled={isSaveButtonDisabled} type="primary" shape="round" size='medium' htmlType="submit" className={styles.button}>
 					{t('cashCategories.save')}
 				</Button>
 			</Space>

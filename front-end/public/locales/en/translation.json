@@ -44,6 +44,8 @@
     "total": "Total"
   },
   "currency": {
-    "selectCurrency": "Select currency"
+    "selectCurrency": "Select currency",
+    "errorGetCurrListFailedTitle": "Error while currencies list receiving",
+    "errorGetCurrListFailedDescription": "Please, try later"
   }
 }
