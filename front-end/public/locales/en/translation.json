@@ -28,6 +28,8 @@
   "cashCategories": {
     "incomeSourceName": "Income source name",
     "incomeSourceValue": "Income source value",
+    "spendingSourceName": "Spending source name",
+    "spendingSourceValue": "Spending source value",
     "save": "Save",
     "next": "Next",
     "back": "Back",

@@ -18,6 +18,7 @@ const SelectCurrency = (props) => {
 			<Skeleton.Input style={{ width: 200 }} active/>
 			: <Select
 				{...props}
+				onChange={props.onChange}
 				showSearch
 				placeholder={t('currency.selectCurrency')}
 				optionFilterProp="children"

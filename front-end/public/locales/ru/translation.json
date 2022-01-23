@@ -28,6 +28,8 @@
   "cashCategories": {
     "incomeSourceName": "Название источника дохода",
     "incomeSourceValue": "Сумма дохода",
+    "spendingSourceName": "Название категории расходов",
+    "spendingSourceValue": "Сумма расходов",
     "save": "Сохранить",
     "next": "Далее",
     "back": "Назад",

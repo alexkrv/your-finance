@@ -1,7 +1,10 @@
-.caption {
+.captionContainer {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.caption {
 	color: var(--text-primary);
 }
 

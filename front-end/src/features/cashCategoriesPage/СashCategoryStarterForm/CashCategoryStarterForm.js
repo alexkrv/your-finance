@@ -78,21 +78,23 @@ const CashCategoryStarterForm = () => {
 			className={styles.form}
 			wrapperCol={{ span: 100 }}
 		>
-			<h2 className={styles.caption}>{isSpendingMode ?
-				t('cashCategories.addSpending')
-				:t('cashCategories.addIncome')
-			}
-			<Space size='small'>
-				{ isSpendingMode &&
+			<div className={styles.captionContainer}>
+				<h2 className={styles.caption}>{isSpendingMode ?
+					t('cashCategories.addSpending')
+					:t('cashCategories.addIncome')
+				}
+				</h2>
+				<Space size='small'>
+					{ isSpendingMode &&
                 <Button shape='round' ghost size='medium' className={styles.button} onClick={goBackHandler}>
                 	{t('cashCategories.back')}
                 </Button> }
-				{ ((!isSpendingMode && Boolean(incomes.length)) || (isSpendingMode && Boolean(spending.length))) &&
+					{ ((!isSpendingMode && Boolean(incomes.length)) || (isSpendingMode && Boolean(spending.length))) &&
                 <Button type="secondary" shape="round" size='medium' className={styles.button} onClick={goNextHandler}>
                 	{t('cashCategories.next')}
                 </Button> }
-			</Space>
-			</h2>
+				</Space>
+			</div>
 			<div className={styles.inputControls}>
 				<Space size='small' align='start'>
 					<Form.Item
@@ -105,7 +107,7 @@ const CashCategoryStarterForm = () => {
 						]}
 						className={styles.inputControl}
 					>
-						<Input placeholder={t('cashCategories.incomeSourceName')}/>
+						<Input placeholder={t(`cashCategories.${isSpendingMode ? 'spendingSourceName' : 'incomeSourceName'}`)}/>
 					</Form.Item>
 					<Form.Item
 						name="sourceValue"
@@ -121,7 +123,7 @@ const CashCategoryStarterForm = () => {
 							style={{ width: '100%' }}
 							min={ isSpendingMode ? Number.NEGATIVE_INFINITY : DEFAULT_ZERO}
 							max={ isSpendingMode ? DEFAULT_ZERO : Number.POSITIVE_INFINITY}
-							placeholder={t('cashCategories.incomeSourceValue')}
+							placeholder={t(`cashCategories.${isSpendingMode ? 'spendingSourceValue' : 'incomeSourceValue' }`)}
 						/>
 					</Form.Item>
 					<Form.Item

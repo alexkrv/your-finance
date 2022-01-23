@@ -11,7 +11,7 @@ export const currencyOperationsSlice = createSlice({
 	initialState,
 	reducers: {
 		changeBaseCurrency: (state, action) => {
-			state.baseCurrency = action.payload;
+			state.baseCurrencyKey = action.payload;
 		}
 	}
 });
