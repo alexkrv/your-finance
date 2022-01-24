@@ -9,7 +9,6 @@ import {
 	ROUTE_INVESTMENTS,
 	ROUTE_STATISTICS,
 	ROUTE_REGISTRATION,
-	ROUTE_TUTORIAL,
 } from './constants/routes';
 
 import PageLogin from './features/pageLogin/PageLogin';
@@ -18,7 +17,6 @@ import Layout from './features/layout/Layout';
 import PageCashCategories from './features/cashCategoriesPage/PageCashCategories';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import PageRegister from './features/pageRegister/PageRegister';
-import CashCategoryStarterForm from './features/cashCategoriesPage/СashCategoryStarterForm/CashCategoryStarterForm';
 
 const App = () => {
 	const theme = useSelector( state => state.theme.value);
@@ -38,9 +36,7 @@ const App = () => {
 									<PageCashCategories />
 								</RequireAuth>
 							}
-						>
-							<Route path={ROUTE_TUTORIAL} element={<CashCategoryStarterForm/>}/>
-						</Route>
+						/>
 						<Route
 							path={ROUTE_INVESTMENTS}
 							element={

@@ -2,55 +2,49 @@ import React, { useEffect, useRef, useState, } from 'react';
 import { Form, Input, InputNumber, Button, Space, notification, } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import styles from './CashCategoryStarterForm.module.scss';
+import styles from './FormAddCashCategory.module.scss';
 
 import {
+	CATEGORY_TYPE_SPENDING,
 	DEFAULT_EMPTY_STRING,
 	DEFAULT_ZERO,
 } from '../../../constants/default-values';
-import { addIncome, addSpending, } from '../PageCashCategoriesSlice';
-import { useNavigate } from 'react-router-dom';
-import { ROUTE_CASH_CATEGORIES } from '../../../constants/routes';
-import useLocalStorage from 'use-local-storage';
 import SelectCurrency from '../../selectCurrency/SelectCurrency';
 import { useGetAllCurrenciesQuery } from '../../../services/currencyApiSlice';
 
-const CashCategoryStarterForm = () => {
+const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 	const [form] = Form.useForm();
 	const formRef = useRef();
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const [, setIsTutorialCompleted] = useLocalStorage('isTutorialCompleted', false);
 	const { t, } = useTranslation();
-	const [isSpendingMode, setSpendingMode] = useState(false);
+	const [stepNum, setStepNum] = useState(DEFAULT_ZERO);
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 	const { error } = useGetAllCurrenciesQuery();
-	const { incomes, spending } = useSelector(state => state.cashCategories.categories);
+	const { incomes, spending } = useSelector(state => state.cashCategories.categories); // TODO
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
-	const onFinish = (values) => {
-		if(isSpendingMode) {
-			dispatch(addSpending(values));
-		} else {
-			dispatch(addIncome(values));
-		}
-
-		formRef.current.resetFields(['sourceName', 'sourceValue']);
-	};
 	const initialValues = {
 		sourceName: DEFAULT_EMPTY_STRING,
 		sourceValue: DEFAULT_EMPTY_STRING,
 		currency: baseCurrencyKey
 	};
 	const goNextHandler = () => {
-		if(isSpendingMode) {
-			navigate(ROUTE_CASH_CATEGORIES);
-			setIsTutorialCompleted(true);
+		const lastStepNum = stepsMetaInfo.length;
+		const nextStepNum = stepNum + 1;
+
+		if(lastStepNum === nextStepNum) {
+			handleNextOnLastStep();
 		} else {
-			setSpendingMode(true);
+			setStepNum(nextStepNum);
 		}
 	};
-	const goBackHandler = () => setSpendingMode(false);
+	const goBackHandler = () => setStepNum(stepNum - 1);
+	const onFinish = (values) => {
+		dispatch(stepsMetaInfo[stepNum].addItemHandler(values));
+		formRef.current.resetFields(['sourceName', 'sourceValue']);
+		setIsSaveButtonDisabled(true);
+	};
 	const onValuesChange = (changedValues, { sourceName, sourceValue }) => {
 		setIsSaveButtonDisabled(!Boolean(sourceName) || !Boolean(sourceValue));
 	};
@@ -79,17 +73,14 @@ const CashCategoryStarterForm = () => {
 			wrapperCol={{ span: 100 }}
 		>
 			<div className={styles.captionContainer}>
-				<h2 className={styles.caption}>{isSpendingMode ?
-					t('cashCategories.addSpending')
-					:t('cashCategories.addIncome')
-				}
+				<h2 className={styles.caption}>{stepsMetaInfo[stepNum].title}
 				</h2>
 				<Space size='small'>
-					{ isSpendingMode &&
+					{ stepNum !== DEFAULT_ZERO && //TODO
                 <Button shape='round' ghost size='medium' className={styles.button} onClick={goBackHandler}>
                 	{t('cashCategories.back')}
                 </Button> }
-					{ ((!isSpendingMode && Boolean(incomes.length)) || (isSpendingMode && Boolean(spending.length))) &&
+					{ (Boolean(incomes.length) || Boolean(spending.length)) &&
                 <Button type="secondary" shape="round" size='medium' className={styles.button} onClick={goNextHandler}>
                 	{t('cashCategories.next')}
                 </Button> }
@@ -107,7 +98,7 @@ const CashCategoryStarterForm = () => {
 						]}
 						className={styles.inputControl}
 					>
-						<Input placeholder={t(`cashCategories.${isSpendingMode ? 'spendingSourceName' : 'incomeSourceName'}`)}/>
+						<Input placeholder={stepsMetaInfo[stepNum].sourceInput.placeholder}/>
 					</Form.Item>
 					<Form.Item
 						name="sourceValue"
@@ -121,9 +112,10 @@ const CashCategoryStarterForm = () => {
 					>
 						<InputNumber
 							style={{ width: '100%' }}
-							min={ isSpendingMode ? Number.NEGATIVE_INFINITY : DEFAULT_ZERO}
-							max={ isSpendingMode ? DEFAULT_ZERO : Number.POSITIVE_INFINITY}
-							placeholder={t(`cashCategories.${isSpendingMode ? 'spendingSourceValue' : 'incomeSourceValue' }`)}
+							min={stepsMetaInfo[stepNum].sourceValue.minValue}
+							max={stepsMetaInfo[stepNum].sourceValue.maxValue}
+							placeholder={stepsMetaInfo[stepNum].sourceValue.placeholder}
+							prefix={stepsMetaInfo[stepNum].type === CATEGORY_TYPE_SPENDING ? '-' : '+'}
 						/>
 					</Form.Item>
 					<Form.Item
@@ -148,4 +140,23 @@ const CashCategoryStarterForm = () => {
 	);
 };
 
-export default CashCategoryStarterForm;
+FormAddCashCategory.propTypes = {
+	handleNextOnLastStep: PropTypes.func.isRequired,
+	stepsMetaInfo: PropTypes.arrayOf(PropTypes.shape({
+		type: PropTypes.string.isRequired,
+		title: PropTypes.string.isRequired,
+		addItemHandler: PropTypes.func.isRequired,
+		sourceInput: PropTypes.shape({
+			placeholder: PropTypes.string.isRequired,
+			error: PropTypes.string.isRequired
+		}),
+		sourceValue: PropTypes.shape({
+			placeholder: PropTypes.string.isRequired,
+			error: PropTypes.string.isRequired,
+			minValue: PropTypes.number.isRequired,
+			maxValue: PropTypes.number.isRequired
+		}),
+	}))
+};
+
+export default FormAddCashCategory;
