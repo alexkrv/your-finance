@@ -1,0 +1,42 @@
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	cursor: pointer;
+	margin-top: 20px;
+	user-select: none;
+	font-size: 16px;
+}
+
+.icon {
+	color: var(--icon-primary);
+	margin-right: 6px;
+}
+
+.small {
+	font-size: 14px;
+}
+
+.medium {
+	font-size: 18px;
+}
+
+.large {
+	font-size: 20px;
+}
+
+.container:hover {
+	color: var(--icon-primary-hover);
+
+	& .icon {
+		color: var(--icon-primary-hover);
+	}
+}
+
+.container:active {
+	color: var(--icon-primary-active);
+
+	& .icon {
+		color: var(--icon-primary-active);
+	}
+}

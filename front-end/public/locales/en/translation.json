@@ -46,7 +46,8 @@
     "incomeTitle": "Incomes",
     "spendingTitle": "Spending",
     "frozenTitle": "Frozen",
-    "total": "Total"
+    "total": "Total",
+    "addItem": "Add item"
   },
   "currency": {
     "selectCurrency": "Select currency",

@@ -46,7 +46,8 @@
     "incomeTitle": "Доходы",
     "spendingTitle": "Расходы",
     "frozenTitle": "Заморожено",
-    "total": "Всего"
+    "total": "Всего",
+    "addItem": "Добавить источник"
   },
   "currency": {
     "selectCurrency": "Выберите валюту",

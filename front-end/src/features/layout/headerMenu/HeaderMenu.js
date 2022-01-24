@@ -60,8 +60,8 @@ const HeaderMenu = () => {
 					<MenuItem navigateTo={ROUTE_STATISTICS} className={styles.menuLink}>{t('header.statistics')}</MenuItem>
 				</Space>
 				{ isAuthenticated && <Space>
-					<SelectCurrency onChange={changeMainCurrency}/>
 					<SwitchValueVisibility/>
+					<SelectCurrency onChange={changeMainCurrency}/>
 				</Space> }
 			</div>
 		</div>

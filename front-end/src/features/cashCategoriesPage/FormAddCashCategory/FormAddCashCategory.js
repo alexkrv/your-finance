@@ -22,7 +22,7 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 	const [stepNum, setStepNum] = useState(DEFAULT_ZERO);
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 	const { error } = useGetAllCurrenciesQuery();
-	const { incomes, spending } = useSelector(state => state.cashCategories.categories); // TODO
+	const { incomes, spending, frozen, } = useSelector(state => state.cashCategories.categories);
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const initialValues = {
 		sourceName: DEFAULT_EMPTY_STRING,
@@ -60,6 +60,9 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 		}
 
 	}, [error]);
+	const isNextButtonDisabled = !isSaveButtonDisabled
+        || (stepNum === 1 && !Boolean(spending.length))
+        || (stepNum === 2 && !Boolean(frozen.length));
 
 	return (
 		<Form
@@ -76,12 +79,12 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 				<h2 className={styles.caption}>{stepsMetaInfo[stepNum].title}
 				</h2>
 				<Space size='small'>
-					{ stepNum !== DEFAULT_ZERO && //TODO
+					{ stepNum !== DEFAULT_ZERO &&
                 <Button shape='round' ghost size='medium' className={styles.button} onClick={goBackHandler}>
                 	{t('cashCategories.back')}
                 </Button> }
-					{ (Boolean(incomes.length) || Boolean(spending.length)) &&
-                <Button type="secondary" shape="round" size='medium' className={styles.button} onClick={goNextHandler}>
+					{ handleNextOnLastStep && (Boolean(incomes.length) || Boolean(spending.length)) &&
+                <Button disabled={isNextButtonDisabled} type="secondary" shape="round" size='medium' className={styles.button} onClick={goNextHandler}>
                 	{t('cashCategories.next')}
                 </Button> }
 				</Space>
@@ -141,7 +144,7 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 };
 
 FormAddCashCategory.propTypes = {
-	handleNextOnLastStep: PropTypes.func.isRequired,
+	handleNextOnLastStep: PropTypes.func,
 	stepsMetaInfo: PropTypes.arrayOf(PropTypes.shape({
 		type: PropTypes.string.isRequired,
 		title: PropTypes.string.isRequired,
