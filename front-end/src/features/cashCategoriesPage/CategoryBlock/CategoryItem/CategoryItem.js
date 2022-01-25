@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Popconfirm, message, } from 'antd';
+import { DeleteOutlined, } from '@ant-design/icons';
 
 import styles from './CategoryItem.module.scss';
 
@@ -13,12 +15,17 @@ export const CategoryItem = ({ item }) => {
 		[CUR_RUB]: '₽'
 	};
 
+	const confirm = () => message.info('Deleted');
+
 	return (
 		<div className={styles.container}>
-			<div className={styles.sourceName}>{item.sourceName}</div>
+			<div className={styles.sourceName}>{item.sourceName}&nbsp;</div>
 			<HideValue>
 				<div className={styles.sourceValue}>{item.type === CATEGORY_TYPE_INCOME ? '+' : '-'}{item.sourceValue}{currency[item.currency]}</div>
 			</HideValue>
+			<Popconfirm placement="right" title={'text'} onConfirm={confirm} okText="Yes" cancelText="No">
+				<DeleteOutlined className={styles.deleteIcon} />
+			</Popconfirm>
 		</div>
 	);
 };

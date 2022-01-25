@@ -24,7 +24,7 @@ const PageCashCategories = () => {
 		<div className={styles.container}>
 			{isCategoriesStarterFinished ? <div>CATEGORIES</div> : <CashCategoriesStarter/>}
 			<Outlet/>
-			<Space size='middle' align='start'>
+			<Space size='large' align='start'>
 				{ Boolean(incomes.length) && <CategoryBlock
 					title={t('cashCategories.incomeTitle')}
 					items={incomes}

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Modal, Spin } from 'antd';
+import { Modal, Spin, } from 'antd';
 
 import styles from './CategoryBlock.module.scss';
 
@@ -84,7 +84,7 @@ const CategoryBlock = ({ title, type, items, }) => {
 		<div className={styles.container}>
 			<div className={styles.title}>{title}</div>
 			<div className={styles.totalSum} data-value-hidden='false'>{t('cashCategories.total')}:&nbsp;
-				{isFetching ? <Spin size="small"/> : <HideValue>{total}&nbsp;{baseCurrencyKey}</HideValue>}
+				{isFetching ? <Spin size="small"/> : <HideValue><span className={styles.totalValue}>{total}</span>&nbsp;{baseCurrencyKey}</HideValue>}
 			</div>
 			{items.map(item => <CategoryItem item={item} key={item.id}/>)}
 			<ButtonAddItem

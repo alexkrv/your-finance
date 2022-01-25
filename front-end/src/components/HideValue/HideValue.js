@@ -12,7 +12,7 @@ export const HideValue = ({ children }) => {
 	const handleClick = () => {
 		setIsHidden(!isHidden);
 
-		if(isHidden) {
+		if(isHidden && !isVisible) {
 			timeoutRef.current = setTimeout(() => setIsHidden(isHidden), 2000);
 		}
 	};
