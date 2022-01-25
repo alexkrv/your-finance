@@ -1,0 +1,46 @@
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	user-select: none;
+}
+
+.hiddenValue {
+	white-space: nowrap;
+	transition: all 0.3s ease;
+}
+
+.icon {
+	margin-left: 5px;
+	cursor: pointer;
+	margin-right: 6px;
+}
+
+.plusSign {
+	color: var(--icon-primary-green);
+}
+
+.minusSign {
+	color: var(--text-primary);
+}
+
+.frozenSign {
+	color: var(--icon-primary);
+}
+
+.currency {
+	color: gray;
+}
+
+.small {
+	font-size: 14px;
+}
+
+.medium {
+	font-size: 18px;
+}
+
+.big {
+	font-size: 20px;
+}

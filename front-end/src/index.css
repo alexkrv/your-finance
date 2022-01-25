@@ -37,6 +37,7 @@ code {
 	--icon-primary-hover: #6a96ee;
 	--icon-primary-active: #18408f;
 	--border-primary: #a9b9d9;
+	--icon-primary-green: #4d860a;
 }
 
 [data-theme="dark"] {
@@ -48,6 +49,7 @@ code {
 	--icon-primary-hover: #6a96ee;
 	--icon-primary-active: #114bbd;
 	--border-primary: #404652;
+	--icon-primary-green: #91ea25;
 }
 
 [data-value-hidden="true"] {

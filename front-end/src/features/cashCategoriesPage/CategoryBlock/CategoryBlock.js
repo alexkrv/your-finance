@@ -1,13 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect, } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Spin, } from 'antd';
 
 import styles from './CategoryBlock.module.scss';
 
 import { CategoryItem } from './CategoryItem/CategoryItem';
-import { HideValue } from '../../../components/HideValue/HideValue';
+import { FinancialValue } from '../../../components/FinancialValue/FinancialValue';
 import { useGetConversionRatesQuery } from '../../../services/currencyApiSlice';
 import {
 	CATEGORY_TYPE_FROZEN,
@@ -17,14 +17,17 @@ import {
 } from '../../../constants/default-values';
 import ButtonAddItem from '../../../components/ButtonAddItem/ButtonAddItem';
 import FormAddCashCategory from '../FormAddCashCategory/FormAddCashCategory';
-import { addFrozen, addIncome, addSpending } from '../PageCashCategoriesSlice';
+import { addFrozen, addIncome, addSpending, saveTotalSumByType, } from '../PageCashCategoriesSlice';
 
 const CategoryBlock = ({ title, type, items, }) => {
+	const dispatch = useDispatch();
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const { t } = useTranslation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
-	const total = isFetching || error ? DEFAULT_ZERO : Math.floor(items.reduce((acc, el) => acc + el.sourceValue/data.data[el.currency], DEFAULT_ZERO));
+	const total = isFetching || error ?
+		DEFAULT_ZERO
+		: parseFloat(items.reduce((acc, el) => acc + el.sourceValue/(data.data[el.currency] || 1), DEFAULT_ZERO).toFixed(1));
 	const showModal = () => setIsModalVisible(true);
 	const handleOk = () => setIsModalVisible(false);
 	const handleCancel = () => setIsModalVisible(false);
@@ -78,13 +81,22 @@ const CategoryBlock = ({ title, type, items, }) => {
 		};
 
 		return [stepsMetaInfo[type]];
-	}, [type]);
+	}, [type, t]);
+
+	useEffect(() => {
+		if(data && !error) {
+			dispatch(saveTotalSumByType({ type, total }));
+		}
+	}, [data, error, total, dispatch, type]);
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>{title}</div>
 			<div className={styles.totalSum} data-value-hidden='false'>{t('cashCategories.total')}:&nbsp;
-				{isFetching ? <Spin size="small"/> : <HideValue><span className={styles.totalValue}>{total}</span>&nbsp;{baseCurrencyKey}</HideValue>}
+				{isFetching ?
+					<Spin size="small"/>
+					: <FinancialValue value={total} type={type} currencyId={baseCurrencyKey}/>
+				}
 			</div>
 			{items.length ?
 				items.map(item => <CategoryItem item={item} key={item.id}/>)

@@ -52,7 +52,8 @@
     "sureToRemove": "Удалить запись?",
     "removed": "удалено",
     "remove": "Удалить",
-    "keep": "Оставить"
+    "keep": "Оставить",
+    "netBalance": "Всего"
   },
   "currency": {
     "selectCurrency": "Выберите валюту",

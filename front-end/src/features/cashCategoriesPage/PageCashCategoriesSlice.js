@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-import { CATEGORY_TYPE_FROZEN, CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING } from '../../constants/default-values';
+import {
+	CATEGORY_TYPE_FROZEN,
+	CATEGORY_TYPE_INCOME,
+	CATEGORY_TYPE_SPENDING,
+	DEFAULT_ZERO
+} from '../../constants/default-values';
 
 const initialState = {
 	categories: {
@@ -9,7 +14,12 @@ const initialState = {
 		spending: [],
 		frozen: [],
 	},
-	isCategoriesStarterFinished: Boolean(JSON.parse(localStorage.getItem('isCategoriesStarterFinished')))
+	isCategoriesStarterFinished: Boolean(JSON.parse(localStorage.getItem('isCategoriesStarterFinished'))),
+	totalSums: {
+		income: DEFAULT_ZERO,
+		spending: DEFAULT_ZERO,
+		frozen: DEFAULT_ZERO,
+	}
 };
 
 export const pageCashCategoriesSlice = createSlice({
@@ -40,6 +50,9 @@ export const pageCashCategoriesSlice = createSlice({
 		disableStarterForm: (state, action) => {
 			state.isCategoriesStarterFinished = true;
 		},
+		saveTotalSumByType: (state, action) => {
+			state.totalSums[action.payload.type] = action.payload.total;
+		},
 	}
 });
 
@@ -52,6 +65,7 @@ export const {
 	deleteIncome,
 	deleteSpending,
 	deleteFrozen,
+	saveTotalSumByType,
 } = pageCashCategoriesSlice.actions;
 
 export default pageCashCategoriesSlice.reducer;

@@ -10,6 +10,7 @@ import { getCategories } from './PageCashCategoriesSlice';
 import CategoryBlock from './CategoryBlock/CategoryBlock';
 import CashCategoriesStarter from './CashCategoriesStarter/CashCategoriesStarter';
 import { CATEGORY_TYPE_FROZEN, CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING } from '../../constants/default-values';
+import NetBalance from './NetBalance/NetBalance';
 
 const PageCashCategories = () => {
 	const dispatch = useDispatch();
@@ -22,8 +23,9 @@ const PageCashCategories = () => {
 
 	return (
 		<div className={styles.container}>
-			{isCategoriesStarterFinished ? <div>CATEGORIES</div> : <CashCategoriesStarter/>}
+			{isCategoriesStarterFinished ? null : <CashCategoriesStarter/>}
 			<Outlet/>
+			<NetBalance/>
 			<Space size='large' align='start'>
 				{ (Boolean(incomes.length) || isCategoriesStarterFinished) && <CategoryBlock
 					title={t('cashCategories.incomeTitle')}
