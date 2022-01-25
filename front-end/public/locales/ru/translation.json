@@ -47,7 +47,12 @@
     "spendingTitle": "Расходы",
     "frozenTitle": "Заморожено",
     "total": "Всего",
-    "addItem": "Добавить источник"
+    "addItem": "Добавить источник",
+    "noItems": "Нет источников",
+    "sureToRemove": "Удалить запись?",
+    "removed": "удалено",
+    "remove": "Удалить",
+    "keep": "Оставить"
   },
   "currency": {
     "selectCurrency": "Выберите валюту",

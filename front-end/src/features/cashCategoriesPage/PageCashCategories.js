@@ -25,17 +25,17 @@ const PageCashCategories = () => {
 			{isCategoriesStarterFinished ? <div>CATEGORIES</div> : <CashCategoriesStarter/>}
 			<Outlet/>
 			<Space size='large' align='start'>
-				{ Boolean(incomes.length) && <CategoryBlock
+				{ (Boolean(incomes.length) || isCategoriesStarterFinished) && <CategoryBlock
 					title={t('cashCategories.incomeTitle')}
 					items={incomes}
 					type={CATEGORY_TYPE_INCOME}
 				/> }
-				{ Boolean(spending.length) && <CategoryBlock
+				{ (Boolean(spending.length) || isCategoriesStarterFinished) && <CategoryBlock
 					title={t('cashCategories.spendingTitle')}
 					items={spending}
 					type={CATEGORY_TYPE_SPENDING}
 				/> }
-				{ Boolean(frozen.length) && <CategoryBlock
+				{ (Boolean(frozen.length) || isCategoriesStarterFinished) && <CategoryBlock
 					title={t('cashCategories.frozenTitle')}
 					items={frozen}
 					type={CATEGORY_TYPE_FROZEN}

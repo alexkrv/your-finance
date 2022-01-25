@@ -86,7 +86,10 @@ const CategoryBlock = ({ title, type, items, }) => {
 			<div className={styles.totalSum} data-value-hidden='false'>{t('cashCategories.total')}:&nbsp;
 				{isFetching ? <Spin size="small"/> : <HideValue><span className={styles.totalValue}>{total}</span>&nbsp;{baseCurrencyKey}</HideValue>}
 			</div>
-			{items.map(item => <CategoryItem item={item} key={item.id}/>)}
+			{items.length ?
+				items.map(item => <CategoryItem item={item} key={item.id}/>)
+				: <div className={styles.noItems}>{t('cashCategories.noItems')}</div>
+			}
 			<ButtonAddItem
 				text={t('cashCategories.addItem')}
 				size='medium'

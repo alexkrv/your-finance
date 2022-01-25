@@ -5,7 +5,7 @@ import { CATEGORY_TYPE_FROZEN, CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING } fr
 
 const initialState = {
 	categories: {
-		incomes: [],
+		incomes: [],// TODO create Map, not Array
 		spending: [],
 		frozen: [],
 	},
@@ -28,12 +28,30 @@ export const pageCashCategoriesSlice = createSlice({
 		addFrozen: (state, action) => {
 			state.categories.frozen.push({ ...action.payload, type: CATEGORY_TYPE_FROZEN, id: uuidv4() });
 		},
+		deleteIncome: (state, action) => {
+			state.categories.incomes = state.categories.incomes.filter(income => income.id !== action.payload);
+		},
+		deleteSpending: (state, action) => {
+			state.categories.spending = state.categories.spending.filter(income => income.id !== action.payload);
+		},
+		deleteFrozen: (state, action) => {
+			state.categories.frozen = state.categories.frozen.filter(income => income.id !== action.payload);
+		},
 		disableStarterForm: (state, action) => {
 			state.isCategoriesStarterFinished = true;
 		},
 	}
 });
 
-export const { getCategories, addIncome, addSpending, addFrozen, disableStarterForm, } = pageCashCategoriesSlice.actions;
+export const {
+	getCategories,
+	addIncome,
+	addSpending,
+	addFrozen,
+	disableStarterForm,
+	deleteIncome,
+	deleteSpending,
+	deleteFrozen,
+} = pageCashCategoriesSlice.actions;
 
 export default pageCashCategoriesSlice.reducer;

@@ -47,7 +47,12 @@
     "spendingTitle": "Spending",
     "frozenTitle": "Frozen",
     "total": "Total",
-    "addItem": "Add item"
+    "addItem": "Add item",
+    "noItems": "No items",
+    "sureToRemove": "Remove the item?",
+    "removed": "removed",
+    "remove": "Remove",
+    "keep": "Keep"
   },
   "currency": {
     "selectCurrency": "Select currency",
