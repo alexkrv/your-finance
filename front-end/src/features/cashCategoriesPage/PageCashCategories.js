@@ -11,6 +11,8 @@ import CategoryBlock from './CategoryBlock/CategoryBlock';
 import CashCategoriesStarter from './CashCategoriesStarter/CashCategoriesStarter';
 import { CATEGORY_TYPE_FROZEN, CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING } from '../../constants/default-values';
 import NetBalance from './NetBalance/NetBalance';
+import FormAddBankAccount from './FormAddBankAccount/FormAddBankAccount';
+import ButtonAddItem from '../../components/ButtonAddItem/ButtonAddItem';
 
 const PageCashCategories = () => {
 	const dispatch = useDispatch();
@@ -42,6 +44,10 @@ const PageCashCategories = () => {
 					items={frozen}
 					type={CATEGORY_TYPE_FROZEN}
 				/> }
+			</Space>
+			<Space>
+				<FormAddBankAccount/>
+				<ButtonAddItem size='large' text={t('cashCategories.addBank')}/>
 			</Space>
 		</div>
 	);

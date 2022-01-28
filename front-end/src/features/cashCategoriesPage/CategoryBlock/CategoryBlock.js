@@ -103,6 +103,7 @@ const CategoryBlock = ({ title, type, items, }) => {
 				: <div className={styles.noItems}>{t('cashCategories.noItems')}</div>
 			}
 			<ButtonAddItem
+				className={styles.addButton}
 				text={t('cashCategories.addItem')}
 				size='medium'
 				onClick={showModal}
