@@ -12,7 +12,18 @@ import CashCategoriesStarter from './CashCategoriesStarter/CashCategoriesStarter
 import { CATEGORY_TYPE_FROZEN, CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING } from '../../constants/default-values';
 import NetBalance from './NetBalance/NetBalance';
 import FormAddBankAccount from './FormAddBankAccount/FormAddBankAccount';
-import ButtonAddItem from '../../components/ButtonAddItem/ButtonAddItem';
+import BankItem from './BankItem/BankItem';
+
+const mockData = [
+	{ /*TODO fetch from back*/
+		name: 'Tinkoff Bank',
+		id: Math.random(),
+		accounts: [
+			{ name: 'Tinkoff Black', currencyId: 'RUB', value: 12345, id: Math.random() },
+			{ name: 'Tinkoff Black USD', currencyId: 'USD', value: 12345, id: Math.random() },
+			{ name: 'Tinkoff Black EUR', currencyId: 'EUR', value: 12345, id: Math.random() },
+		] }
+];
 
 const PageCashCategories = () => {
 	const dispatch = useDispatch();
@@ -46,8 +57,13 @@ const PageCashCategories = () => {
 				/> }
 			</Space>
 			<Space>
-				<FormAddBankAccount/>
-				<ButtonAddItem size='large' text={t('cashCategories.addBank')}/>
+				{mockData.map(bank =>
+					<BankItem
+						key={bank.id}
+						bankName={bank.name}
+						accounts={bank.accounts}
+					/>)}
+				{/*<ButtonAddItem size='large' text={t('cashCategories.addBank')}/>*/}
 			</Space>
 		</div>
 	);

@@ -46,7 +46,7 @@ export const FinancialValue = ({ value, type, currencyId, size }) => {
 			<div className={styles.hiddenValue} data-value-hidden={isHidden}>
 				{value === DEFAULT_ZERO ? DEFAULT_EMPTY_STRING : getSign(type)}
 				<span className={styles[size]}>{value}</span>
-				{data ?
+				{data && currencyId ?
 					<span className={styles.currency}>&nbsp;{data[currencyId].currencySymbol}</span>
 					: DEFAULT_EMPTY_STRING
 				}
@@ -58,7 +58,7 @@ export const FinancialValue = ({ value, type, currencyId, size }) => {
 
 FinancialValue.propTypes = {
 	value: PropTypes.number.isRequired,
-	type: PropTypes.string.isRequired,
+	type: PropTypes.string,
 	currencyId: PropTypes.string,
 	size: PropTypes.oneOf(['small', 'medium', 'big']),
 };

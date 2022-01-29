@@ -18,6 +18,7 @@ import {
 import ButtonAddItem from '../../../components/ButtonAddItem/ButtonAddItem';
 import FormAddCashCategory from '../FormAddCashCategory/FormAddCashCategory';
 import { addFrozen, addIncome, addSpending, saveTotalSumByType, } from '../PageCashCategoriesSlice';
+import { Card } from 'components/Card/Card';
 
 const CategoryBlock = ({ title, type, items, }) => {
 	const dispatch = useDispatch();
@@ -90,7 +91,7 @@ const CategoryBlock = ({ title, type, items, }) => {
 	}, [data, error, total, dispatch, type]);
 
 	return (
-		<div className={styles.container}>
+		<Card>
 			<div className={styles.title}>{title}</div>
 			<div className={styles.totalSum} data-value-hidden='false'>{t('cashCategories.total')}:&nbsp;
 				{isFetching ?
@@ -111,7 +112,7 @@ const CategoryBlock = ({ title, type, items, }) => {
 			<Modal width={'fit-content'} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false}>
 				<FormAddCashCategory stepsMetaInfo={memoizedStepInfo}/>
 			</Modal>
-		</div>
+		</Card>
 	);
 };
 

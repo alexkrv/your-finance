@@ -1,0 +1,37 @@
+.card {
+	width: fit-content;
+	min-width: 300px;
+}
+
+.header {
+	margin-bottom: 10px;
+}
+
+.metaContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+.bankName {
+	color: var(--text-primary);
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.accountName,
+.bankTotalValue {
+	color: var(--text-secondary);
+	font-size: 12px;
+}
+
+.bankTotalValue {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.addButton {
+	margin-top: 20px;
+}
