@@ -55,5 +55,5 @@ code {
 }
 
 [data-value-hidden="true"] {
-	filter: blur(4px);
+	filter: blur(5px);
 }
