@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Modal, Space, } from 'antd';
-import { AntDesignOutlined } from '@ant-design/icons';
+import { Avatar, Modal, Popconfirm, Space, } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -19,13 +19,13 @@ const BankItem = ({ bankName, accounts }) => {
 	const showModal = () => setIsModalVisible(true);
 	const handleOk = () => setIsModalVisible(false);
 	const handleCancel = () => setIsModalVisible(false);
+	const confirm = () => {/*TODO*/};
 
 	return (
 		<Card className={styles.card}>
 			<Space size='small' direction='horizontal' className={styles.header}>
 				<Avatar
 					size={{ xs: 24, sm: 28, md: 32, lg: 36, xl: 40, xxl: 44 }}
-					icon={<AntDesignOutlined />}
 				/>
 				<div className={styles.metaContainer}>
 					<div className={styles.bankName}>{bankName}</div>
@@ -37,12 +37,25 @@ const BankItem = ({ bankName, accounts }) => {
 			</Space>
 			<Space size='middle' direction='horizontal' wrap>
 				{accounts.map( account => <div key={account.id} className={styles.metaContainer}>
-					<div className={styles.accountName}>{account.name}</div>
+					<div className={styles.nameContainer}>
+						<div className={styles.accountName}>
+							{account.name}
+						</div>
+						<Popconfirm
+							placement="right"
+							title={t('cashCategories.sureToRemove')}
+							onConfirm={confirm}
+							okText={t('cashCategories.remove')}
+							cancelText={t('cashCategories.keep')}
+						>
+							<DeleteOutlined className={styles.deleteIcon} />
+						</Popconfirm>
+					</div>
 					<FinancialValue value={account.value} currencyId={account.currencyId}/>
 				</div>)}
 			</Space>
 			<Space size='small'>
-				<ButtonAddItem onClick={showModal} size='medium' text={t('cashCategories.addAccount')} className={styles.addButton }/>
+				<ButtonAddItem onClick={showModal} size='small' text={t('cashCategories.addAccount')} className={styles.addButton }/>
 			</Space>
 			<Modal width={'fit-content'} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false}>
 				<FormAddBankAccount/>

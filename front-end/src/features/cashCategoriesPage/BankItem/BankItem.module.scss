@@ -20,9 +20,19 @@
 	font-weight: 600;
 }
 
-.accountName,
-.bankTotalValue {
+.nameContainer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.accountName {
+	width: 100px;
 	color: var(--text-secondary);
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 	font-size: 12px;
 }
 
@@ -30,8 +40,14 @@
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
+	color: var(--text-secondary);
+	font-size: 12px;
 }
 
 .addButton {
 	margin-top: 20px;
+}
+
+.deleteIcon {
+	color: var(--text-secondary);
 }

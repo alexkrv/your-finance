@@ -11,8 +11,8 @@ import CategoryBlock from './CategoryBlock/CategoryBlock';
 import CashCategoriesStarter from './CashCategoriesStarter/CashCategoriesStarter';
 import { CATEGORY_TYPE_FROZEN, CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING } from '../../constants/default-values';
 import NetBalance from './NetBalance/NetBalance';
-import FormAddBankAccount from './FormAddBankAccount/FormAddBankAccount';
 import BankItem from './BankItem/BankItem';
+import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 
 const mockData = [
 	{ /*TODO fetch from back*/
@@ -63,7 +63,7 @@ const PageCashCategories = () => {
 						bankName={bank.name}
 						accounts={bank.accounts}
 					/>)}
-				{/*<ButtonAddItem size='large' text={t('cashCategories.addBank')}/>*/}
+				<ButtonAddItem size='large' text={t('cashCategories.addBank')}/>
 			</Space>
 		</div>
 	);
