@@ -52,7 +52,7 @@ const PageCashCategories = () => {
 						key={bankId}
 						bankId={bankId}
 					/>)}
-				<ButtonAddItem size='large' text={t('cashCategories.addBank')}/>
+				<ButtonAddItem size='large' text={t('bankItem.addBank')}/>
 			</Space>
 		</div>
 	);

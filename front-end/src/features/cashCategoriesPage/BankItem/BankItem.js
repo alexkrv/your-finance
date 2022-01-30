@@ -34,11 +34,12 @@ const BankItem = ({ bankId, }) => {
 						{bankItems[bankId]?.name || t('common.unknown')}
 						<ButtonDeleteItem
 							confirmationPlacement="right"
-							confirmationCancelText={t('cashCategories.keep')}
-							confirmationOkText={t('cashCategories.remove')}
+							confirmationCancelText={t('common.keep')}
+							confirmationOkText={t('common.remove')}
 							onConfirm={confirmBankRemoving}
-							title={t('cashCategories.sureToRemove')}
+							title={t('common.sureToRemove')}
 							iconClassName={styles.deleteBank}
+							afterActionText={t('bankItem.bankRemoved')}
 						/>
 					</div>
 					<div className={styles.bankTotalValue}>
@@ -55,17 +56,18 @@ const BankItem = ({ bankId, }) => {
 						</div>
 						<ButtonDeleteItem
 							confirmationPlacement="right"
-							confirmationCancelText={t('cashCategories.keep')}
-							confirmationOkText={t('cashCategories.remove')}
+							confirmationCancelText={t('common.keep')}
+							confirmationOkText={t('common.remove')}
 							onConfirm={() => confirmBankAccountRemoving(account.id)}
-							title={t('cashCategories.sureToRemove')}
+							title={t('common.sureToRemove')}
+							afterActionText={t('bankItem.accountRemoved')}
 						/>
 					</div>
 					<FinancialValue value={account.value} currencyId={account.currencyId}/>
 				</div>)}
 			</Space>
 			<Space size='small'>
-				<ButtonAddItem onClick={showModal} size='small' text={t('cashCategories.addAccount')} className={styles.addButton }/>
+				<ButtonAddItem onClick={showModal} size='small' text={t('bankItem.addAccount')} className={styles.addButton }/>
 			</Space>
 			<Modal width={'fit-content'} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false}>
 				<FormAddBankAccount/>

@@ -1,18 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DeleteOutlined } from '@ant-design/icons';
-import { Popconfirm } from 'antd';
+import { Popconfirm, message, } from 'antd';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import styles from './ButtonDeleteItem.module.scss';
 
-const ButtonDeleteItem = ({ onConfirm, title, confirmationOkText, confirmationCancelText, confirmationPlacement, iconClassName, }) => {
+const ButtonDeleteItem = ({
+	onConfirm,
+	title,
+	confirmationOkText,
+	confirmationCancelText,
+	confirmationPlacement,
+	iconClassName,
+	afterActionText,
+}) => {
+	const { t, } = useTranslation();
+	const handleOkClick = () => {
+		onConfirm?.();
+		message.success(afterActionText || t('common.removed'));
+	};
+
 	return (
 		<div>
 			<Popconfirm
 				confirmationPlacement={confirmationPlacement}
 				title={title}
-				onConfirm={onConfirm}
+				onConfirm={handleOkClick}
 				okText={confirmationOkText}
 				cancelText={confirmationCancelText}
 			>
@@ -29,6 +44,7 @@ ButtonDeleteItem.propTypes = {
 	confirmationCancelText: PropTypes.string.isRequired,
 	confirmationPlacement: PropTypes.string.isRequired,
 	iconClassName: PropTypes.string,
+	afterActionText: PropTypes.string,
 };
 
 export default ButtonDeleteItem;

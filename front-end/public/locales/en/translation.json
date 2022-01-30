@@ -20,7 +20,11 @@
     "lang": "English"
   },
   "common": {
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "removed": "Removed",
+    "remove": "Remove",
+    "keep": "Keep",
+    "sureToRemove": "Remove the item?"
   },
   "description": {
     "part1": "First description",
@@ -50,15 +54,15 @@
     "total": "Total",
     "addItem": "Add item",
     "noItems": "No items",
-    "sureToRemove": "Remove the item?",
-    "removed": "removed",
-    "remove": "Remove",
-    "keep": "Keep",
-    "netBalance": "Net Balance",
+    "netBalance": "Net Balance"
+  },
+  "bankItem": {
     "addBank": "Add Bank",
     "addAccount": "Add account",
     "inputAccountName": "Input account name",
-    "inputAccountValue": "Input account balance"
+    "inputAccountValue": "Input account balance",
+    "bankRemoved": "Bank removed",
+    "accountRemoved": "Account removed"
   },
   "currency": {
     "selectCurrency": "Select currency",

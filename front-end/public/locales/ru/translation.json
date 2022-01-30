@@ -20,7 +20,11 @@
     "lang": "Русский"
   },
   "common": {
-    "unknown": "Неизвестно"
+    "unknown": "Неизвестно",
+    "removed": "Удалено",
+    "remove": "Удалить",
+    "keep": "Оставить",
+    "sureToRemove": "Удалить запись?"
   },
   "description": {
     "part1": "Первое описание",
@@ -50,15 +54,15 @@
     "total": "Всего",
     "addItem": "Добавить источник",
     "noItems": "Нет источников",
-    "sureToRemove": "Удалить запись?",
-    "removed": "удалено",
-    "remove": "Удалить",
-    "keep": "Оставить",
-    "netBalance": "Всего",
+    "netBalance": "Всего"
+  },
+  "bankItem": {
     "addBank": "Добавить банк",
     "addAccount": "Добавить счет",
     "inputAccountName": "Введите название счета",
-    "inputAccountValue": "Введите сумму на счете"
+    "inputAccountValue": "Введите сумму на счете",
+    "bankRemoved": "Банк удален",
+    "accountRemoved": "Счет удален"
   },
   "currency": {
     "selectCurrency": "Выберите валюту",

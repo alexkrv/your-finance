@@ -29,7 +29,7 @@ export const CategoryItem = ({ item }) => {
 				console.error(`There is no category type ${item.type}`);
 		}
 
-		message.info(`${item.sourceName} ${t('cashCategories.removed')}`);
+		message.success(`${item.sourceName} ${t('common.removed')}`);
 	};
 
 	return (
@@ -38,10 +38,10 @@ export const CategoryItem = ({ item }) => {
 			<FinancialValue value={item.sourceValue} type={item.type} currencyId={item.currency}/>
 			<ButtonDeleteItem
 				confirmationPlacement="right"
-				confirmationOkText={t('cashCategories.remove')}
-				confirmationCancelText={t('cashCategories.keep')}
+				confirmationOkText={t('common.remove')}
+				confirmationCancelText={t('common.keep')}
 				onConfirm={confirm}
-				title={t('cashCategories.sureToRemove')}
+				title={t('common.sureToRemove')}
 				iconClassName={styles.deleteIcon}
 			/>
 		</div>

@@ -44,13 +44,13 @@ const FormAddBankAccount = props => {
 				className={styles.form}
 				wrapperCol={{ span: 100 }}
 			>
-				<h2 className={styles.caption}>{t('cashCategories.addAccount')}</h2>
+				<h2 className={styles.caption}>{t('bankItem.addAccount')}</h2>
 				<Space size='small' align='start' direction='vertical' className={styles.inputControls}>
 					<Form.Item
 						name="accountName"
 						className={styles.inputControl}
 					>
-						<Input placeholder={t('cashCategories.inputAccountName')}/>
+						<Input placeholder={t('bankItem.inputAccountName')}/>
 					</Form.Item>
 					<Form.Item
 						name="accountValue"
@@ -60,7 +60,7 @@ const FormAddBankAccount = props => {
 							style={{ width: '100%' }}
 							min={DEFAULT_ZERO}
 							max={Number.POSITIVE_INFINITY}
-							placeholder={t('cashCategories.inputAccountValue')}
+							placeholder={t('bankItem.inputAccountValue')}
 						/>
 					</Form.Item>
 					<Form.Item
