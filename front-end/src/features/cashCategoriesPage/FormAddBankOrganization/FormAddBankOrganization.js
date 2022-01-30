@@ -1,23 +1,56 @@
-import React from 'react';
-import styles from '../FormAddCashCategory/FormAddCashCategory.module.scss';
-import { Form, Input } from 'antd';
+import React, { useRef, useState, } from 'react';
+import { Button, Form, Input, Space, message, } from 'antd';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
-const FormAddBankOrganization = props => {
+import { DEFAULT_EMPTY_STRING } from 'constants/default-values';
+import { addBankOrganization } from '../PageCashCategoriesSlice';
+
+const FormAddBankOrganization = () => {
+	const [form] = Form.useForm();
+	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
+	const dispatch = useDispatch();
+	const { t } = useTranslation();
+	const formRef = useRef();
+
+	const initialValues = {
+		bankName: DEFAULT_EMPTY_STRING,
+	};
+	const onFinish = (values) => {
+		message.success(t('bankItem.bankAdded'));
+		dispatch(addBankOrganization(values.bankName));
+		formRef.current.resetFields(['bankName']);
+		setIsSaveButtonDisabled(true);
+	};
+	const onValuesChange = (changedValues, { bankName }) => setIsSaveButtonDisabled(!Boolean(bankName));
+
 	return (
-		<div>
+		<Form
+			form={form}
+			ref={formRef}
+			onFinish={onFinish}
+			onValuesChange={onValuesChange}
+			initialValues={initialValues}
+			layout="vertical"
+			wrapperCol={{ span: 100 }}
+		>
 			<Form.Item
 				name="bankName"
 				rules={[
 					{
 						required: true,
-						message: t('cashCategories.errorBankNameRequired')
+						message: t('bankItem.errorBankNameRequired')
 					},
 				]}
-				className={styles.inputControl}
 			>
-				<Input placeholder={t('cashCategories.inputBankName')}/>
+				<Input placeholder={t('bankItem.inputBankName')}/>
 			</Form.Item>
-		</div>
+			<Space size={'small'}>
+				<Button disabled={isSaveButtonDisabled} type="primary" shape="round" size='medium' htmlType="submit">
+					{t('common.save')}
+				</Button>
+			</Space>
+		</Form>
 	);
 };
 

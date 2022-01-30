@@ -1,37 +1,33 @@
-import React, { useMemo, useState, useEffect, } from 'react';
+import React, { useMemo, useEffect, } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Spin, } from 'antd';
+import { Spin, } from 'antd';
 
 import styles from './CategoryBlock.module.scss';
 
 import { CategoryItem } from './CategoryItem/CategoryItem';
-import { FinancialValue } from '../../../components/FinancialValue/FinancialValue';
-import { useGetConversionRatesQuery } from '../../../services/currencyApiSlice';
+import { FinancialValue } from 'components/FinancialValue/FinancialValue';
+import { useGetConversionRatesQuery } from 'services/currencyApiSlice';
 import {
 	CATEGORY_TYPE_FROZEN,
 	CATEGORY_TYPE_INCOME,
 	CATEGORY_TYPE_SPENDING,
 	DEFAULT_ZERO
-} from '../../../constants/default-values';
-import ButtonAddItem from '../../../components/ButtonAddItem/ButtonAddItem';
+} from 'constants/default-values';
+import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import FormAddCashCategory from '../FormAddCashCategory/FormAddCashCategory';
 import { addFrozen, addIncome, addSpending, saveTotalSumByType, } from '../PageCashCategoriesSlice';
 import { Card } from 'components/Card/Card';
 
 const CategoryBlock = ({ title, type, items, }) => {
 	const dispatch = useDispatch();
-	const [isModalVisible, setIsModalVisible] = useState(false);
 	const { t } = useTranslation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
 	const total = isFetching || error ?
 		DEFAULT_ZERO
 		: parseFloat(items.reduce((acc, el) => acc + el.sourceValue/(data.data[el.currency] || 1), DEFAULT_ZERO).toFixed(1));
-	const showModal = () => setIsModalVisible(true);
-	const handleOk = () => setIsModalVisible(false);
-	const handleCancel = () => setIsModalVisible(false);
 	const memoizedStepInfo = useMemo(() => {
 		const stepsMetaInfo = {
 			[CATEGORY_TYPE_INCOME]: {
@@ -107,11 +103,8 @@ const CategoryBlock = ({ title, type, items, }) => {
 				className={styles.addButton}
 				text={t('cashCategories.addItem')}
 				size='medium'
-				onClick={showModal}
+				addItemFormElement={<FormAddCashCategory stepsMetaInfo={memoizedStepInfo}/>}
 			/>
-			<Modal width={'fit-content'} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false}>
-				<FormAddCashCategory stepsMetaInfo={memoizedStepInfo}/>
-			</Modal>
 		</Card>
 	);
 };

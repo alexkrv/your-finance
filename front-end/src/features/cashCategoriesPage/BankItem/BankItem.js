@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Modal, Space, } from 'antd';
+import { Avatar, Space, } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,20 +10,16 @@ import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { Card } from 'components/Card/Card';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
-import { removeBankAccount, removeBank, } from '../PageCashCategoriesSlice';
+import { removeBankAccount, removeBankOrganization, } from '../PageCashCategoriesSlice';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 
 const BankItem = ({ bankId, }) => {
 	const { t } = useTranslation();
 	const dispatch = useDispatch();
-	const [isModalVisible, setIsModalVisible] = useState(false);
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const { bankItems } = useSelector(state => state.cashCategories);
-	const showModal = () => setIsModalVisible(true);
-	const handleOk = () => setIsModalVisible(false);
-	const handleCancel = () => setIsModalVisible(false);
 	const confirmBankAccountRemoving = (accountId) => dispatch(removeBankAccount({ bankId, accountId }));
-	const confirmBankRemoving = () => dispatch(removeBank(bankId));
+	const confirmBankRemoving = () => dispatch(removeBankOrganization(bankId));
 
 	return (
 		<Card className={styles.card}>
@@ -44,7 +40,7 @@ const BankItem = ({ bankId, }) => {
 					</div>
 					<div className={styles.bankTotalValue}>
 						{t('cashCategories.netBalance')}
-						&nbsp;<FinancialValue value={123123} currencyId={baseCurrencyKey}/>
+						&nbsp;<FinancialValue value={123123/*TODO*/} currencyId={baseCurrencyKey}/>
 					</div>
 				</div>
 			</Space>
@@ -67,11 +63,13 @@ const BankItem = ({ bankId, }) => {
 				</div>)}
 			</Space>
 			<Space size='small'>
-				<ButtonAddItem onClick={showModal} size='small' text={t('bankItem.addAccount')} className={styles.addButton }/>
+				<ButtonAddItem
+					size='small'
+					text={t('bankItem.addAccount')}
+					className={styles.addButton }
+					addItemFormElement={<FormAddBankAccount bankId={bankId}/>}
+				/>
 			</Space>
-			<Modal width={'fit-content'} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false}>
-				<FormAddBankAccount/>
-			</Modal>
 		</Card>
 	);
 };

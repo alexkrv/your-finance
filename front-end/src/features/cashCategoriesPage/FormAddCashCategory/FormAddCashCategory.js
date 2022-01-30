@@ -59,7 +59,7 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 			});
 		}
 
-	}, [error]);
+	}, [error, t]);
 	const isNextButtonDisabled = !isSaveButtonDisabled
         || (stepNum === 1 && !Boolean(spending.length))
         || (stepNum === 2 && !Boolean(frozen.length));
@@ -136,7 +136,7 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 			</div>
 			<Space size={'small'}>
 				<Button disabled={isSaveButtonDisabled} type="primary" shape="round" size='medium' htmlType="submit" className={styles.button}>
-					{t('cashCategories.save')}
+					{t('common.save')}
 				</Button>
 			</Space>
 		</Form>

@@ -12,7 +12,7 @@ import {
 
 const initialState = {
 	categories: {
-		incomes: [],// TODO use Object not Array
+		incomes: [],
 		spending: [],
 		frozen: [],
 	},
@@ -62,11 +62,28 @@ export const pageCashCategoriesSlice = createSlice({
 				state.bankItems = getMockBankList();
 			}
 		},
+		addBankOrganization: { // TODO solve the issues with crash while adding new item
+			reducer: (state, action) => {
+				state.bankItems[action.payload.bankId] = {
+					name: action.payload.bankName,
+					id: action.payload.bankId,
+					accounts: []
+				};
+			},
+			prepare: (bankName) => {
+				const bankId = uuidv4();
+
+				return { payload: { bankId, bankName } };
+			},
+		},
+		removeBankOrganization: (state, action) => {
+			delete state.bankItems[action.payload];
+		},
+		addBankAccount: (state, action) => {
+			state.bankItems[action.payload.bankId].accounts.push({ ...action.payload.account, id: uuidv4() });
+		},
 		removeBankAccount: (state, action) => {
 			state.bankItems[action.payload.bankId].accounts = state.bankItems[action.payload.bankId].accounts.filter(account => account.id !== action.payload.accountId);
-		},
-		removeBank: (state, action) => {
-			delete state.bankItems[action.payload];
 		},
 	}
 });
@@ -83,7 +100,9 @@ export const {
 	saveTotalSumByType,
 	getBankItems,
 	removeBankAccount,
-	removeBank,
+	removeBankOrganization,
+	addBankOrganization,
+	addBankAccount,
 } = pageCashCategoriesSlice.actions;
 
 export default pageCashCategoriesSlice.reducer;

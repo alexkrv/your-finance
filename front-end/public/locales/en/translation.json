@@ -24,7 +24,8 @@
     "removed": "Removed",
     "remove": "Remove",
     "keep": "Keep",
-    "sureToRemove": "Remove the item?"
+    "sureToRemove": "Remove the item?",
+    "save": "Save"
   },
   "description": {
     "part1": "First description",
@@ -37,7 +38,6 @@
     "spendingSourceValue": "Spending source value",
     "frozenSourceName": "Frozen source name",
     "frozenSourceValue": "Frozen source value",
-    "save": "Save",
     "next": "Next",
     "back": "Back",
     "addIncome": "Add your incomes",
@@ -58,11 +58,14 @@
   },
   "bankItem": {
     "addBank": "Add Bank",
+    "inputBankName": "Input bank name",
     "addAccount": "Add account",
     "inputAccountName": "Input account name",
     "inputAccountValue": "Input account balance",
     "bankRemoved": "Bank removed",
-    "accountRemoved": "Account removed"
+    "accountRemoved": "Account removed",
+    "errorBankNameRequired": "Bank name required",
+    "bankAdded": "Bank added"
   },
   "currency": {
     "selectCurrency": "Select currency",

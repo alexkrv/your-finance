@@ -24,7 +24,8 @@
     "removed": "Удалено",
     "remove": "Удалить",
     "keep": "Оставить",
-    "sureToRemove": "Удалить запись?"
+    "sureToRemove": "Удалить запись?",
+    "save": "Save"
   },
   "description": {
     "part1": "Первое описание",
@@ -37,7 +38,6 @@
     "spendingSourceValue": "Сумма расходов",
     "frozenSourceName": "Название 'замороженных' средств",
     "frozenSourceValue": "Сумма 'замороженных' средств",
-    "save": "Сохранить",
     "next": "Далее",
     "back": "Назад",
     "addIncome": "Добавьте категорию доходов",
@@ -58,11 +58,14 @@
   },
   "bankItem": {
     "addBank": "Добавить банк",
+    "inputBankName": "Введите название банка",
     "addAccount": "Добавить счет",
     "inputAccountName": "Введите название счета",
     "inputAccountValue": "Введите сумму на счете",
     "bankRemoved": "Банк удален",
-    "accountRemoved": "Счет удален"
+    "accountRemoved": "Счет удален",
+    "errorBankNameRequired": "Имя банка обязательно",
+    "bankAdded": "Банк добавлен"
   },
   "currency": {
     "selectCurrency": "Выберите валюту",

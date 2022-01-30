@@ -12,6 +12,7 @@ import { CATEGORY_TYPE_FROZEN, CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING } fr
 import NetBalance from './NetBalance/NetBalance';
 import BankItem from './BankItem/BankItem';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
+import FormAddBankOrganization from './FormAddBankOrganization/FormAddBankOrganization';
 
 const PageCashCategories = () => {
 	const dispatch = useDispatch();
@@ -46,13 +47,17 @@ const PageCashCategories = () => {
 					type={CATEGORY_TYPE_FROZEN}
 				/> }
 			</Space>
-			<Space>
+			<Space align='start'>
 				{Object.keys(bankItems).map(bankId =>
 					<BankItem
 						key={bankId}
 						bankId={bankId}
 					/>)}
-				<ButtonAddItem size='large' text={t('bankItem.addBank')}/>
+				<ButtonAddItem
+					size='large'
+					text={t('bankItem.addBank')}
+					addItemFormElement={<FormAddBankOrganization/>}
+				/>
 			</Space>
 		</div>
 	);
