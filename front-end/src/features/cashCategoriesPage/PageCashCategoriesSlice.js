@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
+import { getMockBankList } from './mockData/mockData';
+
 import {
 	CATEGORY_TYPE_FROZEN,
 	CATEGORY_TYPE_INCOME,
@@ -10,7 +12,7 @@ import {
 
 const initialState = {
 	categories: {
-		incomes: [],// TODO create Map, not Array
+		incomes: [],// TODO use Object not Array
 		spending: [],
 		frozen: [],
 	},
@@ -19,7 +21,8 @@ const initialState = {
 		income: DEFAULT_ZERO,
 		spending: DEFAULT_ZERO,
 		frozen: DEFAULT_ZERO,
-	}
+	},
+	bankItems: {}
 };
 
 export const pageCashCategoriesSlice = createSlice({
@@ -53,6 +56,18 @@ export const pageCashCategoriesSlice = createSlice({
 		saveTotalSumByType: (state, action) => {
 			state.totalSums[action.payload.type] = action.payload.total;
 		},
+		getBankItems: (state, action) => {
+			// TODO remove and add real functionality
+			if(process.env.NODE_ENV === 'development') {
+				state.bankItems = getMockBankList();
+			}
+		},
+		removeBankAccount: (state, action) => {
+			state.bankItems[action.payload.bankId].accounts = state.bankItems[action.payload.bankId].accounts.filter(account => account.id !== action.payload.accountId);
+		},
+		removeBank: (state, action) => {
+			delete state.bankItems[action.payload];
+		},
 	}
 });
 
@@ -66,6 +81,9 @@ export const {
 	deleteSpending,
 	deleteFrozen,
 	saveTotalSumByType,
+	getBankItems,
+	removeBankAccount,
+	removeBank,
 } = pageCashCategoriesSlice.actions;
 
 export default pageCashCategoriesSlice.reducer;

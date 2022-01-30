@@ -19,6 +19,9 @@
   "i18n": {
     "lang": "English"
   },
+  "common": {
+    "unknown": "Unknown"
+  },
   "description": {
     "part1": "First description",
     "part2": "Switch language between english and russian using buttons above."

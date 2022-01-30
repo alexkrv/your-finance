@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popconfirm, message, } from 'antd';
-import { DeleteOutlined, } from '@ant-design/icons';
+import { message, } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -10,9 +9,10 @@ import styles from './CategoryItem.module.scss';
 import {
 	CATEGORY_TYPE_INCOME,
 	CATEGORY_TYPE_SPENDING, CATEGORY_TYPE_FROZEN,
-} from '../../../../constants/default-values';
-import { FinancialValue } from '../../../../components/FinancialValue/FinancialValue';
+} from 'constants/default-values';
+import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import { deleteFrozen, deleteIncome, deleteSpending } from '../../PageCashCategoriesSlice';
+import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 
 export const CategoryItem = ({ item }) => {
 	const dispatch = useDispatch();
@@ -36,15 +36,14 @@ export const CategoryItem = ({ item }) => {
 		<div className={styles.container}>
 			<div className={styles.sourceName}>{item.sourceName}&nbsp;</div>
 			<FinancialValue value={item.sourceValue} type={item.type} currencyId={item.currency}/>
-			<Popconfirm
-				placement="right"
-				title={t('cashCategories.sureToRemove')}
+			<ButtonDeleteItem
+				confirmationPlacement="right"
+				confirmationOkText={t('cashCategories.remove')}
+				confirmationCancelText={t('cashCategories.keep')}
 				onConfirm={confirm}
-				okText={t('cashCategories.remove')}
-				cancelText={t('cashCategories.keep')}
-			>
-				<DeleteOutlined className={styles.deleteIcon} />
-			</Popconfirm>
+				title={t('cashCategories.sureToRemove')}
+				iconClassName={styles.deleteIcon}
+			/>
 		</div>
 	);
 };

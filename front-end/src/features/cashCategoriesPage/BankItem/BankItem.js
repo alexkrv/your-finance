@@ -1,34 +1,46 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Modal, Popconfirm, Space, } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { Avatar, Modal, Space, } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './BankItem.module.scss';
 
-import ButtonAddItem from '../../../components/ButtonAddItem/ButtonAddItem';
+import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { Card } from 'components/Card/Card';
-import { FinancialValue } from '../../../components/FinancialValue/FinancialValue';
+import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
+import { removeBankAccount, removeBank, } from '../PageCashCategoriesSlice';
+import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 
-const BankItem = ({ bankName, accounts }) => {
+const BankItem = ({ bankId, }) => {
 	const { t } = useTranslation();
+	const dispatch = useDispatch();
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
+	const { bankItems } = useSelector(state => state.cashCategories);
 	const showModal = () => setIsModalVisible(true);
 	const handleOk = () => setIsModalVisible(false);
 	const handleCancel = () => setIsModalVisible(false);
-	const confirm = () => {/*TODO*/};
+	const confirmBankAccountRemoving = (accountId) => dispatch(removeBankAccount({ bankId, accountId }));
+	const confirmBankRemoving = () => dispatch(removeBank(bankId));
 
 	return (
 		<Card className={styles.card}>
 			<Space size='small' direction='horizontal' className={styles.header}>
-				<Avatar
-					size={{ xs: 24, sm: 28, md: 32, lg: 36, xl: 40, xxl: 44 }}
-				/>
+				<Avatar size={{ xs: 24, sm: 28, md: 32, lg: 36, xl: 40, xxl: 44 }}/>
 				<div className={styles.metaContainer}>
-					<div className={styles.bankName}>{bankName}</div>
+					<div className={styles.bankName}>
+						{bankItems[bankId]?.name || t('common.unknown')}
+						<ButtonDeleteItem
+							confirmationPlacement="right"
+							confirmationCancelText={t('cashCategories.keep')}
+							confirmationOkText={t('cashCategories.remove')}
+							onConfirm={confirmBankRemoving}
+							title={t('cashCategories.sureToRemove')}
+							iconClassName={styles.deleteBank}
+						/>
+					</div>
 					<div className={styles.bankTotalValue}>
 						{t('cashCategories.netBalance')}
 						&nbsp;<FinancialValue value={123123} currencyId={baseCurrencyKey}/>
@@ -36,20 +48,18 @@ const BankItem = ({ bankName, accounts }) => {
 				</div>
 			</Space>
 			<Space size='middle' direction='horizontal' wrap>
-				{accounts.map( account => <div key={account.id} className={styles.metaContainer}>
+				{bankItems[bankId]?.accounts.map( account => <div key={account.id} className={styles.metaContainer}>
 					<div className={styles.nameContainer}>
 						<div className={styles.accountName}>
 							{account.name}
 						</div>
-						<Popconfirm
-							placement="right"
+						<ButtonDeleteItem
+							confirmationPlacement="right"
+							confirmationCancelText={t('cashCategories.keep')}
+							confirmationOkText={t('cashCategories.remove')}
+							onConfirm={() => confirmBankAccountRemoving(account.id)}
 							title={t('cashCategories.sureToRemove')}
-							onConfirm={confirm}
-							okText={t('cashCategories.remove')}
-							cancelText={t('cashCategories.keep')}
-						>
-							<DeleteOutlined className={styles.deleteIcon} />
-						</Popconfirm>
+						/>
 					</div>
 					<FinancialValue value={account.value} currencyId={account.currencyId}/>
 				</div>)}
@@ -65,12 +75,7 @@ const BankItem = ({ bankName, accounts }) => {
 };
 
 BankItem.propTypes = {
-	bankName: PropTypes.string.isRequired,
-	accounts: PropTypes.arrayOf(PropTypes.shape({
-		accountName: PropTypes.string,
-		accountCurrencyId: PropTypes.string,
-		accountValue: PropTypes.number,
-	})).isRequired,
+	bankId: PropTypes.string.isRequired,
 };
 
 export default BankItem;

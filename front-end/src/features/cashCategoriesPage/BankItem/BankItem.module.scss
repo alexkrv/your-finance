@@ -15,6 +15,9 @@
 }
 
 .bankName {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
 	color: var(--text-primary);
 	font-size: 20px;
 	font-weight: 600;
@@ -42,12 +45,19 @@
 	justify-content: flex-start;
 	color: var(--text-secondary);
 	font-size: 12px;
+	white-space: nowrap;
 }
 
 .addButton {
 	margin-top: 20px;
 }
 
-.deleteIcon {
+.deleteIcon,
+.deleteBank {
 	color: var(--text-secondary);
+}
+
+.deleteBank {
+	margin-left: 5px;
+	font-size: 14px;
 }
