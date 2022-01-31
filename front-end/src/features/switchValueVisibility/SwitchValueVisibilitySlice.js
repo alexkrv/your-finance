@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-	isVisible: false,
+	isVisible: JSON.parse(localStorage.getItem('isValueVisible'))
 };
 export const switchValueVisibilitySlice = createSlice({
 	name: 'valueVisibility',

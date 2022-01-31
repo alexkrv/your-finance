@@ -1,6 +1,8 @@
 {
   "root": true,
-  "extends": ["react-app"],
+  "extends": [
+    "react-app"
+  ],
   "rules": {
     "no-trailing-spaces": "error",
     "indent": ["error", "tab", { "SwitchCase": 1 }],
@@ -8,6 +10,7 @@
     "quotes": ["error", "single"],
     "object-curly-spacing": ["error", "always"],
     "arrow-spacing": ["error", { "before": true, "after": true }],
-    "newline-before-return": ["error"]
+    "newline-before-return": ["error"],
+    "import/order": ["error", {"groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"]}]
   }
 }
