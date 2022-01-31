@@ -1,14 +1,14 @@
+import { DEFAULT_EMPTY_STRING, DEFAULT_ZERO } from 'constants/default-values';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Form, Input, InputNumber, Button, Space, } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
+import PropTypes from 'prop-types';
 import styles from '../FormAddCashCategory/FormAddCashCategory.module.scss';
 
-import { DEFAULT_EMPTY_STRING, DEFAULT_ZERO } from 'constants/default-values';
 import SelectCurrency from '../../selectCurrency/SelectCurrency';
-import { addBankAccount } from '../PageCashCategoriesSlice';
-import PropTypes from 'prop-types';
+import { addBankAccount } from '../PageCashStructureSlice';
 
 const FormAddBankAccount = ({ bankId }) => {
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);

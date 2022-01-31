@@ -1,24 +1,24 @@
-import React, { useMemo, useEffect, } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { Spin, } from 'antd';
-
-import styles from './CategoryBlock.module.scss';
-
-import { CategoryItem } from './CategoryItem/CategoryItem';
-import { FinancialValue } from 'components/FinancialValue/FinancialValue';
-import { useGetConversionRatesQuery } from 'services/currencyApiSlice';
 import {
 	CATEGORY_TYPE_FROZEN,
 	CATEGORY_TYPE_INCOME,
 	CATEGORY_TYPE_SPENDING,
 	DEFAULT_ZERO
 } from 'constants/default-values';
+import React, { useMemo, useEffect, } from 'react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { Spin, } from 'antd';
+
+
+import { FinancialValue } from 'components/FinancialValue/FinancialValue';
+import { useGetConversionRatesQuery } from 'services/currencyApiSlice';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
-import FormAddCashCategory from '../FormAddCashCategory/FormAddCashCategory';
-import { addFrozen, addIncome, addSpending, saveTotalSumByType, } from '../PageCashCategoriesSlice';
 import { Card } from 'components/Card/Card';
+import FormAddCashCategory from '../FormAddCashCategory/FormAddCashCategory';
+import { addFrozen, addIncome, addSpending, saveTotalSumByType, } from '../PageCashStructureSlice';
+import { CategoryItem } from './CategoryItem/CategoryItem';
+import styles from './CategoryBlock.module.scss';
 
 const CategoryBlock = ({ title, type, items, }) => {
 	const dispatch = useDispatch();

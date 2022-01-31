@@ -1,7 +1,14 @@
 import { useSelector, } from 'react-redux';
 import { BrowserRouter, Routes, Route, } from 'react-router-dom';
 
-import styles from './App.module.scss';
+import styles from 'App.module.scss';
+
+import PageLogin from 'features/pageLogin/PageLogin';
+import PageHome from 'features/pageHome/PageHome';
+import Layout from 'features/layout/Layout';
+import PageCashStructure from 'features/pageCashStructure/PageCashStructure';
+import RequireAuth from 'components/RequireAuth/RequireAuth';
+import PageRegister from 'features/pageRegister/PageRegister';
 import {
 	ROUTE_LOGIN,
 	ROUTE_CASH_CATEGORIES,
@@ -10,13 +17,6 @@ import {
 	ROUTE_STATISTICS,
 	ROUTE_REGISTRATION,
 } from './constants/routes';
-
-import PageLogin from './features/pageLogin/PageLogin';
-import PageHome from './features/pageHome/PageHome';
-import Layout from './features/layout/Layout';
-import PageCashCategories from './features/cashCategoriesPage/PageCashCategories';
-import RequireAuth from './components/RequireAuth/RequireAuth';
-import PageRegister from './features/pageRegister/PageRegister';
 
 const App = () => {
 	const theme = useSelector( state => state.theme.value);
@@ -33,7 +33,7 @@ const App = () => {
 							path={ROUTE_CASH_CATEGORIES}
 							element={
 								<RequireAuth>
-									<PageCashCategories />
+									<PageCashStructure />
 								</RequireAuth>
 							}
 						/>
@@ -41,7 +41,7 @@ const App = () => {
 							path={ROUTE_INVESTMENTS}
 							element={
 								<RequireAuth>
-									<PageCashCategories />
+									<PageCashStructure />
 								</RequireAuth>
 							}
 						/>
@@ -49,7 +49,7 @@ const App = () => {
 							path={ROUTE_STATISTICS}
 							element={
 								<RequireAuth>
-									<PageCashCategories />
+									<PageCashStructure />
 								</RequireAuth>
 							}
 						/>

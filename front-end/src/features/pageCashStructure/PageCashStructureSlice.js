@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-import { getMockBankList } from './mockData/mockData';
-
 import {
 	CATEGORY_TYPE_FROZEN,
 	CATEGORY_TYPE_INCOME,
 	CATEGORY_TYPE_SPENDING,
 	DEFAULT_ZERO
 } from '../../constants/default-values';
+import { getMockBankList } from './mockData/mockData';
+
 
 const initialState = {
 	categories: {
@@ -25,7 +25,7 @@ const initialState = {
 	bankItems: {}
 };
 
-export const pageCashCategoriesSlice = createSlice({
+export const pageCashStructureSlice = createSlice({
 	name: 'cashCategories',
 	initialState,
 	reducers: {
@@ -103,6 +103,6 @@ export const {
 	removeBankOrganization,
 	addBankOrganization,
 	addBankAccount,
-} = pageCashCategoriesSlice.actions;
+} = pageCashStructureSlice.actions;
 
-export default pageCashCategoriesSlice.reducer;
+export default pageCashStructureSlice.reducer;

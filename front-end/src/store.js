@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import themeSwitcher from './features/switchTheme/SwitchThemeSlice';
-import auth from './features/pageLogin/PageLoginSlice';
-import cashCategories from './features/cashCategoriesPage/PageCashCategoriesSlice';
-import valueVisibility from './features/switchValueVisibility/SwitchValueVisibilitySlice';
-import currencyOperationsSlice from './commonSlices/currencyOperationsSlice';
-import { currencyApi } from './services/currencyApiSlice';
+import themeSwitcher from 'features/switchTheme/SwitchThemeSlice';
+import auth from 'features/pageLogin/PageLoginSlice';
+import cashCategories from 'features/pageCashStructure/PageCashStructureSlice';
+import valueVisibility from 'features/switchValueVisibility/SwitchValueVisibilitySlice';
+import currencyOperationsSlice from 'commonSlices/currencyOperationsSlice';
+import { currencyApi } from 'services/currencyApiSlice';
 
 export const store = configureStore({
 	reducer: {

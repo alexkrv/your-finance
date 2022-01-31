@@ -1,18 +1,18 @@
+import {
+	CATEGORY_TYPE_INCOME,
+	CATEGORY_TYPE_SPENDING, CATEGORY_TYPE_FROZEN,
+} from 'constants/default-values';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { message, } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import styles from './CategoryItem.module.scss';
 
-import {
-	CATEGORY_TYPE_INCOME,
-	CATEGORY_TYPE_SPENDING, CATEGORY_TYPE_FROZEN,
-} from 'constants/default-values';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
-import { deleteFrozen, deleteIncome, deleteSpending } from '../../PageCashCategoriesSlice';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
+import { deleteFrozen, deleteIncome, deleteSpending } from '../../PageCashStructureSlice';
+import styles from './CategoryItem.module.scss';
 
 export const CategoryItem = ({ item }) => {
 	const dispatch = useDispatch();

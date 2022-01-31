@@ -4,14 +4,14 @@ import { Avatar, Space, } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import styles from './BankItem.module.scss';
 
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { Card } from 'components/Card/Card';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
-import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
-import { removeBankAccount, removeBankOrganization, } from '../PageCashCategoriesSlice';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
+import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
+import { removeBankAccount, removeBankOrganization, } from '../PageCashStructureSlice';
+import styles from './BankItem.module.scss';
 
 const BankItem = ({ bankId, }) => {
 	const { t } = useTranslation();

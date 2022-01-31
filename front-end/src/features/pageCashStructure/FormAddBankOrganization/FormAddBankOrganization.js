@@ -1,10 +1,10 @@
+import { DEFAULT_EMPTY_STRING } from 'constants/default-values';
 import React, { useRef, useState, } from 'react';
 import { Button, Form, Input, Space, message, } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
-import { DEFAULT_EMPTY_STRING } from 'constants/default-values';
-import { addBankOrganization } from '../PageCashCategoriesSlice';
+import { addBankOrganization } from '../PageCashStructureSlice';
 
 const FormAddBankOrganization = () => {
 	const [form] = Form.useForm();

@@ -9,7 +9,7 @@ import {
 	CATEGORY_TYPE_SPENDING,
 	DEFAULT_ZERO
 } from '../../../constants/default-values';
-import { addFrozen, addIncome, addSpending, disableStarterForm, } from '../PageCashCategoriesSlice';
+import { addFrozen, addIncome, addSpending, disableStarterForm, } from '../PageCashStructureSlice';
 
 const CashCategoriesStarter = () => {
 	const { t, } = useTranslation();
@@ -58,7 +58,7 @@ const CashCategoriesStarter = () => {
 			minValue: DEFAULT_ZERO,
 			maxValue: Number.POSITIVE_INFINITY
 		},
-	}], [] );
+	}], [t] );
 
 	const handleNextOnLastStep = useCallback(() => {
 		dispatch(disableStarterForm());
