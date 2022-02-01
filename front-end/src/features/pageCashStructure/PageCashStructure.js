@@ -7,23 +7,22 @@ import { Space, } from 'antd';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import styles from './PageCashStructure.module.scss';
 
-import { getCategories, getBankItems, } from './PageCashStructureSlice';
+import { getCategories, } from './PageCashStructureSlice';
 import CategoryBlock from './CategoryBlock/CategoryBlock';
 import CashCategoriesStarter from './CashCategoriesStarter/CashCategoriesStarter';
 import NetBalance from './NetBalance/NetBalance';
-import BankItem from './BankItem/BankItem';
 import FormAddBankOrganization from './FormAddBankOrganization/FormAddBankOrganization';
+import BankItemsWrapper from './BankItemsWrapper/BankItemsWrapper';
 
 const PageCashStructure = () => {
 	const dispatch = useDispatch();
 	const { categories: {
 		incomes, spending, frozen,
-	}, isCategoriesStarterFinished, bankItems, } = useSelector(state => state.cashCategories);
+	}, isCategoriesStarterFinished, } = useSelector(state => state.cashCategories);
 	const { t } = useTranslation();
 
 	useEffect(() => {
 		dispatch(getCategories());
-		dispatch(getBankItems());
 	}, [dispatch]);
 
 	return (
@@ -48,12 +47,8 @@ const PageCashStructure = () => {
 						type={CATEGORY_TYPE_FROZEN}
 					/> }
 				</Space>
-				<Space align='start'>
-					{Object.keys(bankItems).map(bankId =>
-						<BankItem
-							key={bankId}
-							bankId={bankId}
-						/>)}
+				<Space align='start' direction='vertical'>
+					<BankItemsWrapper/>
 					<ButtonAddItem
 						size='large'
 						text={t('bankItem.addBank')}

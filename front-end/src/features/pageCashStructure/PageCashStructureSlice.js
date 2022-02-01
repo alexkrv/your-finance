@@ -62,7 +62,7 @@ export const pageCashStructureSlice = createSlice({
 				state.bankItems = getMockBankList();
 			}
 		},
-		addBankOrganization: { // TODO solve the issues with crash while adding new item
+		addBankOrganization: {
 			reducer: (state, action) => {
 				state.bankItems[action.payload.bankId] = {
 					name: action.payload.bankName,
