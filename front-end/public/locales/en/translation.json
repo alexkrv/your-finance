@@ -13,6 +13,10 @@
     "placeholderLogin": "Input login",
     "placeholderPassword": "Input password",
     "login": "Log In",
+    "errorInputLogin": "Please input your Username",
+    "errorInputPassword": "Please input your Password",
+    "rememberMe": "Remember me",
+    "forgetPassword": "Forget password",
     "register": "Register",
     "logout": "Logout"
   },

@@ -1,16 +1,15 @@
 import React from 'react';
-import { Input, Button, } from 'antd';
+import { Input, Button, Form, Checkbox } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { EyeTwoTone, EyeInvisibleOutlined, } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
-import { useFormik } from 'formik';
-
 import { useNavigate, useLocation, } from 'react-router-dom';
 
+import { ROUTE_HOME, ROUTE_REGISTRATION } from 'constants/routes';
+import TextStyler from '../../components/TextStyler/TextStyler';
 import styles from './PageLogin.module.scss';
 
 import { login, } from './PageLoginSlice';
-import { ROUTE_HOME, ROUTE_REGISTRATION } from '../../constants/routes';
 
 const PageLogin = () => {
 	const { t, } = useTranslation();
@@ -18,53 +17,58 @@ const PageLogin = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const navigatedFrom = location.state?.from?.pathname || ROUTE_HOME;
-	const formik = useFormik({
-		initialValues: {
-			login: '',
-			password: '',
-		},
-		onSubmit: (values) => {
-			dispatch(login());
-			navigate(navigatedFrom, { replace: true });
-		},
-	});
 	const goToRegistration = () => navigate(ROUTE_REGISTRATION, { state: navigatedFrom });
+	const forgetPassword = () => {/*TODO*/};
+
+	const onFinish = (values) => {
+		console.log('Received values of form: ', values);
+		dispatch(login(/*TODO*/));
+		navigate(navigatedFrom, { replace: true });
+	};
 
 	return (
-		<div className={styles.container}>
-			<form onSubmit={formik.handleSubmit}>
-				<div className={styles.caption}>{t('auth.title')}</div>
+		<Form
+			name="normal_login"
+			className="login-form"
+			initialValues={{ remember: true }}
+			onFinish={onFinish}
+		>
+			<TextStyler text={t('auth.title')} className={styles.caption}/>
+			<Form.Item
+				name="username"
+				rules={[{ required: true, message: t('auth.errorInputLogin') }]}
+			>
+				<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder={t('auth.placeholderLogin')} />
+			</Form.Item>
+			<Form.Item
+				name="password"
+				rules={[{ required: true, message: t('auth.errorInputPassword') }]}
+			>
 				<Input
-					id="login"
-					name="login"
-					value={formik.values.login}
-					onChange={formik.handleChange}
-					placeholder={t('auth.placeholderLogin')}
-					className={styles.input}
-				/>
-				<Input.Password
-					id="password"
-					name="password"
-					iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-					value={formik.values.password}
-					onChange={formik.handleChange}
+					prefix={<LockOutlined className="site-form-item-icon" />}
+					type="password"
 					placeholder={t('auth.placeholderPassword')}
-					className={styles.input}
 				/>
-				<Button
-					htmlType="submit"
-					type="primary"
-					size='middle'
-					className={styles.login}
-					loading={false/*TODO while submitting*/}
-				>
+			</Form.Item>
+			<Form.Item>
+				<Form.Item name="remember" valuePropName="checked" noStyle>
+					<Checkbox>
+						<TextStyler text={t('auth.rememberMe')}/>
+					</Checkbox>
+				</Form.Item>
+				<Button type="text" size='middle' onClick={forgetPassword}>
+					<TextStyler text={t('auth.forgetPassword')}/>
+				</Button>
+			</Form.Item>
+			<Form.Item>
+				<Button type="primary" htmlType="submit" className="login-form-button">
 					{t('auth.login')}
 				</Button>
 				<Button type="text" size='middle' onClick={goToRegistration} className={styles.register}>
-					{t('auth.register')}
+					<TextStyler text={t('auth.register')}/>
 				</Button>
-			</form>
-		</div>
+			</Form.Item>
+		</Form>
 	);
 };
 

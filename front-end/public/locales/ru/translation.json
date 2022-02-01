@@ -12,6 +12,10 @@
     "title": "Вход",
     "placeholderLogin": "Введите логин",
     "placeholderPassword": "Введите пароль",
+    "errorInputLogin": "Пожалуйста, введите логин",
+    "errorInputPassword": "Пожалуйста, введите пароль",
+    "rememberMe": "Запомнить меня",
+    "forgetPassword": "Забыть пароль",
     "login": "Войти",
     "register": "Зарегистрироваться",
     "logout": "Выход"

@@ -1,14 +1,4 @@
-.container {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: flex-start;
-	width: 300px;
-}
-
 .caption {
-	color: var(--text-primary);
-	font-size: 18px;
 	margin-bottom: 12px;
 }
 
@@ -18,12 +8,10 @@
 
 .login {
 	width: 100%;
-	color: var(--text-primary);
 	margin-top: 20px;
 }
 
 .register {
 	width: 100%;
-	color: var(--text-primary);
 	margin-top: 40px;
 }
