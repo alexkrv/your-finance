@@ -60,6 +60,9 @@
     "noItems": "No items",
     "netBalance": "Net Balance"
   },
+  "cashStatistics": {
+    "balanceStates": "Balance States"
+  },
   "bankItem": {
     "addBank": "Add Bank",
     "inputBankName": "Input bank name",

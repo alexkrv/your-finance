@@ -1,0 +1,29 @@
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.item {
+
+}
+
+.date {
+	display: block;
+	width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.value {
+
+}
+
+.currency {
+
+}
+
+.comment {
+	color: var(--text-secondary);
+}

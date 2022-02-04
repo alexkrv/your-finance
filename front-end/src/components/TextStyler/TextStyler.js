@@ -4,14 +4,14 @@ import clsx from 'clsx';
 
 import styles from './TextStyler.module.scss';
 
-const TextStyler = ({ text, size, className }) => (
-	<div className={clsx(styles.text, styles[size], className)}>
-		{text}
-	</div>
+const TextStyler = ({ children, size, className }) => (
+	<span className={clsx(styles.text, styles[size], className)}>
+		{children}
+	</span>
 );
 
 TextStyler.propTypes = {
-	text: PropTypes.string.isRequired,
+	children: PropTypes.node.isRequired,
 	size: PropTypes.oneOf(['small', 'medium', 'big', 'large']),
 	className: PropTypes.string,
 };

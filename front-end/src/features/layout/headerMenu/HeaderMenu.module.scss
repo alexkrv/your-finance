@@ -4,6 +4,7 @@
 	align-items: flex-start;
 	justify-content: flex-start;
 	width: 100%;
+	margin-bottom: 20px;
 }
 
 .menuFloor {
@@ -22,7 +23,8 @@
 
 .secondFloorMenu {
 	@extend .menuFloor;
-    justify-content: space-between;
+
+	justify-content: space-between;
 }
 
 .caption {

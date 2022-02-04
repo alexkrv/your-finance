@@ -4,21 +4,23 @@ import {
 	CATEGORY_TYPE_SPENDING,
 	DEFAULT_ZERO
 } from 'constants/default-values';
+
 import React, { useMemo, useEffect, } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spin, } from 'antd';
-
-
-import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import { useGetConversionRatesQuery } from 'services/currencyApiSlice';
+import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { Card } from 'components/Card/Card';
+
 import FormAddCashCategory from '../FormAddCashCategory/FormAddCashCategory';
 import { addFrozen, addIncome, addSpending, saveTotalSumByType, } from '../PageCashStructureSlice';
-import { CategoryItem } from './CategoryItem/CategoryItem';
+
 import styles from './CategoryBlock.module.scss';
+
+import { CategoryItem } from './CategoryItem/CategoryItem';
 
 const CategoryBlock = ({ title, type, items, }) => {
 	const dispatch = useDispatch();

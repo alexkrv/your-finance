@@ -7,8 +7,7 @@ import {
 	CATEGORY_TYPE_SPENDING,
 	DEFAULT_ZERO
 } from '../../constants/default-values';
-import { getMockBankList } from './mockData/mockData';
-
+import bankList from '../../mocks/mockDataBankList';
 
 const initialState = {
 	categories: {
@@ -59,7 +58,7 @@ export const pageCashStructureSlice = createSlice({
 		getBankItems: (state, action) => {
 			// TODO remove and add real functionality
 			if(process.env.NODE_ENV === 'development') {
-				state.bankItems = getMockBankList();
+				state.bankItems = bankList;
 			}
 		},
 		addBankOrganization: {

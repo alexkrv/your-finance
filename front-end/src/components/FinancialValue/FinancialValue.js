@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { EyeOutlined, EyeInvisibleOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 
-import styles from './FinancialValue.module.scss';
 import {
 	CATEGORY_TYPE_FROZEN,
 	CATEGORY_TYPE_INCOME,
 	CATEGORY_TYPE_SPENDING, DEFAULT_EMPTY_STRING, DEFAULT_ZERO,
 } from '../../constants/default-values';
 import { useGetAllCurrenciesQuery } from '../../services/currencyApiSlice';
+
+import styles from './FinancialValue.module.scss';
 
 export const FinancialValue = ({ value, type, currencyId, size }) => {
 	const timeoutRef = useRef(null);
@@ -57,7 +58,7 @@ export const FinancialValue = ({ value, type, currencyId, size }) => {
 };
 
 FinancialValue.propTypes = {
-	value: PropTypes.number.isRequired,
+	value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 	type: PropTypes.string,
 	currencyId: PropTypes.string,
 	size: PropTypes.oneOf(['small', 'medium', 'big']),

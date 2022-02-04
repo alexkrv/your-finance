@@ -1,14 +1,14 @@
 import { useSelector, } from 'react-redux';
 import { BrowserRouter, Routes, Route, } from 'react-router-dom';
-
 import styles from 'App.module.scss';
-
 import PageLogin from 'features/pageLogin/PageLogin';
 import PageHome from 'features/pageHome/PageHome';
 import Layout from 'features/layout/Layout';
 import PageCashStructure from 'features/pageCashStructure/PageCashStructure';
+import PageCashStatistics from 'features/pageCashStatistics/PageCashStatistics';
 import RequireAuth from 'components/RequireAuth/RequireAuth';
 import PageRegister from 'features/pageRegister/PageRegister';
+
 import {
 	ROUTE_LOGIN,
 	ROUTE_CASH_CATEGORIES,
@@ -38,18 +38,18 @@ const App = () => {
 							}
 						/>
 						<Route
-							path={ROUTE_INVESTMENTS}
+							path={ROUTE_STATISTICS}
 							element={
 								<RequireAuth>
-									<PageCashStructure />
+									<PageCashStatistics />
 								</RequireAuth>
 							}
 						/>
 						<Route
-							path={ROUTE_STATISTICS}
+							path={ROUTE_INVESTMENTS}
 							element={
 								<RequireAuth>
-									<PageCashStructure />
+									<div>ROUTE_INVESTMENTS</div>
 								</RequireAuth>
 							}
 						/>

@@ -1,3 +1,5 @@
+import { ROUTE_HOME, ROUTE_REGISTRATION } from 'constants/routes';
+
 import React from 'react';
 import { Input, Button, Form, Checkbox } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -5,8 +7,8 @@ import { UserOutlined, LockOutlined, } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation, } from 'react-router-dom';
 
-import { ROUTE_HOME, ROUTE_REGISTRATION } from 'constants/routes';
 import TextStyler from '../../components/TextStyler/TextStyler';
+
 import styles from './PageLogin.module.scss';
 
 import { login, } from './PageLoginSlice';
@@ -33,7 +35,9 @@ const PageLogin = () => {
 			initialValues={{ remember: true }}
 			onFinish={onFinish}
 		>
-			<TextStyler text={t('auth.title')} className={styles.caption}/>
+			<TextStyler className={styles.caption}>
+				{t('auth.title')}
+			</TextStyler>
 			<Form.Item
 				name="username"
 				rules={[{ required: true, message: t('auth.errorInputLogin') }]}
@@ -53,11 +57,15 @@ const PageLogin = () => {
 			<Form.Item>
 				<Form.Item name="remember" valuePropName="checked" noStyle>
 					<Checkbox>
-						<TextStyler text={t('auth.rememberMe')}/>
+						<TextStyler>
+							{t('auth.rememberMe')}
+						</TextStyler>
 					</Checkbox>
 				</Form.Item>
 				<Button type="text" size='middle' onClick={forgetPassword}>
-					<TextStyler text={t('auth.forgetPassword')}/>
+					<TextStyler>
+						{t('auth.forgetPassword')}
+					</TextStyler>
 				</Button>
 			</Form.Item>
 			<Form.Item>
@@ -65,7 +73,9 @@ const PageLogin = () => {
 					{t('auth.login')}
 				</Button>
 				<Button type="text" size='middle' onClick={goToRegistration} className={styles.register}>
-					<TextStyler text={t('auth.register')}/>
+					<TextStyler>
+						{t('auth.register')}
+					</TextStyler>
 				</Button>
 			</Form.Item>
 		</Form>

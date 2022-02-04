@@ -60,6 +60,9 @@
     "noItems": "Нет источников",
     "netBalance": "Всего"
   },
+  "cashStatistics": {
+    "balanceStates": "Состояния баланса"
+  },
   "bankItem": {
     "addBank": "Добавить банк",
     "inputBankName": "Введите название банка",
