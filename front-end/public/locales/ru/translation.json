@@ -61,7 +61,8 @@
     "netBalance": "Всего"
   },
   "cashStatistics": {
-    "balanceStates": "Состояния баланса"
+    "balanceStates": "Состояния баланса",
+    "getCurrentState": "Посчитать текущее состояние в"
   },
   "bankItem": {
     "addBank": "Добавить банк",

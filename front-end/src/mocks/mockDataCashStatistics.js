@@ -3,29 +3,33 @@ import { v4 as uuidv4 } from 'uuid';
 const statistics = [{
 	timeStamp: Date.now(),
 	value: Math.round(Math.random()*1000),
+	difference: Math.round(Math.random()*1000),
 	currencyId: 'RUB',
-	comment: '',
+	comment: 'Some comment',
 	id: uuidv4()
 },
 {
 	timeStamp: Date.now(),
 	value: Math.round(Math.random()*1000),
+	difference: Math.round(Math.random()*1000),
 	currencyId: 'USD',
-	comment: '',
+	comment: 'Some comment',
 	id: uuidv4()
 },
 {
 	timeStamp: Date.now(),
 	value: Math.round(Math.random()*1000),
+	difference: Math.round(Math.random()*1000),
 	currencyId: 'RUB',
-	comment: '',
+	comment: 'Some comment',
 	id: uuidv4()
 },
 {
 	timeStamp: Date.now(),
 	value: Math.round(Math.random()*1000),
+	difference: Math.round(Math.random()*1000),
 	currencyId: 'EUR',
-	comment: '',
+	comment: 'Some comment',
 	id: uuidv4()
 }];
 

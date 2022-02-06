@@ -61,7 +61,8 @@
     "netBalance": "Net Balance"
   },
   "cashStatistics": {
-    "balanceStates": "Balance States"
+    "balanceStates": "Balance States",
+    "getCurrentState": "Get current state in"
   },
   "bankItem": {
     "addBank": "Add Bank",

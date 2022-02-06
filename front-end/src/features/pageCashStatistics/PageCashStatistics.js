@@ -1,19 +1,16 @@
-import { DEFAULT_ZERO } from 'constants/default-values';
-
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import TextStyler from 'components/TextStyler/TextStyler';
-import { Space } from 'antd';
+import { Button, Space } from 'antd';
 
 import styles from './PageCashStatistics.module.scss';
 
 import { getStatistics } from './PageCashStatisticsSlice';
 import StatisticsRecord from './StatisticsRecord/StatisticsRecord';
-import MonthDifference from './MonthDifference/MonthDifference';
+import ValueDifference from './ValueDifference/ValueDifference';
 
 const PageCashStatistics = () => {
-	const ref = useRef({ value: null, currencyId: null });
 	const dispatch = useDispatch();
 	const { t, } = useTranslation();
 	const { statistics } = useSelector(state => state.cashStatistics);
@@ -33,23 +30,13 @@ const PageCashStatistics = () => {
 					{baseCurrencyKey}
 				</TextStyler>
 			</div>
-			{statistics.map((record, index) => {
-				const isEven = (index+1)%2 === DEFAULT_ZERO;
-
-				if(!isEven) {
-					ref.current.value = record.value;
-					ref.current.currencyId = record.currencyId;
-				}
-
-				return <Space key={record.id} size='middle' direction='horizontal'>
-					<StatisticsRecord data={record}/>
-					{ isEven ? <MonthDifference
-						currentData={record}
-						previousData={ref.current}
-					/> : null}
-				</Space>;
-			}
-			)}
+			{statistics.map(record => <Space key={record.id} size='middle' direction='horizontal' align='start'>
+				<StatisticsRecord data={record}/>
+				<ValueDifference value={record.difference} currencyId={record.currencyId}/>
+			</Space>)}
+			<Button type="primary" shape="round" size='large' onClick={() => {}} className={styles.getState}>
+				{t('cashStatistics.getCurrentState')}&nbsp;{baseCurrencyKey}
+			</Button>
 		</div>
 	);
 };

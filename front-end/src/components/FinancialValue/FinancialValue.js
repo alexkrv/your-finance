@@ -43,17 +43,17 @@ export const FinancialValue = ({ value, type, currencyId, size }) => {
 	};
 
 	return (
-		<div className={styles.container}>
-			<div className={styles.hiddenValue} data-value-hidden={isHidden}>
+		<span className={styles.container}>
+			<span className={styles.hiddenValue} data-value-hidden={isHidden}>
 				{value === DEFAULT_ZERO ? DEFAULT_EMPTY_STRING : getSign(type)}
 				<span className={styles[size]}>{value}</span>
 				{data && currencyId ?
 					<span className={styles.currency}>&nbsp;{data[currencyId].currencySymbol}</span>
 					: DEFAULT_EMPTY_STRING
 				}
-			</div>
-			<div onClick={handleClick} className={styles.icon}>{ isHidden ? <EyeOutlined /> : <EyeInvisibleOutlined/> }</div>
-		</div>
+			</span>
+			<span onClick={handleClick} className={styles.icon}>{ isHidden ? <EyeOutlined /> : <EyeInvisibleOutlined/> }</span>
+		</span>
 	);
 };
 

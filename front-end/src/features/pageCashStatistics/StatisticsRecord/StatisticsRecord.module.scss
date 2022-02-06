@@ -1,29 +1,27 @@
 .container {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: flex-start;
-}
-
-.item {
-
 }
 
 .date {
 	display: block;
-	width: 200px;
+	width: 100px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	text-align: left;
+	font-size: 16px;
 }
 
 .value {
-
-}
-
-.currency {
-
+	min-width: 150px;
 }
 
 .comment {
+	color: var(--text-secondary);
+}
+
+.deleteIcon {
 	color: var(--text-secondary);
 }
