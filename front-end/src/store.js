@@ -5,18 +5,20 @@ import cashCategories from 'features/pageCashStructure/PageCashStructureSlice';
 import valueVisibility from 'features/switchValueVisibility/SwitchValueVisibilitySlice';
 import currencyOperationsSlice from 'commonSlices/currencyOperationsSlice';
 import { currencyApi } from 'services/currencyApiSlice';
-import cashStatistics from 'features/pageCashStatistics/PageCashStatisticsSlice';
+import { cashStatisticsApi } from 'services/cashStatisticsApiSlice';
 
 export const store = configureStore({
 	reducer: {
 		theme: themeSwitcher,
 		auth,
 		cashCategories,
-		cashStatistics,
 		valueVisibility,
 		currencies: currencyOperationsSlice,
-		[currencyApi.reducerPath]: currencyApi.reducer
+		[currencyApi.reducerPath]: currencyApi.reducer,
+		[cashStatisticsApi.reducerPath]: cashStatisticsApi.reducer,
 	},
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(currencyApi.middleware),
+		getDefaultMiddleware()
+			.concat(currencyApi.middleware)
+			.concat(cashStatisticsApi.middleware),
 });

@@ -1,24 +1,31 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import TextStyler from 'components/TextStyler/TextStyler';
-import { Button, Space } from 'antd';
+import { Button, Space, } from 'antd';
+import { useGetCashStatisticsQuery, useCreateStatisticsRecordMutation, } from 'services/cashStatisticsApiSlice';
 
 import styles from './PageCashStatistics.module.scss';
 
-import { getStatistics } from './PageCashStatisticsSlice';
 import StatisticsRecord from './StatisticsRecord/StatisticsRecord';
 import ValueDifference from './ValueDifference/ValueDifference';
 
 const PageCashStatistics = () => {
-	const dispatch = useDispatch();
+	const [ isUpdateInProgress, setIsUpdateInProgress ] = useState(false);
 	const { t, } = useTranslation();
-	const { statistics } = useSelector(state => state.cashStatistics);
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
+	const { data, isFetching, error/*TODO*/ } = useGetCashStatisticsQuery();
+	const [createStatisticsRecord, mutation] = useCreateStatisticsRecordMutation();
+	const handleGetNewRecord = () => {
+		createStatisticsRecord(baseCurrencyKey);
+		setIsUpdateInProgress(true);
+	};
 
 	useEffect(() => {
-		dispatch(getStatistics());
-	}, [dispatch]);
+		if(!isFetching) {
+			setIsUpdateInProgress(false);
+		}
+	}, [isFetching]);
 
 	return (
 		<div className={styles.container}>
@@ -30,19 +37,24 @@ const PageCashStatistics = () => {
 					{baseCurrencyKey}
 				</TextStyler>
 			</div>
-			{statistics.map(record => <Space key={record.id} size='middle' direction='horizontal' align='start'>
-				<StatisticsRecord data={record}/>
-				<ValueDifference value={record.difference} currencyId={record.currencyId}/>
-			</Space>)}
-			<Button type="primary" shape="round" size='large' onClick={() => {}} className={styles.getState}>
+			<div className={styles.list/*TODO create virtual-list*/}>
+				{data?.map(record => <Space key={record.id} size='middle' direction='horizontal' align='start'>
+					<StatisticsRecord data={record}/>
+					<ValueDifference value={record.difference} currencyId={record.currencyId}/>
+				</Space>)}
+			</div>
+			<Button
+				type="primary"
+				shape="round"
+				size='large'
+				onClick={handleGetNewRecord}
+				className={styles.getState}
+				loading={isUpdateInProgress}
+			>
 				{t('cashStatistics.getCurrentState')}&nbsp;{baseCurrencyKey}
 			</Button>
 		</div>
 	);
-};
-
-PageCashStatistics.propTypes = {
-
 };
 
 export default PageCashStatistics;

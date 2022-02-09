@@ -47,6 +47,33 @@ app.get("/conversion-rates", (req, response) => {
         console.error(e);
     });
 });
+const mockData = [// TODO delete mockData, use real from DB
+    {
+        timeStamp: Date.now(),
+        value: Math.round(Math.random()*1000),
+        difference: Math.round(Math.random()*1000),
+        currencyId: 'RUB',
+        comment: 'Some comment',
+        id: Date.now()
+    }
+]
+
+app.get("/cash-statistics", (req, response) => {
+    response.json(mockData) // TODO delete mockData, use real from DB
+});
+
+app.get("/create-statistics-record/:currencyId", (req, response) => {
+    mockData.push({ // TODO delete mockData, use real from DB
+        timeStamp: Date.now(),
+        value: Math.round(Math.random()*1000),
+        difference: Math.round(Math.random()*1000),
+        currencyId: req.params.currencyId,
+        comment: 'Some comment',
+        id: Date.now()
+    })
+
+    response.json(mockData)
+});
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
