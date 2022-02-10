@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Space } from 'antd';
+import { Space, Tooltip, } from 'antd';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
@@ -15,7 +15,7 @@ const StatisticsRecord = ({ data }) => {
 	const confirm = () => {};
 
 	return (
-		<>
+		<Space size={0} direction='vertical' align='start'>
 			<Space size='small' direction='horizontal' align='end'>
 				<TextStyler className={styles.date}>
 					{dayjs(data.timeStamp).format('DD.MM.YYYY')}
@@ -32,12 +32,14 @@ const StatisticsRecord = ({ data }) => {
 					iconClassName={styles.deleteIcon}
 				/>
 			</Space>
-			<Space className={styles.container} size='small' direction='horizontal'>
-				<TextStyler className={styles.comment}>
-					{data.comment}
-				</TextStyler>
-			</Space>
-		</>
+			<Tooltip placement="rightTop" title={data.comment}>
+				<Space size='small' direction='horizontal' align='start'>
+					<TextStyler className={styles.comment}>
+						{data.comment}
+					</TextStyler>
+				</Space>
+			</Tooltip>
+		</Space>
 	);
 };
 

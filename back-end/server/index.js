@@ -63,12 +63,14 @@ app.get("/cash-statistics", (req, response) => {
 });
 
 app.get("/create-statistics-record/:currencyId", (req, response) => {
+    const lastRecord = mockData[mockData.length - 1]
+
     mockData.push({ // TODO delete mockData, use real from DB
         timeStamp: Date.now(),
         value: Math.round(Math.random()*1000),
-        difference: Math.round(Math.random()*1000),
+        difference: Math.round(Math.random()*1000) - lastRecord.value,
         currencyId: req.params.currencyId,
-        comment: 'Some comment',
+        comment: 'Some very long comment about global financial situation in the world that lead to so weird balance state',
         id: Date.now()
     })
 

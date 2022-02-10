@@ -1,4 +1,5 @@
 import { DEFAULT_EMPTY_STRING } from 'constants/default-values';
+
 import React, { useRef, useState, } from 'react';
 import { Button, Form, Input, Space, message, } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -45,7 +46,7 @@ const FormAddBankOrganization = () => {
 			>
 				<Input placeholder={t('bankItem.inputBankName')}/>
 			</Form.Item>
-			<Space size={'small'}>
+			<Space size='small'>
 				<Button disabled={isSaveButtonDisabled} type="primary" shape="round" size='medium' htmlType="submit">
 					{t('common.save')}
 				</Button>

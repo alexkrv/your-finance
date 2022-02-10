@@ -38,7 +38,7 @@ const PageCashStatistics = () => {
 				</TextStyler>
 			</div>
 			<div className={styles.list/*TODO create virtual-list*/}>
-				{data?.map(record => <Space key={record.id} size='middle' direction='horizontal' align='start'>
+				{data?.map(record => <Space key={record.id} size='middle' direction='horizontal' align='start' className={styles.listItem}>
 					<StatisticsRecord data={record}/>
 					<ValueDifference value={record.difference} currencyId={record.currencyId}/>
 				</Space>)}

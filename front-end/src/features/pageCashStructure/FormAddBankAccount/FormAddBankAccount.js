@@ -1,12 +1,12 @@
 import { DEFAULT_EMPTY_STRING, DEFAULT_ZERO } from 'constants/default-values';
+
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Form, Input, InputNumber, Button, Space, } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-
 import PropTypes from 'prop-types';
-import styles from '../FormAddCashCategory/FormAddCashCategory.module.scss';
 
+import styles from '../FormAddCashCategory/FormAddCashCategory.module.scss';
 import SelectCurrency from '../../selectCurrency/SelectCurrency';
 import { addBankAccount } from '../PageCashStructureSlice';
 
@@ -71,7 +71,7 @@ const FormAddBankAccount = ({ bankId }) => {
 				>
 					<SelectCurrency/>
 				</Form.Item>
-				<Space size={'small'}>
+				<Space size='small'>
 					<Button disabled={isSaveButtonDisabled} type="primary" shape="round" size='medium' htmlType="submit" className={styles.button}>
 						{t('common.save')}
 					</Button>

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import styles from './FormAddCashCategory.module.scss';
 
 import {
 	CATEGORY_TYPE_SPENDING,
@@ -13,6 +12,8 @@ import {
 } from '../../../constants/default-values';
 import SelectCurrency from '../../selectCurrency/SelectCurrency';
 import { useGetAllCurrenciesQuery } from '../../../services/currencyApiSlice';
+
+import styles from './FormAddCashCategory.module.scss';
 
 const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 	const [form] = Form.useForm();
@@ -134,7 +135,7 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 					</Form.Item>
 				</Space>
 			</div>
-			<Space size={'small'}>
+			<Space size='small'>
 				<Button disabled={isSaveButtonDisabled} type="primary" shape="round" size='medium' htmlType="submit" className={styles.button}>
 					{t('common.save')}
 				</Button>
