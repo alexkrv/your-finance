@@ -4,18 +4,16 @@ import React from 'react';
 import { Input, Button, Form, Checkbox } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { UserOutlined, LockOutlined, } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation, } from 'react-router-dom';
 
 import TextStyler from '../../components/TextStyler/TextStyler';
+import { useLoginMutation, } from '../../api/';
 
 import styles from './PageLogin.module.scss';
 
-import { login, } from './PageLoginSlice';
-
 const PageLogin = () => {
+	const [login, mutation] = useLoginMutation();
 	const { t, } = useTranslation();
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const navigatedFrom = location.state?.from?.pathname || ROUTE_HOME;
@@ -24,7 +22,7 @@ const PageLogin = () => {
 
 	const onFinish = (values) => {
 		console.log('Received values of form: ', values);
-		dispatch(login(/*TODO*/));
+		login(values);
 		navigate(navigatedFrom, { replace: true });
 	};
 

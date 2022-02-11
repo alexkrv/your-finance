@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import TextStyler from 'components/TextStyler/TextStyler';
 import { Button, Space, } from 'antd';
-import { useGetCashStatisticsQuery, useCreateStatisticsRecordMutation, } from 'services/cashStatisticsApiSlice';
+import { useGetCashStatisticsQuery, useCreateStatisticsRecordMutation, } from 'api/';
 
 import styles from './PageCashStatistics.module.scss';
 

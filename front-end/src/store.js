@@ -4,8 +4,7 @@ import auth from 'features/pageLogin/PageLoginSlice';
 import cashCategories from 'features/pageCashStructure/PageCashStructureSlice';
 import valueVisibility from 'features/switchValueVisibility/SwitchValueVisibilitySlice';
 import currencyOperationsSlice from 'commonSlices/currencyOperationsSlice';
-import { currencyApi } from 'services/currencyApiSlice';
-import { cashStatisticsApi } from 'services/cashStatisticsApiSlice';
+import { api, } from 'api/';
 
 export const store = configureStore({
 	reducer: {
@@ -14,11 +13,8 @@ export const store = configureStore({
 		cashCategories,
 		valueVisibility,
 		currencies: currencyOperationsSlice,
-		[currencyApi.reducerPath]: currencyApi.reducer,
-		[cashStatisticsApi.reducerPath]: cashStatisticsApi.reducer,
+		[api.reducerPath]: api.reducer,
 	},
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware()
-			.concat(currencyApi.middleware)
-			.concat(cashStatisticsApi.middleware),
+		getDefaultMiddleware().concat(api.middleware)
 });

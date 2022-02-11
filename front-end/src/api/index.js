@@ -1,11 +1,29 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 import { API_URL_BASE } from '../constants/api-urls';
+import { ROUTE_LOGIN } from '../constants/routes';
 import { DEFAULT_EMPTY_STRING } from '../constants/default-values';
 
-export const currencyApi = createApi({
-	reducerPath: 'currencyApi',
+export const api = createApi({
+	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({ baseUrl: API_URL_BASE }),
+	tagTypes: ['CashStatistics'],
 	endpoints: (builder) => ({
+		login: builder.mutation({
+			query: (credentials) => ({
+				url: ROUTE_LOGIN,
+				method: 'POST',
+				body: credentials,
+			}),
+		}),
+		getCashStatistics: builder.query({
+			query: () => 'cash-statistics',
+			providesTags: ['CashStatistics'],
+		}),
+		createStatisticsRecord: builder.mutation({
+			query: (currencyId) => `create-statistics-record/${currencyId}`,
+			invalidatesTags: ['CashStatistics'],
+		}),
 		getAllCurrencies: builder.query({
 			transformResponse: (response, meta, arg) =>
 				JSON.parse(response)?.results,
@@ -25,4 +43,10 @@ export const currencyApi = createApi({
 	})
 });
 
-export const { useGetAllCurrenciesQuery, useGetConversionRatesQuery, } = currencyApi;
+export const {
+	useGetCashStatisticsQuery,
+	useCreateStatisticsRecordMutation,
+	useLoginMutation,
+	useGetAllCurrenciesQuery,
+	useGetConversionRatesQuery
+} = api;

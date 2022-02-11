@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spin, } from 'antd';
-import { useGetConversionRatesQuery } from 'services/currencyApiSlice';
+import { useGetConversionRatesQuery } from 'api/';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { Card } from 'components/Card/Card';

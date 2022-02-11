@@ -11,7 +11,7 @@ import {
 	DEFAULT_ZERO,
 } from '../../../constants/default-values';
 import SelectCurrency from '../../selectCurrency/SelectCurrency';
-import { useGetAllCurrenciesQuery } from '../../../services/currencyApiSlice';
+import { useGetAllCurrenciesQuery } from '../../../api/';
 
 import styles from './FormAddCashCategory.module.scss';
 

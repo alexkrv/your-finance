@@ -8,7 +8,7 @@ import {
 	CATEGORY_TYPE_INCOME,
 	CATEGORY_TYPE_SPENDING, DEFAULT_EMPTY_STRING, DEFAULT_ZERO,
 } from '../../constants/default-values';
-import { useGetAllCurrenciesQuery } from '../../services/currencyApiSlice';
+import { useGetAllCurrenciesQuery } from '../../api/';
 
 import styles from './FinancialValue.module.scss';
 

@@ -3,9 +3,10 @@ import { Select, Skeleton } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { useGetAllCurrenciesQuery } from '../../api/';
+
 import styles from './Select.module.scss';
 
-import { useGetAllCurrenciesQuery } from '../../services/currencyApiSlice';
 
 const { Option } = Select;
 const SelectCurrency = (props) => {
