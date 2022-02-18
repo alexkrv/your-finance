@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require("express");
 const https = require("https");
 const bodyParser = require('body-parser');
@@ -6,17 +8,22 @@ const {URL_BASE, URL_CURRENCIES,} = require('../constants/urls')
 const routes = require('../constants/routes')
 const userRoutes = require('../routes/users.routes')
 const PORT = process.env.PORT || 3001;
+const { connectToServer } = require('../db')
 
 const app = express();
 
-require('dotenv').config()
-
+connectToServer((error) => {
+    if(error){
+        throw new Error(error)
+    }
+    console.log('connectToServer: connected')
+})
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.post(routes.ROUTE_LOGIN, userRoutes);
 
-app.get("/currencies", (req, response) => {
+app.get(routes.ROUTE_CURRENCIES, (req, response) => {
     const url = `${URL_BASE}${URL_CURRENCIES}?apiKey=${process.env.FREE_CURRCONV_API_KEY}`;
 
     https.get(url, (res) => {
@@ -35,7 +42,7 @@ app.get("/currencies", (req, response) => {
     });
 });
 
-app.get("/conversion-rates", (req, response) => {
+app.get(routes.ROUTE_CONVERSION_RATES, (req, response) => {
     console.log('req', req.query)
     
     const url = `https://freecurrencyapi.net/api/v2/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
@@ -66,11 +73,11 @@ const mockData = [// TODO delete mockData, use real from DB
     }
 ]
 
-app.get("/cash-statistics", (req, response) => {
+app.get(routes.ROUTE_CASH_STATISTICS, (req, response) => {
     response.json(mockData) // TODO delete mockData, use real from DB
 });
 
-app.get("/create-statistics-record/:currencyId", (req, response) => {
+app.get(`${routes.ROUTE_CREATE_STATISTICS_RECORD}/:currencyId`, (req, response) => {
     const lastRecord = mockData[mockData.length - 1]
 
     mockData.push({ // TODO delete mockData, use real from DB
