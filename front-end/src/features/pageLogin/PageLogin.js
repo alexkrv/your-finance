@@ -1,10 +1,11 @@
 import { ROUTE_HOME, ROUTE_REGISTRATION } from 'constants/routes';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Input, Button, Form, Checkbox } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { UserOutlined, LockOutlined, } from '@ant-design/icons';
 import { useNavigate, useLocation, } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import TextStyler from '../../components/TextStyler/TextStyler';
 import { useLoginMutation, } from '../../api/';
@@ -12,7 +13,8 @@ import { useLoginMutation, } from '../../api/';
 import styles from './PageLogin.module.scss';
 
 const PageLogin = () => {
-	const [login, mutation] = useLoginMutation();
+	const [login] = useLoginMutation();
+	const { isAuthenticated } = useSelector(state => state.auth);
 	const { t, } = useTranslation();
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -20,11 +22,13 @@ const PageLogin = () => {
 	const goToRegistration = () => navigate(ROUTE_REGISTRATION, { state: navigatedFrom });
 	const forgetPassword = () => {/*TODO*/};
 
-	const onFinish = (values) => {
-		console.log('Received values of form: ', values);
-		login(values);
-		navigate(navigatedFrom, { replace: true });
-	};
+	const onFinish = (values) => login(values);
+
+	useEffect(() => {
+		if(isAuthenticated) {
+			navigate(navigatedFrom, { replace: true });
+		}
+	}, [isAuthenticated, navigatedFrom, navigate]);
 
 	return (
 		<Form

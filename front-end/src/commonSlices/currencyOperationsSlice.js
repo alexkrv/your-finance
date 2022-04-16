@@ -12,9 +12,12 @@ export const currencyOperationsSlice = createSlice({
 	reducers: {
 		changeBaseCurrency: (state, action) => {
 			state.baseCurrencyKey = action.payload;
-		}
+		},
+		setConversionRates: (state, action) => {
+			state.conversionRates = action.payload;
+		},
 	}
 });
 
-export const { changeBaseCurrency, } = currencyOperationsSlice.actions;
+export const { changeBaseCurrency, setConversionRates, } = currencyOperationsSlice.actions;
 export default currencyOperationsSlice.reducer;

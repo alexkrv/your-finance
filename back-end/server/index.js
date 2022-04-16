@@ -45,7 +45,7 @@ app.get(routes.ROUTE_CURRENCIES, (req, response) => {
 app.get(routes.ROUTE_CONVERSION_RATES, (req, response) => {
     console.log('req', req.query)
     
-    const url = `https://freecurrencyapi.net/api/v2/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
+    const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
     
     https.get(url, (res) => {
         let data = ''
