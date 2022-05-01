@@ -10,13 +10,13 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spin, } from 'antd';
-import { useGetConversionRatesQuery } from 'api/';
+import { useGetConversionRatesQuery, useAddCashCategoryMutation } from 'api/';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { Card } from 'components/Card/Card';
 
 import FormAddCashCategory from '../FormAddCashCategory/FormAddCashCategory';
-import { addFrozen, addIncome, addSpending, saveTotalSumByType, } from '../PageCashStructureSlice';
+import { addFrozen, addSpending, saveTotalSumByType, } from '../PageCashStructureSlice';
 
 import styles from './CategoryBlock.module.scss';
 
@@ -27,6 +27,7 @@ const CategoryBlock = ({ title, type, items, }) => {
 	const { t } = useTranslation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
+	const [addCashCategory, mutation] = useAddCashCategoryMutation();
 	const total = isFetching || error ?
 		DEFAULT_ZERO
 		: parseFloat(items.reduce((acc, el) => acc + el.sourceValue/(data.data[el.currency] || 1), DEFAULT_ZERO).toFixed(1));
@@ -35,7 +36,7 @@ const CategoryBlock = ({ title, type, items, }) => {
 			[CATEGORY_TYPE_INCOME]: {
 				type: CATEGORY_TYPE_INCOME,
 				title: t('cashCategories.addIncome'),
-				addItemHandler: addIncome,
+				addItemHandler: addCashCategory,
 				sourceInput: {
 					placeholder: t('cashCategories.incomeSourceName'),
 					error: t('cashCategories.errorSourceRequired')

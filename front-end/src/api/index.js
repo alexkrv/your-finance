@@ -1,17 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { API_URL_BASE } from '../constants/api-urls';
-import { ROUTE_LOGIN } from '../constants/routes';
-import { login } from '../features/pageLogin/PageLoginSlice';
+import * as apiUrls from '../constants/api-urls';
+import { login, } from '../features/pageLogin/PageLoginSlice';
+import { addCashCategory as addCategory } from '../features/pageCashStructure/PageCashStructureSlice';
 
 export const api = createApi({
 	reducerPath: 'api',
-	baseQuery: fetchBaseQuery({ baseUrl: API_URL_BASE }),
+	baseQuery: fetchBaseQuery({ baseUrl: apiUrls.API_URL_BASE }),
 	tagTypes: ['CashStatistics'],
 	endpoints: (builder) => ({
 		login: builder.mutation({
 			query: (credentials) => ({
-				url: ROUTE_LOGIN,
+				url: apiUrls.API_URL_LOGIN,
 				method: 'POST',
 				body: credentials,
 			}),
@@ -21,6 +21,22 @@ export const api = createApi({
 					dispatch(login(true));
 				} catch (err) {
 					dispatch(login(false));
+				}
+			},
+		}),
+		addCashCategory: builder.mutation({
+			query: (categoryInfo) => ({
+				url: `${apiUrls.API_URL_ADD_CASH_CATEGORY}/${categoryInfo.type}`,
+				method: 'POST',
+				body: categoryInfo,
+			}),
+			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
+				try {
+					const { data } = await queryFulfilled;
+
+					dispatch(addCategory({ ...arg, id: data.id }));
+				} catch (err) {
+					//TODO something went wrong...
 				}
 			},
 		}),
@@ -52,6 +68,7 @@ export const {
 	useGetCashStatisticsQuery,
 	useCreateStatisticsRecordMutation,
 	useLoginMutation,
+	useAddCashCategoryMutation,
 	useGetAllCurrenciesQuery,
 	useGetConversionRatesQuery
 } = api;

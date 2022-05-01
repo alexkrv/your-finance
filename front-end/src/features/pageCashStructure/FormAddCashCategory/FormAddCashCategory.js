@@ -23,7 +23,7 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 	const [stepNum, setStepNum] = useState(DEFAULT_ZERO);
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 	const { error } = useGetAllCurrenciesQuery();
-	const { incomes, spending, frozen, } = useSelector(state => state.cashCategories.categories);
+	const { income, spending, frozen, } = useSelector(state => state.cashCategories.categories);
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const initialValues = {
 		sourceName: DEFAULT_EMPTY_STRING,
@@ -42,7 +42,7 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 	};
 	const goBackHandler = () => setStepNum(stepNum - 1);
 	const onFinish = (values) => {
-		dispatch(stepsMetaInfo[stepNum].addItemHandler(values));
+		dispatch(stepsMetaInfo[stepNum].addItemHandler({ ...values, type: stepsMetaInfo[stepNum].type }));
 		formRef.current.resetFields(['sourceName', 'sourceValue']);
 		setIsSaveButtonDisabled(true);
 	};
@@ -84,7 +84,7 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
                 <Button shape='round' ghost size='medium' className={styles.button} onClick={goBackHandler}>
                 	{t('cashCategories.back')}
                 </Button> }
-					{ handleNextOnLastStep && (Boolean(incomes.length) || Boolean(spending.length)) &&
+					{ handleNextOnLastStep && (Boolean(income.length) || Boolean(spending.length)) &&
                 <Button disabled={isNextButtonDisabled} type="secondary" shape="round" size='medium' className={styles.button} onClick={goNextHandler}>
                 	{t('cashCategories.next')}
                 </Button> }

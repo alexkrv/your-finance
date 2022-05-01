@@ -9,15 +9,17 @@ import {
 	CATEGORY_TYPE_SPENDING,
 	DEFAULT_ZERO
 } from '../../../constants/default-values';
-import { addFrozen, addIncome, addSpending, disableStarterForm, } from '../PageCashStructureSlice';
+import { addFrozen, addSpending, disableStarterForm, } from '../PageCashStructureSlice';
+import { useAddCashCategoryMutation } from '../../../api';
 
 const CashCategoriesStarter = () => {
 	const { t, } = useTranslation();
 	const dispatch = useDispatch();
+	const [addCashCategory, mutation] = useAddCashCategoryMutation();
 	const stepsMetaInfo = useMemo( () => [{
 		type: CATEGORY_TYPE_INCOME,
 		title: t('cashCategories.addIncome'),
-		addItemHandler: addIncome,
+		addItemHandler: addCashCategory,
 		sourceInput: {
 			placeholder: t('cashCategories.incomeSourceName'),
 			error: t('cashCategories.errorSourceRequired')

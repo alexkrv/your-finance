@@ -11,7 +11,7 @@ import bankList from '../../mocks/mockDataBankList';
 
 const initialState = {
 	categories: {
-		incomes: [],
+		income: [],
 		spending: [],
 		frozen: [],
 	},
@@ -31,8 +31,8 @@ export const pageCashStructureSlice = createSlice({
 		getCategories: (state, action) => {
 			// TODO add functionality
 		},
-		addIncome: (state, action) => {
-			state.categories.incomes.push({ ...action.payload, type: CATEGORY_TYPE_INCOME, id: uuidv4()/*TODO receive after https request*/ });
+		addCashCategory: (state, action) => {
+			state.categories[action.payload.type].push(action.payload);
 		},
 		addSpending: (state, action) => {
 			state.categories.spending.push({ ...action.payload, type: CATEGORY_TYPE_SPENDING, id: uuidv4() });
@@ -41,7 +41,7 @@ export const pageCashStructureSlice = createSlice({
 			state.categories.frozen.push({ ...action.payload, type: CATEGORY_TYPE_FROZEN, id: uuidv4() });
 		},
 		deleteIncome: (state, action) => {
-			state.categories.incomes = state.categories.incomes.filter(income => income.id !== action.payload);
+			state.categories.income = state.categories.income.filter(income => income.id !== action.payload);
 		},
 		deleteSpending: (state, action) => {
 			state.categories.spending = state.categories.spending.filter(income => income.id !== action.payload);
@@ -89,7 +89,7 @@ export const pageCashStructureSlice = createSlice({
 
 export const {
 	getCategories,
-	addIncome,
+	addCashCategory,
 	addSpending,
 	addFrozen,
 	disableStarterForm,

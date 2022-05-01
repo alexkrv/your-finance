@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const {URL_BASE, URL_CURRENCIES,} = require('../constants/urls')
 const routes = require('../constants/routes')
 const userRoutes = require('../routes/users.routes')
+const cashCategoriesRoutes = require('../routes/cashCategories.routes')
 const PORT = process.env.PORT || 3001;
 const { connectToServer } = require('../db')
 
@@ -22,6 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.post(routes.ROUTE_LOGIN, userRoutes);
+
+app.post(routes.ROUTE_ADD_CASH_CATEGORY, cashCategoriesRoutes);
 
 app.get(routes.ROUTE_CURRENCIES, (req, response) => {
     const url = `${URL_BASE}${URL_CURRENCIES}?apiKey=${process.env.FREE_CURRCONV_API_KEY}`;
