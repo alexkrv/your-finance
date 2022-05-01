@@ -1,31 +1,22 @@
-import '../__mocks__/matchMedia.mock';
-import { render, screen } from '@testing-library/react';
-import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route,  } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { store } from 'store';
-import { I18nextProvider } from 'react-i18next';
-import i18n from 'i18n';
-import { Skeleton } from 'antd';
 
+import { render, screen } from '../../../../test-render';
 import HeaderMenu from '../HeaderMenu';
 import { ROUTE_HOME } from '../../../../constants/routes';
+import { TEST_ID_THEME_SWITCHER } from '../../../../constants/test-ids';
 
-describe('dummy test',() => {
-	test('should print the HeaderMenu component', () => {
+describe('HeaderMenu test',() => {
+	test('should render ThemeSwitcher component', async () => {
 		render(
-			<Suspense fallback={<Skeleton active/>}>
-				<Provider store={store}>
-					<I18nextProvider i18n={i18n}>
-						<BrowserRouter>
-							<Routes>
-								<Route path={ROUTE_HOME} element={<HeaderMenu/>}/>
-							</Routes>
-						</BrowserRouter>
-					</I18nextProvider>
-				</Provider>
-			</Suspense>
+			<BrowserRouter>
+				<Routes>
+					<Route path={ROUTE_HOME} element={<HeaderMenu/>}/>
+				</Routes>
+			</BrowserRouter>
 		);
+		const themeSwitcher = await screen.findByTestId(TEST_ID_THEME_SWITCHER);
+		expect(themeSwitcher).toBeInTheDocument();
+
 		screen.debug();
 	});
 } );

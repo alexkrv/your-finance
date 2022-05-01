@@ -3,6 +3,8 @@ import { Switch, } from 'antd';
 import { useDispatch, } from 'react-redux';
 import useLocalStorage from 'use-local-storage';
 
+import { TEST_ID_THEME_SWITCHER } from '../../constants/test-ids';
+
 import styles from './SwitchTheme.module.scss';
 
 import { switchTheme } from './SwitchThemeSlice';
@@ -35,7 +37,9 @@ const SwitchTheme = () => {
 			unCheckedChildren={light}
 			onChange={switchThemeMode}
 			defaultChecked={theme === 'light'}
-			className={styles.switcher}/>
+			className={styles.switcher}
+			data-testid={TEST_ID_THEME_SWITCHER}
+		/>
 	);
 };
 
