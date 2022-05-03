@@ -8,13 +8,11 @@ import {
 	CATEGORY_TYPE_INCOME,
 	CATEGORY_TYPE_SPENDING, DEFAULT_EMPTY_STRING, DEFAULT_ZERO,
 } from '../../constants/default-values';
-import { useGetAllCurrenciesQuery } from '../../api/';
 
 import styles from './FinancialValue.module.scss';
 
 export const FinancialValue = ({ value, type, currencyId, size }) => {
 	const timeoutRef = useRef(null);
-	const { data, } = useGetAllCurrenciesQuery();
 	const isVisible = useSelector(state => state.valueVisibility.isVisible);
 	const [isHidden, setIsHidden] = useState(!isVisible);
 	const handleClick = () => {
@@ -47,8 +45,8 @@ export const FinancialValue = ({ value, type, currencyId, size }) => {
 			<span className={styles.hiddenValue} data-value-hidden={isHidden}>
 				{value === DEFAULT_ZERO ? DEFAULT_EMPTY_STRING : getSign(type)}
 				<span className={styles[size]}>{value}</span>
-				{data && currencyId ?
-					<span className={styles.currency}>&nbsp;{data.list[currencyId].currencySymbol}</span>
+				{currencyId ?
+					<span className={styles.currency}>&nbsp;{currencyId}</span>
 					: DEFAULT_EMPTY_STRING
 				}
 			</span>

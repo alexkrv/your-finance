@@ -12,7 +12,6 @@ const SelectCurrency = (props) => {
 	const { t, } = useTranslation();
 	const { baseCurrencyKey, } = useSelector(state => state.currencies);
 	const { data, error, isFetching, } = useGetAllCurrenciesQuery();
-	console.log('test', data, error);
 
 	return (
 		<>{ error ?

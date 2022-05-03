@@ -30,7 +30,8 @@ const CategoryBlock = ({ title, type, items, }) => {
 	const [addCashCategory] = useAddCashCategoryMutation();
 	const total = isFetching || error ?
 		DEFAULT_ZERO
-		: parseFloat(items.reduce((acc, el) => acc + el.sourceValue/(data.rates[el.currency] || 1), DEFAULT_ZERO).toFixed(1));
+		: parseFloat(items.reduce((acc, el) => acc + el.sourceValue/(data.rates[el.currency].value || 1), DEFAULT_ZERO)
+			.toFixed(1));
 	const memoizedStepInfo = useMemo(() => {
 		const stepsMetaInfo = {
 			[CATEGORY_TYPE_INCOME]: {

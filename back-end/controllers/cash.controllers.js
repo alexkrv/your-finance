@@ -1,6 +1,7 @@
 const dbo = require('../db')
 const { v4: uuidv4 } = require('uuid');
 const https = require("https");
+const currenciesList = require('../constants/currencies.json')
 
 const addCashCategory = (req, res) => {
     const categoryId = uuidv4()
@@ -16,50 +17,7 @@ const addCashCategory = (req, res) => {
 }
 
 const getCurrenciesList = (req, response) => {
-    const url = `https://openexchangerates.org/api/currencies.json`;
-    const currenciesCollection = dbo.getDb().collection("currencies")
-
-    return https.get(url, (res) => {
-        let data = ''
-        res.on('data', (d) => {
-            data += d
-        });
-    
-        res.on('end', () => {
-            response.json({
-                list: JSON.parse(data),
-                isStale: false,
-                timestamp: Date.now()}
-            );
-            
-            currenciesCollection.replaceOne(
-                    {},
-                    {
-                        list: JSON.parse(data),/*TODO prevent sql-injection-alike threat*/
-                        isStale: true,
-                        timestamp: Date.now(),
-                    },
-                    {
-                        upsert: true
-                    }
-                )
-            
-            console.log('/currencies done')
-        })
-    
-    }).on('error', (e) => {
-        console.error(e);
-        currenciesCollection.findOne()
-            .then(result => {
-                const {_id, ...params} = result
-                
-                response.json(params);
-            }).catch(error => {
-                response
-                    .status(404)
-                    .json({error})
-        })
-    });
+    response.json({list: currenciesList});
 }
 
 const getConversionRates = (req, response) => {
