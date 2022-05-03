@@ -1,7 +1,6 @@
 require('dotenv').config()
 
 const express = require("express");
-const https = require("https");
 const bodyParser = require('body-parser');
 
 const routes = require('../constants/routes')
@@ -22,31 +21,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.post(routes.ROUTE_LOGIN, userRoutes);
-
 app.post(routes.ROUTE_ADD_CASH_CATEGORY, cashCategoriesRoutes);
-
 app.get(routes.ROUTE_CURRENCIES, cashCategoriesRoutes);
+app.get(routes.ROUTE_CONVERSION_RATES, cashCategoriesRoutes);
 
-app.get(routes.ROUTE_CONVERSION_RATES, (req, response) => {
-    console.log('req', req.query)
-    // TODO add results cashing for 'server-down' cases + label ('stale' data with date of cashing)
-    const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
-    
-    https.get(url, (res) => {
-        let data = ''
-        res.on('data', (d) => {
-            data += d
-        });
-
-        res.on('end', () => {
-            console.log('/convert done')
-            response.json(data.toString());
-        })
-
-    }).on('error', (e) => {
-        console.error(e);
-    });
-});
 const mockData = [// TODO delete mockData, use real from DB
     {
         timeStamp: Date.now(),

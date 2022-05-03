@@ -27,10 +27,10 @@ const CategoryBlock = ({ title, type, items, }) => {
 	const { t } = useTranslation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
-	const [addCashCategory, mutation] = useAddCashCategoryMutation();
+	const [addCashCategory] = useAddCashCategoryMutation();
 	const total = isFetching || error ?
 		DEFAULT_ZERO
-		: parseFloat(items.reduce((acc, el) => acc + el.sourceValue/(data.data[el.currency] || 1), DEFAULT_ZERO).toFixed(1));
+		: parseFloat(items.reduce((acc, el) => acc + el.sourceValue/(data.rates[el.currency] || 1), DEFAULT_ZERO).toFixed(1));
 	const memoizedStepInfo = useMemo(() => {
 		const stepsMetaInfo = {
 			[CATEGORY_TYPE_INCOME]: {

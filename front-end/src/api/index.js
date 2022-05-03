@@ -63,16 +63,11 @@ export const api = createApi({
 		}),
 		getConversionRates: builder.query({
 			query: (baseCurrencyKey) => `conversion-rates?base=${baseCurrencyKey}`,
-			transformResponse: (response) => {
-				const { meta, data } = JSON.parse(response);
-
-				return { meta, data };
-			},
 			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
 				try {
-					const { data: { data: conversionRates } } = await queryFulfilled;
+					const { data } = await queryFulfilled;
 
-					dispatch(setConversionRates(conversionRates));
+					dispatch(setConversionRates(data));
 				} catch (err) {
 					//TODO something went wrong...
 				}
