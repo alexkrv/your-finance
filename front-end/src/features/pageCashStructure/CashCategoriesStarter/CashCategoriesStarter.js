@@ -15,7 +15,7 @@ import { useAddCashCategoryMutation } from '../../../api';
 const CashCategoriesStarter = () => {
 	const { t, } = useTranslation();
 	const dispatch = useDispatch();
-	const [addCashCategory, mutation] = useAddCashCategoryMutation();
+	const [addCashCategory] = useAddCashCategoryMutation();
 	const stepsMetaInfo = useMemo( () => [{
 		type: CATEGORY_TYPE_INCOME,
 		title: t('cashCategories.addIncome'),

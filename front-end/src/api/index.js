@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import * as apiUrls from '../constants/api-urls';
 import { login, } from '../features/pageLogin/PageLoginSlice';
 import { addCashCategory as addCategory } from '../features/pageCashStructure/PageCashStructureSlice';
+import { setCurrenciesInfo, setConversionRates, } from '../commonSlices/currencyOperationsSlice';
 
 export const api = createApi({
 	reducerPath: 'api',
@@ -49,9 +50,16 @@ export const api = createApi({
 			invalidatesTags: ['CashStatistics'],
 		}),
 		getAllCurrencies: builder.query({
-			transformResponse: (response) =>
-				JSON.parse(response)?.results,
 			query: () => 'currencies',
+			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
+				try {
+					const { data } = await queryFulfilled;
+
+					dispatch(setCurrenciesInfo(data));
+				} catch (err) {
+					//TODO something went wrong...
+				}
+			},
 		}),
 		getConversionRates: builder.query({
 			query: (baseCurrencyKey) => `conversion-rates?base=${baseCurrencyKey}`,
@@ -59,6 +67,15 @@ export const api = createApi({
 				const { meta, data } = JSON.parse(response);
 
 				return { meta, data };
+			},
+			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
+				try {
+					const { data: { data: conversionRates } } = await queryFulfilled;
+
+					dispatch(setConversionRates(conversionRates));
+				} catch (err) {
+					//TODO something went wrong...
+				}
 			},
 		})
 	})

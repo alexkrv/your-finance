@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState, } from 'react';
 import { Form, Input, InputNumber, Button, Space, notification, } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-
 
 import {
 	CATEGORY_TYPE_SPENDING,
@@ -18,7 +17,6 @@ import styles from './FormAddCashCategory.module.scss';
 const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 	const [form] = Form.useForm();
 	const formRef = useRef();
-	const dispatch = useDispatch();
 	const { t, } = useTranslation();
 	const [stepNum, setStepNum] = useState(DEFAULT_ZERO);
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
@@ -42,7 +40,7 @@ const FormAddCashCategory = ({ stepsMetaInfo, handleNextOnLastStep, }) => {
 	};
 	const goBackHandler = () => setStepNum(stepNum - 1);
 	const onFinish = (values) => {
-		dispatch(stepsMetaInfo[stepNum].addItemHandler({ ...values, type: stepsMetaInfo[stepNum].type }));
+		stepsMetaInfo[stepNum].addItemHandler({ ...values, type: stepsMetaInfo[stepNum].type });
 		formRef.current.resetFields(['sourceName', 'sourceValue']);
 		setIsSaveButtonDisabled(true);
 	};

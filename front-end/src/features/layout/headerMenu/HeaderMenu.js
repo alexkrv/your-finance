@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation, } from 'react-i18next';
 import {
 	FlagOutlined,
@@ -8,24 +8,26 @@ import {
 import { Button, Space, } from 'antd';
 import { useSelector, useDispatch, } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import styles from './HeaderMenu.module.scss';
+import useLocalStorage from 'use-local-storage';
 
 import { ROUTE_CASH_CATEGORIES, ROUTE_HOME, ROUTE_INVESTMENTS, ROUTE_LOGIN, ROUTE_STATISTICS, } from '../../../constants/routes';
-
 import SwitchTheme from '../../switchTheme/SwitchTheme';
-import MenuItem from './MenuItem/MenuItem';
 import { logout } from '../../pageLogin/PageLoginSlice';
-import { LANG_EN, LANG_RU } from '../../../constants/default-values';
+import { DEFAULT_EMPTY_STRING, LANG_EN, LANG_RU } from '../../../constants/default-values';
 import SwitchValueVisibility from '../../switchValueVisibility/SwitchValueVisibility';
 import SelectCurrency from '../../selectCurrency/SelectCurrency';
 import { changeBaseCurrency } from '../../../commonSlices/currencyOperationsSlice';
+
+import styles from './HeaderMenu.module.scss';
+
+import MenuItem from './MenuItem/MenuItem';
 
 const HeaderMenu = () => {
 	const { t, i18n } = useTranslation();
 	const navigate = useNavigate();
 	const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 	const dispatch = useDispatch();
+	const [baseCurrencyKey, setBaseCurrency] = useLocalStorage('baseCurrencyKey', DEFAULT_EMPTY_STRING);
 	const changeLang = () => {
 		const newLanguage = i18n.resolvedLanguage === LANG_EN ? LANG_RU : LANG_EN;
 
@@ -33,7 +35,14 @@ const HeaderMenu = () => {
 	};
 	const handleLogout = () => dispatch(logout());
 	const handleLogin = () => navigate(ROUTE_LOGIN);
-	const changeMainCurrency = (value) => dispatch(changeBaseCurrency(value));
+	const changeMainCurrency = (value) => {
+		dispatch(changeBaseCurrency(value));
+		setBaseCurrency(value);
+	};
+
+	useEffect(() => {
+		dispatch(changeBaseCurrency(baseCurrencyKey));
+	}, [baseCurrencyKey]);
 
 	return (
 		<div className={styles.container}>
@@ -61,7 +70,10 @@ const HeaderMenu = () => {
 				</Space>
 				{ isAuthenticated && <Space>
 					<SwitchValueVisibility/>
-					<SelectCurrency onChange={changeMainCurrency}/>
+					<SelectCurrency
+						defaultValue={baseCurrencyKey}
+						onChange={changeMainCurrency}
+					/>
 				</Space> }
 			</div>
 		</div>

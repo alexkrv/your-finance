@@ -7,12 +7,12 @@ import { useGetAllCurrenciesQuery } from '../../api/';
 
 import styles from './Select.module.scss';
 
-
 const { Option } = Select;
 const SelectCurrency = (props) => {
 	const { t, } = useTranslation();
-	const { baseCurrencyKey } = useSelector(state => state.currencies);
+	const { baseCurrencyKey, } = useSelector(state => state.currencies);
 	const { data, error, isFetching, } = useGetAllCurrenciesQuery();
+	console.log('test', data, error);
 
 	return (
 		<>{ error ?
@@ -24,14 +24,15 @@ const SelectCurrency = (props) => {
 				placeholder={t('currency.selectCurrency')}
 				optionFilterProp="children"
 				className={styles.select}
-				defaultValue={baseCurrencyKey}
+				defaultValue={props.defaultValue || baseCurrencyKey}
 			    loading={isFetching}
 			>
-				{!isFetching && Object.keys(data)?.map( currencyId =>
+				{!isFetching && Object.keys(data?.list)?.map( currencyId =>
 					<Option key={currencyId} value={currencyId} className={styles.currencyOption}>
-						{`${currencyId} - ${data[currencyId]?.currencyName}`}
+						{`${currencyId} - ${data?.list[currencyId]}`}
 					</Option>)}
-			</Select> }</>
+			</Select> }
+		</>
 	);
 };
 

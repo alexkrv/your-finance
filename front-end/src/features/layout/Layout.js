@@ -5,15 +5,12 @@ import styles from './Layout.module.scss';
 
 import HeaderMenu from './headerMenu/HeaderMenu';
 
-const Layout = () => {
+const Layout = () => (
+	<div className={styles.container}>
+		<HeaderMenu/>
 
-	return (
-		<div className={styles.container}>
-			<HeaderMenu/>
-
-			<Outlet />
-		</div>
-	);
-};
+		<Outlet />
+	</div>
+);
 
 export default Layout;

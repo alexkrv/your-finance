@@ -4,7 +4,6 @@ const express = require("express");
 const https = require("https");
 const bodyParser = require('body-parser');
 
-const {URL_BASE, URL_CURRENCIES,} = require('../constants/urls')
 const routes = require('../constants/routes')
 const userRoutes = require('../routes/users.routes')
 const cashCategoriesRoutes = require('../routes/cashCategories.routes')
@@ -26,28 +25,11 @@ app.post(routes.ROUTE_LOGIN, userRoutes);
 
 app.post(routes.ROUTE_ADD_CASH_CATEGORY, cashCategoriesRoutes);
 
-app.get(routes.ROUTE_CURRENCIES, (req, response) => {
-    const url = `${URL_BASE}${URL_CURRENCIES}?apiKey=${process.env.FREE_CURRCONV_API_KEY}`;
-
-    https.get(url, (res) => {
-        let data = ''
-        res.on('data', (d) => {
-            data += d
-        });
-        
-        res.on('end', () => {
-            console.log('/currencies done')
-            response.json(data.toString());
-        })
-
-    }).on('error', (e) => {
-        console.error(e);
-    });
-});
+app.get(routes.ROUTE_CURRENCIES, cashCategoriesRoutes);
 
 app.get(routes.ROUTE_CONVERSION_RATES, (req, response) => {
     console.log('req', req.query)
-    
+    // TODO add results cashing for 'server-down' cases + label ('stale' data with date of cashing)
     const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
     
     https.get(url, (res) => {

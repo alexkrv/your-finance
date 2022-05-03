@@ -48,7 +48,7 @@ export const FinancialValue = ({ value, type, currencyId, size }) => {
 				{value === DEFAULT_ZERO ? DEFAULT_EMPTY_STRING : getSign(type)}
 				<span className={styles[size]}>{value}</span>
 				{data && currencyId ?
-					<span className={styles.currency}>&nbsp;{data[currencyId].currencySymbol}</span>
+					<span className={styles.currency}>&nbsp;{data.list[currencyId].currencySymbol}</span>
 					: DEFAULT_EMPTY_STRING
 				}
 			</span>
