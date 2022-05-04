@@ -58,7 +58,8 @@
     "total": "Total",
     "addItem": "Add item",
     "noItems": "No items",
-    "netBalance": "Net Balance"
+    "netBalance": "Net Balance",
+    "staleConversionRates": "Stale conversion rates used. Info by"
   },
   "cashStatistics": {
     "balanceStates": "Balance States",
