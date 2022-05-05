@@ -7,7 +7,7 @@ const addCashCategory = (req, res) => {
     const categoryId = uuidv4()
         
     dbo.getDb()
-    .collection("cash")
+    .collection("cash_structure")
     .insertOne({
         _id: categoryId,
         ...req.body/*TODO prevent sql-injection-alike threat*/,
@@ -16,9 +16,19 @@ const addCashCategory = (req, res) => {
     return res.json({id: categoryId})
 }
 
-const getCurrenciesList = (req, response) => {
-    response.json({list: currenciesList});
-}
+const getCashStructure = (req, response) => dbo.getDb()
+    .collection("cash_structure")
+    .find()
+    .toArray((err, result) => {
+        const structured = result.reduce((acc, item) => ({
+            ...acc,
+            [item.type]: acc[item.type] ? [].concat(acc[item.type] , item) : [item]})
+            , {})
+        
+        response.json(structured)
+    })
+
+const getCurrenciesList = (req, response) => response.json({list: currenciesList});
 
 const getConversionRates = (req, response) => {
     const conversionRatesCollection = dbo.getDb().collection("conversion_rates")
@@ -71,4 +81,5 @@ module.exports = {
     addCashCategory,
     getCurrenciesList,
     getConversionRates,
+    getCashStructure
 }

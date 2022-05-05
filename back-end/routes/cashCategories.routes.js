@@ -7,6 +7,7 @@ const router = express.Router();
 router.post(routes.ROUTE_ADD_CASH_CATEGORY, cashControllers.addCashCategory);
 router.get(routes.ROUTE_CURRENCIES, cashControllers.getCurrenciesList);
 router.get(routes.ROUTE_CONVERSION_RATES, cashControllers.getConversionRates);
+router.get(routes.ROUTE_GET_CASH_STRUCTURE, cashControllers.getCashStructure);
 
 module.exports = router
 

@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import * as apiUrls from '../constants/api-urls';
 import { login, } from '../features/pageLogin/PageLoginSlice';
-import { addCashCategory as addCategory } from '../features/pageCashStructure/PageCashStructureSlice';
+import { addCashCategory as addCategory, getCategories } from '../features/pageCashStructure/PageCashStructureSlice';
 import { setCurrenciesInfo, setConversionRates, } from '../commonSlices/currencyOperationsSlice';
 
 export const api = createApi({
@@ -41,6 +41,18 @@ export const api = createApi({
 				}
 			},
 		}),
+		getCashStructureInfo: builder.query({
+			query: () => apiUrls.API_URL_GET_CASH_STRUCTURE,
+			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
+				try {
+					const { data } = await queryFulfilled;
+
+					dispatch(getCategories(data));
+				} catch (err) {
+					//TODO something went wrong...
+				}
+			},
+		}),
 		getCashStatistics: builder.query({
 			query: () => 'cash-statistics',
 			providesTags: ['CashStatistics'],
@@ -72,7 +84,7 @@ export const api = createApi({
 					//TODO something went wrong...
 				}
 			},
-		})
+		}),
 	})
 });
 
@@ -82,5 +94,6 @@ export const {
 	useLoginMutation,
 	useAddCashCategoryMutation,
 	useGetAllCurrenciesQuery,
-	useGetConversionRatesQuery
+	useGetConversionRatesQuery,
+	useGetCashStructureInfoQuery,
 } = api;

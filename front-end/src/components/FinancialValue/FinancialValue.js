@@ -44,7 +44,7 @@ export const FinancialValue = ({ value, type, currencyId, size }) => {
 		<span className={styles.container}>
 			<span className={styles.hiddenValue} data-value-hidden={isHidden}>
 				{value === DEFAULT_ZERO ? DEFAULT_EMPTY_STRING : getSign(type)}
-				<span className={styles[size]}>{value}</span>
+				<span className={styles[size]}>{Math.abs(value)}</span>
 				{currencyId ?
 					<span className={styles.currency}>&nbsp;{currencyId}</span>
 					: DEFAULT_EMPTY_STRING

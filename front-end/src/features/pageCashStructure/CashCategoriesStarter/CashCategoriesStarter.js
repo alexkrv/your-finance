@@ -9,7 +9,7 @@ import {
 	CATEGORY_TYPE_SPENDING,
 	DEFAULT_ZERO
 } from '../../../constants/default-values';
-import { addFrozen, addSpending, disableStarterForm, } from '../PageCashStructureSlice';
+import { disableStarterForm, } from '../PageCashStructureSlice';
 import { useAddCashCategoryMutation } from '../../../api';
 
 const CashCategoriesStarter = () => {
@@ -34,7 +34,7 @@ const CashCategoriesStarter = () => {
 	{
 		type: CATEGORY_TYPE_SPENDING,
 		title: t('cashCategories.addSpending'),
-		addItemHandler: addSpending,
+		addItemHandler: addCashCategory,
 		sourceInput: {
 			placeholder: t('cashCategories.spendingSourceName'),
 			error: t('cashCategories.errorSourceRequired')
@@ -49,7 +49,7 @@ const CashCategoriesStarter = () => {
 	{
 		type: CATEGORY_TYPE_FROZEN,
 		title: t('cashCategories.addFrozen'),
-		addItemHandler: addFrozen,
+		addItemHandler: addCashCategory,
 		sourceInput: {
 			placeholder: t('cashCategories.frozenSourceName'),
 			error: t('cashCategories.errorSourceRequired')

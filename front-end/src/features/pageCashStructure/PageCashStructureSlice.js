@@ -2,9 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
-	CATEGORY_TYPE_FROZEN,
-	CATEGORY_TYPE_INCOME,
-	CATEGORY_TYPE_SPENDING,
 	DEFAULT_ZERO
 } from '../../constants/default-values';
 import bankList from '../../mocks/mockDataBankList';
@@ -29,16 +26,10 @@ export const pageCashStructureSlice = createSlice({
 	initialState,
 	reducers: {
 		getCategories: (state, action) => {
-			// TODO add functionality
+			state.categories = { ...state.categories, ...action.payload };
 		},
 		addCashCategory: (state, action) => {
 			state.categories[action.payload.type].push(action.payload);
-		},
-		addSpending: (state, action) => {
-			state.categories.spending.push({ ...action.payload, type: CATEGORY_TYPE_SPENDING, id: uuidv4() });
-		},
-		addFrozen: (state, action) => {
-			state.categories.frozen.push({ ...action.payload, type: CATEGORY_TYPE_FROZEN, id: uuidv4() });
 		},
 		deleteIncome: (state, action) => {
 			state.categories.income = state.categories.income.filter(income => income.id !== action.payload);
@@ -90,8 +81,6 @@ export const pageCashStructureSlice = createSlice({
 export const {
 	getCategories,
 	addCashCategory,
-	addSpending,
-	addFrozen,
 	disableStarterForm,
 	deleteIncome,
 	deleteSpending,

@@ -24,6 +24,7 @@ app.post(routes.ROUTE_LOGIN, userRoutes);
 app.post(routes.ROUTE_ADD_CASH_CATEGORY, cashCategoriesRoutes);
 app.get(routes.ROUTE_CURRENCIES, cashCategoriesRoutes);
 app.get(routes.ROUTE_CONVERSION_RATES, cashCategoriesRoutes);
+app.get(routes.ROUTE_GET_CASH_STRUCTURE, cashCategoriesRoutes);
 
 const mockData = [// TODO delete mockData, use real from DB
     {

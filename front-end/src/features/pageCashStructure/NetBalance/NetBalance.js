@@ -14,7 +14,7 @@ const NetBalance = () => {
 	const { income, spending, frozen } = useSelector(state => state.cashCategories.totalSums);
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const { isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
-	const total = income - spending + frozen;
+	const total = (income - spending + frozen).toFixed(2);
 	const type = total < DEFAULT_ZERO ? CATEGORY_TYPE_SPENDING : CATEGORY_TYPE_INCOME;
 
 	return (

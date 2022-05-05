@@ -16,7 +16,7 @@ import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { Card } from 'components/Card/Card';
 
 import FormAddCashCategory from '../FormAddCashCategory/FormAddCashCategory';
-import { addFrozen, addSpending, saveTotalSumByType, } from '../PageCashStructureSlice';
+import { saveTotalSumByType, } from '../PageCashStructureSlice';
 
 import styles from './CategoryBlock.module.scss';
 
@@ -52,7 +52,7 @@ const CategoryBlock = ({ title, type, items, }) => {
 			[CATEGORY_TYPE_SPENDING]: {
 				type: CATEGORY_TYPE_SPENDING,
 				title: t('cashCategories.addSpending'),
-				addItemHandler: addSpending,
+				addItemHandler: addCashCategory,
 				sourceInput: {
 					placeholder: t('cashCategories.spendingSourceName'),
 					error: t('cashCategories.errorSourceRequired')
@@ -67,7 +67,7 @@ const CategoryBlock = ({ title, type, items, }) => {
 			[CATEGORY_TYPE_FROZEN]: {
 				type: CATEGORY_TYPE_FROZEN,
 				title: t('cashCategories.addFrozen'),
-				addItemHandler: addFrozen,
+				addItemHandler: addCashCategory,
 				sourceInput: {
 					placeholder: t('cashCategories.frozenSourceName'),
 					error: t('cashCategories.errorSourceRequired')
