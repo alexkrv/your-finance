@@ -3,21 +3,29 @@ const { v4: uuidv4 } = require('uuid');
 const https = require("https");
 const currenciesList = require('../constants/currencies.json')
 
-const addCashCategory = (req, res) => {
+const addCashCategoryItem = (req, res) => {
     const categoryId = uuidv4()
         
     dbo.getDb()
-    .collection("cash_structure")
+    .collection('cash_category_items')
     .insertOne({
         _id: categoryId,
         ...req.body/*TODO prevent sql-injection-alike threat*/,
     })
     
-    return res.json({id: categoryId})
+    return res.json({_id: categoryId})
+}
+
+const deleteCashCategory = (req, res) => {
+    dbo.getDb()
+    .collection('cash_category_items')
+    .deleteOne({_id: { $eq: req.body._id }})
+    
+    return res.json({_id: req.body._id, type: req.body.type})
 }
 
 const getCashStructure = (req, response) => dbo.getDb()
-    .collection("cash_structure")
+    .collection("cash_category_items")
     .find()
     .toArray((err, result) => {
         const structured = result.reduce((acc, item) => ({
@@ -78,8 +86,9 @@ const getConversionRates = (req, response) => {
 }
 
 module.exports = {
-    addCashCategory,
+    addCashCategoryItem,
     getCurrenciesList,
     getConversionRates,
-    getCashStructure
+    getCashStructure,
+    deleteCashCategory,
 }

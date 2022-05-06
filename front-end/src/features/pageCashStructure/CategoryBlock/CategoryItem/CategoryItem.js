@@ -1,36 +1,17 @@
-import {
-	CATEGORY_TYPE_INCOME,
-	CATEGORY_TYPE_SPENDING, CATEGORY_TYPE_FROZEN,
-} from 'constants/default-values';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { message, } from 'antd';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
-
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
-import { deleteFrozen, deleteIncome, deleteSpending } from '../../PageCashStructureSlice';
+
+import { useDeleteCashCategoryItemMutation } from '../../../../api';
+
 import styles from './CategoryItem.module.scss';
 
 export const CategoryItem = ({ item }) => {
-	const dispatch = useDispatch();
 	const { t, } = useTranslation();
-	const confirm = () => {
-		switch (item.type) {
-			case CATEGORY_TYPE_INCOME: dispatch(deleteIncome(item.id));
-				break;
-			case CATEGORY_TYPE_SPENDING: dispatch(deleteSpending(item.id));
-				break;
-			case CATEGORY_TYPE_FROZEN: dispatch(deleteFrozen(item.id));
-				break;
-			default:
-				console.error(`There is no category type ${item.type}`);
-		}
-
-		message.success(`${item.sourceName} ${t('common.removed')}`);
-	};
+	const [deleteCashCategoryItem] = useDeleteCashCategoryItemMutation();
+	const confirm = () => deleteCashCategoryItem(item);
 
 	return (
 		<div className={styles.container}>
@@ -40,6 +21,7 @@ export const CategoryItem = ({ item }) => {
 				confirmationPlacement="right"
 				confirmationOkText={t('common.remove')}
 				confirmationCancelText={t('common.keep')}
+				afterActionText={`${item.sourceName} ${t('common.removed')}`}
 				onConfirm={confirm}
 				title={t('common.sureToRemove')}
 				iconClassName={styles.deleteIcon}

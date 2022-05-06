@@ -10,16 +10,16 @@ import {
 	DEFAULT_ZERO
 } from '../../../constants/default-values';
 import { disableStarterForm, } from '../PageCashStructureSlice';
-import { useAddCashCategoryMutation } from '../../../api';
+import { useAddCashCategoryItemMutation } from '../../../api';
 
 const CashCategoriesStarter = () => {
 	const { t, } = useTranslation();
 	const dispatch = useDispatch();
-	const [addCashCategory] = useAddCashCategoryMutation();
+	const [addCashCategoryItem] = useAddCashCategoryItemMutation();
 	const stepsMetaInfo = useMemo( () => [{
 		type: CATEGORY_TYPE_INCOME,
 		title: t('cashCategories.addIncome'),
-		addItemHandler: addCashCategory,
+		addItemHandler: addCashCategoryItem,
 		sourceInput: {
 			placeholder: t('cashCategories.incomeSourceName'),
 			error: t('cashCategories.errorSourceRequired')
@@ -34,7 +34,7 @@ const CashCategoriesStarter = () => {
 	{
 		type: CATEGORY_TYPE_SPENDING,
 		title: t('cashCategories.addSpending'),
-		addItemHandler: addCashCategory,
+		addItemHandler: addCashCategoryItem,
 		sourceInput: {
 			placeholder: t('cashCategories.spendingSourceName'),
 			error: t('cashCategories.errorSourceRequired')
@@ -49,7 +49,7 @@ const CashCategoriesStarter = () => {
 	{
 		type: CATEGORY_TYPE_FROZEN,
 		title: t('cashCategories.addFrozen'),
-		addItemHandler: addCashCategory,
+		addItemHandler: addCashCategoryItem,
 		sourceInput: {
 			placeholder: t('cashCategories.frozenSourceName'),
 			error: t('cashCategories.errorSourceRequired')

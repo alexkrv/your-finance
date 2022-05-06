@@ -2,7 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import * as apiUrls from '../constants/api-urls';
 import { login, } from '../features/pageLogin/PageLoginSlice';
-import { addCashCategory as addCategory, getCategories } from '../features/pageCashStructure/PageCashStructureSlice';
+import {
+	addCashCategoryItem,
+	deleteCashCategoryItem,
+	getCategories
+} from '../features/pageCashStructure/PageCashStructureSlice';
 import { setCurrenciesInfo, setConversionRates, } from '../commonSlices/currencyOperationsSlice';
 
 export const api = createApi({
@@ -25,9 +29,9 @@ export const api = createApi({
 				}
 			},
 		}),
-		addCashCategory: builder.mutation({
+		addCashCategoryItem: builder.mutation({
 			query: (categoryInfo) => ({
-				url: `${apiUrls.API_URL_ADD_CASH_CATEGORY}/${categoryInfo.type}`,
+				url: apiUrls.API_URL_CASH_CATEGORY_ITEM,
 				method: 'POST',
 				body: categoryInfo,
 			}),
@@ -35,7 +39,23 @@ export const api = createApi({
 				try {
 					const { data } = await queryFulfilled;
 
-					dispatch(addCategory({ ...arg, id: data.id }));
+					dispatch(addCashCategoryItem({ ...arg, _id: data._id }));
+				} catch (err) {
+					//TODO something went wrong...
+				}
+			},
+		}),
+		deleteCashCategoryItem: builder.mutation({
+			query: (item) => ({
+				url: apiUrls.API_URL_CASH_CATEGORY_ITEM,
+				method: 'DELETE',
+				body: item,
+			}),
+			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
+				try {
+					const { data } = await queryFulfilled;
+
+					dispatch(deleteCashCategoryItem({ _id: data._id, type: data.type }));
 				} catch (err) {
 					//TODO something went wrong...
 				}
@@ -92,7 +112,8 @@ export const {
 	useGetCashStatisticsQuery,
 	useCreateStatisticsRecordMutation,
 	useLoginMutation,
-	useAddCashCategoryMutation,
+	useAddCashCategoryItemMutation,
+	useDeleteCashCategoryItemMutation,
 	useGetAllCurrenciesQuery,
 	useGetConversionRatesQuery,
 	useGetCashStructureInfoQuery,

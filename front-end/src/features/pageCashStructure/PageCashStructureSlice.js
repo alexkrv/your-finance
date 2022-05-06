@@ -28,8 +28,11 @@ export const pageCashStructureSlice = createSlice({
 		getCategories: (state, action) => {
 			state.categories = { ...state.categories, ...action.payload };
 		},
-		addCashCategory: (state, action) => {
+		addCashCategoryItem: (state, action) => {
 			state.categories[action.payload.type].push(action.payload);
+		},
+		deleteCashCategoryItem: (state, action) => {
+			state.categories[action.payload.type] = state.categories[action.payload.type].filter(item => item._id !== action.payload._id);
 		},
 		deleteIncome: (state, action) => {
 			state.categories.income = state.categories.income.filter(income => income.id !== action.payload);
@@ -80,8 +83,9 @@ export const pageCashStructureSlice = createSlice({
 
 export const {
 	getCategories,
-	addCashCategory,
+	addCashCategoryItem,
 	disableStarterForm,
+	deleteCashCategoryItem,
 	deleteIncome,
 	deleteSpending,
 	deleteFrozen,
