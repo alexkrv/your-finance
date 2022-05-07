@@ -3,23 +3,22 @@ import PropTypes from 'prop-types';
 import { Avatar, Space, } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-
-
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { Card } from 'components/Card/Card';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
+
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
 import { removeBankAccount, removeBankOrganization, } from '../PageCashStructureSlice';
+
 import styles from './BankItem.module.scss';
 
-const BankItem = ({ bankId, }) => {
+const BankItem = ({ bank, }) => {
 	const { t } = useTranslation();
 	const dispatch = useDispatch();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
-	const { bankItems } = useSelector(state => state.cashCategories);
-	const confirmBankAccountRemoving = (accountId) => dispatch(removeBankAccount({ bankId, accountId }));
-	const confirmBankRemoving = () => dispatch(removeBankOrganization(bankId));
+	const confirmBankAccountRemoving = (accountId) => dispatch(removeBankAccount({ bankId: bank._id, accountId }));
+	const confirmBankRemoving = () => dispatch(removeBankOrganization(bank._id));
 
 	return (
 		<Card className={styles.card}>
@@ -27,7 +26,7 @@ const BankItem = ({ bankId, }) => {
 				<Avatar size={{ xs: 24, sm: 28, md: 32, lg: 36, xl: 40, xxl: 44 }}/>
 				<div className={styles.metaContainer}>
 					<div className={styles.bankName}>
-						{bankItems[bankId]?.name || t('common.unknown')}
+						{bank.name || t('common.unknown')}
 						<ButtonDeleteItem
 							confirmationPlacement="right"
 							confirmationCancelText={t('common.keep')}
@@ -45,7 +44,7 @@ const BankItem = ({ bankId, }) => {
 				</div>
 			</Space>
 			<Space size='middle' direction='horizontal' wrap>
-				{bankItems[bankId]?.accounts.map( account => <div key={account.id} className={styles.metaContainer}>
+				{bank.accounts.map( account => <div key={account.id} className={styles.metaContainer}>
 					<div className={styles.nameContainer}>
 						<div className={styles.accountName}>
 							{account.name}
@@ -67,7 +66,7 @@ const BankItem = ({ bankId, }) => {
 					size='small'
 					text={t('bankItem.addAccount')}
 					className={styles.addButton }
-					addItemFormElement={<FormAddBankAccount bankId={bankId}/>}
+					addItemFormElement={<FormAddBankAccount bankId={bank._id}/>}
 				/>
 			</Space>
 		</Card>
@@ -75,7 +74,16 @@ const BankItem = ({ bankId, }) => {
 };
 
 BankItem.propTypes = {
-	bankId: PropTypes.string.isRequired,
+	bank: PropTypes.shape({
+		_id: PropTypes.string.isRequired,
+		name: PropTypes.string.isRequired,
+		accounts: PropTypes.arrayOf(PropTypes.shape({
+			name: PropTypes.string.isRequired,
+			currencyId: PropTypes.string.isRequired,
+			value: PropTypes.number.isRequired,
+			_id: PropTypes.string.isRequired
+		})),
+	}),
 };
 
 export default BankItem;

@@ -20,7 +20,8 @@ const addBankOrganization = (req, res) => {
     const bankId = uuidv4()
     const bankInfo = {
         _id: bankId,
-        bankName: req.body.bankName/*TODO prevent sql-injection-alike threat*/,
+        name: req.body.name/*TODO prevent sql-injection-alike threat*/,
+        accounts: []
     }
     dbo.getDb()
     .collection('bank_organizations')
@@ -37,7 +38,7 @@ const deleteCashCategory = (req, res) => {
     return res.json({_id: req.body._id, type: req.body.type})
 }
 
-const getCashStructure = (req, response) => dbo.getDb()
+const getCashCategories = (req, response) => dbo.getDb()
     .collection("cash_category_items")
     .find()
     .toArray((err, result) => {
@@ -53,7 +54,7 @@ const getCurrenciesList = (req, response) => response.json({list: currenciesList
 
 const getConversionRates = (req, response) => {
     const conversionRatesCollection = dbo.getDb().collection("conversion_rates")
-    const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
+    const url = `https://7777api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
     
     return https.get(url, (res) => {
         let data = ''
@@ -98,11 +99,19 @@ const getConversionRates = (req, response) => {
     });
 }
 
+const getBanksList = (req, response) => dbo.getDb()
+    .collection("bank_organizations")
+    .find()
+    .toArray((err, result) => {
+        response.json(result)
+    })
+
 module.exports = {
     addCashCategoryItem,
     getCurrenciesList,
     getConversionRates,
-    getCashStructure,
+    getCashCategories,
     deleteCashCategory,
     addBankOrganization,
+    getBanksList,
 }

@@ -90,6 +90,10 @@ export const api = createApi({
 				}
 			},
 		}),
+		getBanksList: builder.query({
+			query: () => apiUrls.API_URL_BANK_ORGANIZATION,
+			providesTags: ['BanksList'],
+		}),
 		getCashStatistics: builder.query({
 			query: () => 'cash-statistics',
 			providesTags: ['CashStatistics'],
@@ -135,4 +139,5 @@ export const {
 	useGetConversionRatesQuery,
 	useGetCashCategoriesQuery,
 	useAddBankOrganizationMutation,
+	useGetBanksListQuery,
 } = api;

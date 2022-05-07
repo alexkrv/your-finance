@@ -14,15 +14,15 @@ const FormAddBankOrganization = () => {
 	const [addBankOrganization] = useAddBankOrganizationMutation();
 
 	const initialValues = {
-		bankName: DEFAULT_EMPTY_STRING,
+		name: DEFAULT_EMPTY_STRING,
 	};
 	const onFinish = (values) => {
 		message.success(t('bankItem.bankAdded'));
 		addBankOrganization(values);
-		formRef.current.resetFields(['bankName']);
+		formRef.current.resetFields(['name']);
 		setIsSaveButtonDisabled(true);
 	};
-	const onValuesChange = (changedValues, { bankName }) => setIsSaveButtonDisabled(!Boolean(bankName));
+	const onValuesChange = (changedValues, { name }) => setIsSaveButtonDisabled(!Boolean(name));
 
 	return (
 		<Form
@@ -35,7 +35,7 @@ const FormAddBankOrganization = () => {
 			wrapperCol={{ span: 100 }}
 		>
 			<Form.Item
-				name="bankName"
+				name="name"
 				rules={[
 					{
 						required: true,

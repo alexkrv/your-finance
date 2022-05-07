@@ -1,26 +1,19 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { Space } from 'antd';
 
 import BankItem from '../BankItem/BankItem';
-import { getBankItems, } from '../PageCashStructureSlice';
+import { useGetBanksListQuery } from '../../../api';
 
 const BankItemsWrapper = () => {
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(getBankItems());
-	}, [dispatch]);
-
-	const { bankItems, } = useSelector(state => state.cashCategories);
+	const { data } = useGetBanksListQuery();
 
 	return (
 		<Space size='small' align='start' wrap>
-			{Object.keys(bankItems).map(bankId =>
+			{ data?.map(bank =>
 				<BankItem
-					key={bankId}
-					bankId={bankId}
-				/>)}
+					key={bank._id}
+					bank={bank}
+				/>) || null}
 		</Space>
 	);
 };

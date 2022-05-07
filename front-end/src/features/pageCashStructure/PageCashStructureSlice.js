@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import {
 	DEFAULT_ZERO
 } from '../../constants/default-values';
-import bankList from '../../mocks/mockDataBankList';
 
 const initialState = {
 	categories: {
@@ -34,22 +33,16 @@ export const pageCashStructureSlice = createSlice({
 		deleteCashCategoryItem: (state, action) => {
 			state.categories[action.payload.type] = state.categories[action.payload.type].filter(item => item._id !== action.payload._id);
 		},
-		disableStarterForm: (state, action) => {
+		disableStarterForm: (state) => {
 			state.isCategoriesStarterFinished = true;
 		},
 		saveTotalSumByType: (state, action) => {
 			state.totalSums[action.payload.type] = action.payload.total;
 		},
-		getBankItems: (state, action) => {
-			// TODO remove and add real functionality
-			if(process.env.NODE_ENV === 'development') {
-				state.bankItems = bankList;
-			}
-		},
 		addBankOrganization: {
 			reducer: (state, action) => {
 				state.bankItems[action.payload._id] = {
-					name: action.payload.bankName,
+					name: action.payload.name,
 					_id: action.payload._id,
 					accounts: []
 				};
@@ -73,7 +66,6 @@ export const {
 	disableStarterForm,
 	deleteCashCategoryItem,
 	saveTotalSumByType,
-	getBankItems,
 	removeBankAccount,
 	removeBankOrganization,
 	addBankOrganization,
