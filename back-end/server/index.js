@@ -25,6 +25,7 @@ app.post(routes.ROUTE_CASH_CATEGORY_ITEM, cashCategoriesRoutes);
 app.post(routes.ROUTE_BANK_ORGANIZATION, cashCategoriesRoutes);
 app.get(routes.ROUTE_BANK_ORGANIZATION, cashCategoriesRoutes);
 app.delete(routes.ROUTE_CASH_CATEGORY_ITEM, cashCategoriesRoutes);
+app.delete(routes.ROUTE_BANK_ORGANIZATION, cashCategoriesRoutes);
 app.get(routes.ROUTE_CURRENCIES, cashCategoriesRoutes);
 app.get(routes.ROUTE_CONVERSION_RATES, cashCategoriesRoutes);
 app.get(routes.ROUTE_GET_CASH_STRUCTURE, cashCategoriesRoutes);

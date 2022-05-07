@@ -13,7 +13,7 @@ import { setCurrenciesInfo, setConversionRates, } from '../commonSlices/currency
 export const api = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({ baseUrl: apiUrls.API_URL_BASE }),
-	tagTypes: ['CashStatistics'],
+	tagTypes: ['CashStatistics', 'BanksList'],
 	endpoints: (builder) => ({
 		login: builder.mutation({
 			query: (credentials) => ({
@@ -39,7 +39,7 @@ export const api = createApi({
 			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
 				try {
 					const { data } = await queryFulfilled;
-
+					// TODO implement work with tags instead
 					dispatch(addCashCategoryItem({ ...arg, _id: data._id }));
 				} catch (err) {
 					//TODO something went wrong...
@@ -52,11 +52,29 @@ export const api = createApi({
 				method: 'POST',
 				body: bankInfo,
 			}),
+			invalidatesTags: ['BanksList'],
 			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
 				try {
 					const { data } = await queryFulfilled;
 
 					dispatch(addBankOrganization(data));
+				} catch (err) {
+					//TODO something went wrong...
+				}
+			},
+		}),
+		deleteBankOrganization: builder.mutation({
+			query: (bankId) => ({
+				url: apiUrls.API_URL_BANK_ORGANIZATION,
+				method: 'DELETE',
+				body: { bankId },
+			}),
+			invalidatesTags: ['BanksList'],
+			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
+				try {
+					const { data } = await queryFulfilled;
+
+					dispatch(deleteCashCategoryItem({ _id: data._id, type: data.type }));
 				} catch (err) {
 					//TODO something went wrong...
 				}
@@ -140,4 +158,5 @@ export const {
 	useGetCashCategoriesQuery,
 	useAddBankOrganizationMutation,
 	useGetBanksListQuery,
+	useDeleteBankOrganizationMutation,
 } = api;

@@ -9,16 +9,18 @@ import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
-import { removeBankAccount, removeBankOrganization, } from '../PageCashStructureSlice';
+import { removeBankAccount, } from '../PageCashStructureSlice';
+import { useDeleteBankOrganizationMutation } from '../../../api';
 
 import styles from './BankItem.module.scss';
 
 const BankItem = ({ bank, }) => {
 	const { t } = useTranslation();
 	const dispatch = useDispatch();
+	const [deleteBankOrganization] = useDeleteBankOrganizationMutation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const confirmBankAccountRemoving = (accountId) => dispatch(removeBankAccount({ bankId: bank._id, accountId }));
-	const confirmBankRemoving = () => dispatch(removeBankOrganization(bank._id));
+	const confirmBankRemoving = () => deleteBankOrganization(bank._id);
 
 	return (
 		<Card className={styles.card}>

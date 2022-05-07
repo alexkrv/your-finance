@@ -38,6 +38,14 @@ const deleteCashCategory = (req, res) => {
     return res.json({_id: req.body._id, type: req.body.type})
 }
 
+const deleteBankOrganization = (req, res) => {
+    dbo.getDb()
+    .collection('bank_organizations')
+    .deleteOne({_id: { $eq: req.body.bankId }})
+    
+    return res.json({_id: req.body.bankId})
+}
+
 const getCashCategories = (req, response) => dbo.getDb()
     .collection("cash_category_items")
     .find()
@@ -114,4 +122,5 @@ module.exports = {
     deleteCashCategory,
     addBankOrganization,
     getBanksList,
+    deleteBankOrganization,
 }
