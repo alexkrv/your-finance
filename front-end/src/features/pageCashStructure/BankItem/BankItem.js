@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Space, } from 'antd';
+import { Avatar, Space, Spin } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
@@ -9,7 +9,8 @@ import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
-import { useDeleteBankAccountMutation, useDeleteBankOrganizationMutation } from '../../../api';
+import { useDeleteBankAccountMutation, useDeleteBankOrganizationMutation, useGetConversionRatesQuery } from '../../../api';
+import { DEFAULT_ZERO } from '../../../constants/default-values';
 
 import styles from './BankItem.module.scss';
 
@@ -20,6 +21,11 @@ const BankItem = ({ bank, }) => {
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const confirmBankAccountRemoving = accountId => deleteBankAccount({ bankId: bank._id, accountId });
 	const confirmBankRemoving = () => deleteBankOrganization(bank._id);
+	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
+	const total = isFetching || error ?
+		DEFAULT_ZERO
+		: parseFloat(bank.accounts.reduce((acc, el) => acc + el.value/(data.rates[el.currencyId].value || 1), DEFAULT_ZERO)
+			.toFixed(1));
 
 	return (
 		<Card className={styles.card}>
@@ -40,7 +46,7 @@ const BankItem = ({ bank, }) => {
 					</div>
 					<div className={styles.bankTotalValue}>
 						{t('cashCategories.netBalance')}
-						&nbsp;<FinancialValue value={123123/*TODO*/} currencyId={baseCurrencyKey}/>
+						&nbsp;{ isFetching ? <Spin size='small' />: <FinancialValue value={total} currencyId={baseCurrencyKey}/> }
 					</div>
 				</div>
 			</Space>

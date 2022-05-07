@@ -40,7 +40,8 @@ const getCurrenciesList = (req, response) => response.json({list: currenciesList
 
 const getConversionRates = (req, response) => {
     const conversionRatesCollection = dbo.getDb().collection("conversion_rates")
-    const url = `https://7777api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
+    // const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
+    const url = `https://localhost`; // TODO use while dev in sake of preserving requests quota per month
     
     return https.get(url, (res) => {
         let data = ''
