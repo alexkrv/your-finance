@@ -16,6 +16,19 @@ const addCashCategoryItem = (req, res) => {
     return res.json({_id: categoryId})
 }
 
+const addBankOrganization = (req, res) => {
+    const bankId = uuidv4()
+    const bankInfo = {
+        _id: bankId,
+        bankName: req.body.bankName/*TODO prevent sql-injection-alike threat*/,
+    }
+    dbo.getDb()
+    .collection('bank_organizations')
+    .insertOne(bankInfo)
+    
+    return res.json(bankInfo)
+}
+
 const deleteCashCategory = (req, res) => {
     dbo.getDb()
     .collection('cash_category_items')
@@ -91,4 +104,5 @@ module.exports = {
     getConversionRates,
     getCashStructure,
     deleteCashCategory,
+    addBankOrganization,
 }

@@ -34,15 +34,6 @@ export const pageCashStructureSlice = createSlice({
 		deleteCashCategoryItem: (state, action) => {
 			state.categories[action.payload.type] = state.categories[action.payload.type].filter(item => item._id !== action.payload._id);
 		},
-		deleteIncome: (state, action) => {
-			state.categories.income = state.categories.income.filter(income => income.id !== action.payload);
-		},
-		deleteSpending: (state, action) => {
-			state.categories.spending = state.categories.spending.filter(income => income.id !== action.payload);
-		},
-		deleteFrozen: (state, action) => {
-			state.categories.frozen = state.categories.frozen.filter(income => income.id !== action.payload);
-		},
 		disableStarterForm: (state, action) => {
 			state.isCategoriesStarterFinished = true;
 		},
@@ -57,16 +48,11 @@ export const pageCashStructureSlice = createSlice({
 		},
 		addBankOrganization: {
 			reducer: (state, action) => {
-				state.bankItems[action.payload.bankId] = {
+				state.bankItems[action.payload._id] = {
 					name: action.payload.bankName,
-					id: action.payload.bankId,
+					_id: action.payload._id,
 					accounts: []
 				};
-			},
-			prepare: (bankName) => {
-				const bankId = uuidv4();
-
-				return { payload: { bankId, bankName } };
 			},
 		},
 		removeBankOrganization: (state, action) => {
@@ -86,9 +72,6 @@ export const {
 	addCashCategoryItem,
 	disableStarterForm,
 	deleteCashCategoryItem,
-	deleteIncome,
-	deleteSpending,
-	deleteFrozen,
 	saveTotalSumByType,
 	getBankItems,
 	removeBankAccount,

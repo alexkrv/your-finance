@@ -3,23 +3,22 @@ import { DEFAULT_EMPTY_STRING } from 'constants/default-values';
 import React, { useRef, useState, } from 'react';
 import { Button, Form, Input, Space, message, } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 
-import { addBankOrganization } from '../PageCashStructureSlice';
+import { useAddBankOrganizationMutation } from '../../../api';
 
 const FormAddBankOrganization = () => {
 	const [form] = Form.useForm();
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
-	const dispatch = useDispatch();
 	const { t } = useTranslation();
 	const formRef = useRef();
+	const [addBankOrganization] = useAddBankOrganizationMutation();
 
 	const initialValues = {
 		bankName: DEFAULT_EMPTY_STRING,
 	};
 	const onFinish = (values) => {
 		message.success(t('bankItem.bankAdded'));
-		dispatch(addBankOrganization(values.bankName));
+		addBankOrganization(values);
 		formRef.current.resetFields(['bankName']);
 		setIsSaveButtonDisabled(true);
 	};

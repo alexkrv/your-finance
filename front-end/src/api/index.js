@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import * as apiUrls from '../constants/api-urls';
 import { login, } from '../features/pageLogin/PageLoginSlice';
 import {
+	addBankOrganization,
 	addCashCategoryItem,
 	deleteCashCategoryItem,
 	getCategories
@@ -40,6 +41,22 @@ export const api = createApi({
 					const { data } = await queryFulfilled;
 
 					dispatch(addCashCategoryItem({ ...arg, _id: data._id }));
+				} catch (err) {
+					//TODO something went wrong...
+				}
+			},
+		}),
+		addBankOrganization: builder.mutation({
+			query: (bankInfo) => ({
+				url: apiUrls.API_URL_BANK_ORGANIZATION,
+				method: 'POST',
+				body: bankInfo,
+			}),
+			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
+				try {
+					const { data } = await queryFulfilled;
+
+					dispatch(addBankOrganization(data));
 				} catch (err) {
 					//TODO something went wrong...
 				}
@@ -117,4 +134,5 @@ export const {
 	useGetAllCurrenciesQuery,
 	useGetConversionRatesQuery,
 	useGetCashCategoriesQuery,
+	useAddBankOrganizationMutation,
 } = api;
