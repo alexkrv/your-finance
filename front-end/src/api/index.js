@@ -63,6 +63,23 @@ export const api = createApi({
 				}
 			},
 		}),
+		addBankAccount: builder.mutation({
+			query: (accountInfo) => ({
+				url: apiUrls.API_URL_BANK_ORGANIZATION,
+				method: 'UPDATE',
+				body: accountInfo,
+			}),
+			invalidatesTags: ['BanksList'],
+			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
+				try {
+					const { data } = await queryFulfilled;
+					debugger;
+					// dispatch(addBankOrganization(data));
+				} catch (err) {
+					//TODO something went wrong...
+				}
+			},
+		}),
 		deleteBankOrganization: builder.mutation({
 			query: (bankId) => ({
 				url: apiUrls.API_URL_BANK_ORGANIZATION,
@@ -159,4 +176,5 @@ export const {
 	useAddBankOrganizationMutation,
 	useGetBanksListQuery,
 	useDeleteBankOrganizationMutation,
+	useAddBankAccountMutation,
 } = api;
