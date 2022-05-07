@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Space, Alert, Skeleton } from 'antd';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 
-import { useGetCashStructureInfoQuery } from '../../api';
+import { useGetCashCategoriesQuery } from '../../api';
 
 import styles from './PageCashStructure.module.scss';
 
@@ -22,7 +22,7 @@ const PageCashStructure = () => {
 	}, isCategoriesStarterFinished, } = useSelector(state => state.cashCategories);
 	const { isStale, timestamp } = useSelector(state => state.currencies.conversionRates);
 	const { t } = useTranslation();
-	const { isFetching } = useGetCashStructureInfoQuery();
+	const { isFetching } = useGetCashCategoriesQuery();
 
 	return (
 		<div className={styles.container}>

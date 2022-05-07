@@ -61,8 +61,8 @@ export const api = createApi({
 				}
 			},
 		}),
-		getCashStructureInfo: builder.query({
-			query: () => apiUrls.API_URL_GET_CASH_STRUCTURE,
+		getCashCategories: builder.query({
+			query: () => apiUrls.API_URL_GET_CASH_CATEGORIES,
 			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
 				try {
 					const { data } = await queryFulfilled;
@@ -116,5 +116,5 @@ export const {
 	useDeleteCashCategoryItemMutation,
 	useGetAllCurrenciesQuery,
 	useGetConversionRatesQuery,
-	useGetCashStructureInfoQuery,
+	useGetCashCategoriesQuery,
 } = api;
