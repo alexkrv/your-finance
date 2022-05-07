@@ -3,7 +3,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import * as apiUrls from '../constants/api-urls';
 import { login, } from '../features/pageLogin/PageLoginSlice';
 import {
-	addBankOrganization,
 	addCashCategoryItem,
 	deleteCashCategoryItem,
 	getCategories
@@ -53,32 +52,6 @@ export const api = createApi({
 				body: bankInfo,
 			}),
 			invalidatesTags: ['BanksList'],
-			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
-				try {
-					const { data } = await queryFulfilled;
-
-					dispatch(addBankOrganization(data));
-				} catch (err) {
-					//TODO something went wrong...
-				}
-			},
-		}),
-		addBankAccount: builder.mutation({
-			query: (accountInfo) => ({
-				url: apiUrls.API_URL_BANK_ORGANIZATION,
-				method: 'UPDATE',
-				body: accountInfo,
-			}),
-			invalidatesTags: ['BanksList'],
-			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
-				try {
-					const { data } = await queryFulfilled;
-					debugger;
-					// dispatch(addBankOrganization(data));
-				} catch (err) {
-					//TODO something went wrong...
-				}
-			},
 		}),
 		deleteBankOrganization: builder.mutation({
 			query: (bankId) => ({
@@ -87,15 +60,22 @@ export const api = createApi({
 				body: { bankId },
 			}),
 			invalidatesTags: ['BanksList'],
-			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
-				try {
-					const { data } = await queryFulfilled;
-
-					dispatch(deleteCashCategoryItem({ _id: data._id, type: data.type }));
-				} catch (err) {
-					//TODO something went wrong...
-				}
-			},
+		}),
+		addBankAccount: builder.mutation({
+			query: (accountInfo) => ({
+				url: apiUrls.API_URL_BANK_ORGANIZATION,
+				method: 'PATCH',
+				body: accountInfo,
+			}),
+			invalidatesTags: ['BanksList'],
+		}),
+		deleteBankAccount: builder.mutation({
+			query: (accountInfo) => ({
+				url: apiUrls.API_URL_BANK_ACCOUNT,
+				method: 'DELETE',
+				body: accountInfo,
+			}),
+			invalidatesTags: ['BanksList'],
 		}),
 		deleteCashCategoryItem: builder.mutation({
 			query: (item) => ({
@@ -176,5 +156,6 @@ export const {
 	useAddBankOrganizationMutation,
 	useGetBanksListQuery,
 	useDeleteBankOrganizationMutation,
+	useDeleteBankAccountMutation,
 	useAddBankAccountMutation,
 } = api;

@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
 
 import {
 	DEFAULT_ZERO
@@ -39,24 +38,6 @@ export const pageCashStructureSlice = createSlice({
 		saveTotalSumByType: (state, action) => {
 			state.totalSums[action.payload.type] = action.payload.total;
 		},
-		addBankOrganization: {
-			reducer: (state, action) => {
-				state.bankItems[action.payload._id] = {
-					name: action.payload.name,
-					_id: action.payload._id,
-					accounts: []
-				};
-			},
-		},
-		removeBankOrganization: (state, action) => {
-			delete state.bankItems[action.payload];
-		},
-		addBankAccount: (state, action) => {
-			state.bankItems[action.payload.bankId].accounts.push({ ...action.payload.account, id: uuidv4() });
-		},
-		removeBankAccount: (state, action) => {
-			state.bankItems[action.payload.bankId].accounts = state.bankItems[action.payload.bankId].accounts.filter(account => account.id !== action.payload.accountId);
-		},
 	}
 });
 
@@ -66,10 +47,6 @@ export const {
 	disableStarterForm,
 	deleteCashCategoryItem,
 	saveTotalSumByType,
-	removeBankAccount,
-	removeBankOrganization,
-	addBankOrganization,
-	addBankAccount,
 } = pageCashStructureSlice.actions;
 
 export default pageCashStructureSlice.reducer;

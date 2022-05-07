@@ -2,24 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Space, } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { Card } from 'components/Card/Card';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
-import { removeBankAccount, } from '../PageCashStructureSlice';
-import { useDeleteBankOrganizationMutation } from '../../../api';
+import { useDeleteBankAccountMutation, useDeleteBankOrganizationMutation } from '../../../api';
 
 import styles from './BankItem.module.scss';
 
 const BankItem = ({ bank, }) => {
 	const { t } = useTranslation();
-	const dispatch = useDispatch();
 	const [deleteBankOrganization] = useDeleteBankOrganizationMutation();
+	const [deleteBankAccount] = useDeleteBankAccountMutation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
-	const confirmBankAccountRemoving = (accountId) => dispatch(removeBankAccount({ bankId: bank._id, accountId }));
+	const confirmBankAccountRemoving = accountId => deleteBankAccount({ bankId: bank._id, accountId });
 	const confirmBankRemoving = () => deleteBankOrganization(bank._id);
 
 	return (
@@ -46,7 +45,7 @@ const BankItem = ({ bank, }) => {
 				</div>
 			</Space>
 			<Space size='middle' direction='horizontal' wrap>
-				{bank.accounts.map( account => <div key={account.id} className={styles.metaContainer}>
+				{bank.accounts.map( account => <div key={account._id} className={styles.metaContainer}>
 					<div className={styles.nameContainer}>
 						<div className={styles.accountName}>
 							{account.name}
@@ -55,7 +54,7 @@ const BankItem = ({ bank, }) => {
 							confirmationPlacement="right"
 							confirmationCancelText={t('common.keep')}
 							confirmationOkText={t('common.remove')}
-							onConfirm={() => confirmBankAccountRemoving(account.id)}
+							onConfirm={() => confirmBankAccountRemoving(account._id)}
 							title={t('common.sureToRemove')}
 							afterActionText={t('bankItem.accountRemoved')}
 						/>

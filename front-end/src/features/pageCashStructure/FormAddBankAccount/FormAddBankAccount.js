@@ -3,19 +3,19 @@ import { DEFAULT_EMPTY_STRING, DEFAULT_ZERO } from 'constants/default-values';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Form, Input, InputNumber, Button, Space, } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from '../FormAddCashCategory/FormAddCashCategory.module.scss';
 import SelectCurrency from '../../selectCurrency/SelectCurrency';
-import { addBankAccount } from '../PageCashStructureSlice';
+import { useAddBankAccountMutation } from '../../../api';
 
 const FormAddBankAccount = ({ bankId }) => {
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 	const [form] = Form.useForm();
 	const formRef = useRef();
-	const dispatch = useDispatch();
 	const { t, } = useTranslation();
+	const [addBankAccount] = useAddBankAccountMutation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const initialValues = {
 		accountName: DEFAULT_EMPTY_STRING,
@@ -23,11 +23,11 @@ const FormAddBankAccount = ({ bankId }) => {
 		currency: baseCurrencyKey
 	};
 	const onFinish = ({ accountName, accountValue, currency }) => {
-		dispatch(addBankAccount({ bankId, account: {
+		addBankAccount({ bankId, account: {
 			name: accountName,
 			value: accountValue,
 			currencyId: currency,
-		} }));
+		} });
 		formRef.current.resetFields(['accountName', 'accountValue']);
 		setIsSaveButtonDisabled(true);
 	};

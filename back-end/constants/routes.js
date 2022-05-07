@@ -7,4 +7,5 @@ module.exports = {
     ROUTE_GET_CASH_STRUCTURE: '/cash-categories',
     ROUTE_CREATE_STATISTICS_RECORD: '/create-statistics-record',
     ROUTE_BANK_ORGANIZATION: '/bank-organization',
+    ROUTE_BANK_ACCOUNT: '/bank-organization/account',
 }
