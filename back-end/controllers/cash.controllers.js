@@ -40,8 +40,7 @@ const getCurrenciesList = (req, response) => response.json({list: currenciesList
 
 const getConversionRates = (req, response) => {
     const conversionRatesCollection = dbo.getDb().collection("conversion_rates")
-    // const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
-    const url = `https://localhost`; // TODO use while dev in sake of preserving requests quota per month
+    const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
     
     return https.get(url, (res) => {
         let data = ''
@@ -51,38 +50,43 @@ const getConversionRates = (req, response) => {
         
         res.on('end', () => {
             const {meta, data: rates} = JSON.parse(data);
-            response.json({
-                rates,
-                isStale: false,
-                timestamp: Date.parse(meta.last_updated_at),
-            });
-            conversionRatesCollection.replaceOne(
-                {},
-                {
-                    rates: rates,/*TODO prevent sql-injection-alike threat*/
-                    isStale: true,
+            
+            if(rates) {
+                response.json({
+                    rates,
+                    isStale: false,
                     timestamp: Date.parse(meta.last_updated_at),
-                },
-                {
-                    upsert: true
-                }
-            )
+                });
+                conversionRatesCollection.replaceOne(
+                    {baseCurrencyKey: { $eq: req.query.base}},
+                    {
+                        baseCurrencyKey: req.query.base,
+                        rates: rates,/*TODO prevent sql-injection-alike threat*/
+                        isStale: true,
+                        timestamp: Date.parse(meta.last_updated_at),
+                    },
+                    {
+                        upsert: true
+                    }
+                )
+            } else {
+                conversionRatesCollection
+                    .findOne({baseCurrencyKey: { $eq: req.query.base}},)
+                    .then(result => {
+                        const {_id, ...params} = result
+            
+                        response.json(params);
+                    })
+            }
             
             console.log('/convert done')
         })
         
     }).on('error', (e) => {
         console.error(e);
-        conversionRatesCollection.findOne()
-            .then(result => {
-                const {_id, ...params} = result
-            
-                response.json(params);
-            }).catch(error => {
-            response
-                .status(404)
-                .json({error})
-        })
+        response
+            .status(404)
+            .json(e)
     });
 }
 
