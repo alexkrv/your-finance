@@ -30,6 +30,7 @@ const PageCashStructure = () => {
 				<Alert
 					message={`${t('cashCategories.staleConversionRates')} ${new Date(timestamp)}`}
 					type="warning"
+					className={styles.alert}
 				/>
 				: null}
 			{isCategoriesStarterFinished ? null : <CashCategoriesStarter/>}
