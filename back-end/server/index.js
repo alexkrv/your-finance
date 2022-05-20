@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require("express");
 const bodyParser = require('body-parser');
+const multer  = require('multer')
 
 const routes = require('../constants/routes')
 const userRoutes = require('../routes/users.routes')
@@ -9,6 +10,16 @@ const cashCategoriesRoutes = require('../routes/cashCategories.routes')
 const banksRoutes = require('../routes/banks.routes')
 const PORT = process.env.PORT || 3001;
 const { connectToServer } = require('../db')
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${file.fieldname}-${req.query.bankId}.${file.originalname.split('.').pop()}`)
+    }
+})
+
+const upload = multer({ storage })
 
 const app = express();
 
@@ -34,6 +45,7 @@ app.post(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);
 app.patch(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);
 app.delete(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);
 app.delete(routes.ROUTE_BANK_ACCOUNT, banksRoutes);
+app.post(routes.ROUTE_BANK_AVATAR, upload.single('avatar'), banksRoutes);
 
 const mockData = [// TODO delete mockData, use real from DB
     {

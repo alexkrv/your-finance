@@ -11,6 +11,7 @@ import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
 import { useDeleteBankAccountMutation, useDeleteBankOrganizationMutation, useGetConversionRatesQuery } from '../../../api';
 import { DEFAULT_ZERO } from '../../../constants/default-values';
+import AvatarWithUpload from '../../../components/AvatarWithUpload/AvatarWithUpload';
 
 import styles from './BankItem.module.scss';
 
@@ -30,7 +31,10 @@ const BankItem = ({ bank, }) => {
 	return (
 		<Card className={styles.card}>
 			<Space size='small' direction='horizontal' className={styles.header}>
-				<Avatar size={{ xs: 24, sm: 28, md: 32, lg: 36, xl: 40, xxl: 44 }}/>
+				<AvatarWithUpload
+					actionUrl={ `/bank-organization/avatar?bankId=${bank._id}` }
+					avatarImg={''/*TODO use back-end response*/}
+				/>
 				<div className={styles.metaContainer}>
 					<div className={styles.bankName}>
 						{bank.name || t('common.unknown')}

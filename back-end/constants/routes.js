@@ -8,4 +8,5 @@ module.exports = {
     ROUTE_CREATE_STATISTICS_RECORD: '/create-statistics-record',
     ROUTE_BANK_ORGANIZATION: '/bank-organization',
     ROUTE_BANK_ACCOUNT: '/bank-organization/account',
+    ROUTE_BANK_AVATAR: '/bank-organization/avatar',
 }

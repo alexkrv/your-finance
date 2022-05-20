@@ -38,6 +38,12 @@ const addBankAccount = (req, res) => {
         )
 }
 
+const addBankOrganizationAvatar = (req, res) => {
+    const bankId = req.query.bankId
+        // TODO create functionality
+    return 'url'
+}
+
 const deleteBankAccount = (req, res) => {
     const accountInfo = {
         accountId: req.body.accountId,
@@ -76,4 +82,5 @@ module.exports = {
     deleteBankOrganization,
     addBankAccount,
     deleteBankAccount,
+    addBankOrganizationAvatar,
 }
