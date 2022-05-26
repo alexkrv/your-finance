@@ -1,5 +1,6 @@
 const dbo = require('../db')
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
 
 const addBankOrganization = (req, res) => {
     const bankId = uuidv4()
@@ -39,9 +40,21 @@ const addBankAccount = (req, res) => {
 }
 
 const addBankOrganizationAvatar = (req, res) => {
-    const bankId = req.query.bankId
-        // TODO create functionality
-    return 'url'
+    const bitmap = fs.readFileSync(req.file.path)
+    const imageBase64 = `data:image/png;base64, ${Buffer.alloc(bitmap.length, bitmap, ).toString('base64')}`
+    
+    return dbo.getDb()
+        .collection('bank_organizations')
+        .updateOne(
+            {_id: { $eq: req.query.bankId}},
+            {
+                $set: {
+                    avatar: imageBase64
+                }
+            }
+        ).then( () =>
+            res.json(imageBase64)
+        )
 }
 
 const deleteBankAccount = (req, res) => {

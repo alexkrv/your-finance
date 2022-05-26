@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Space, Spin } from 'antd';
+import { Space, Spin } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
@@ -11,7 +11,7 @@ import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
 import { useDeleteBankAccountMutation, useDeleteBankOrganizationMutation, useGetConversionRatesQuery } from '../../../api';
 import { DEFAULT_ZERO } from '../../../constants/default-values';
-import AvatarWithUpload from '../../../components/AvatarWithUpload/AvatarWithUpload';
+import UploadButton from '../../../components/UploadButton/UploadButton';
 
 import styles from './BankItem.module.scss';
 
@@ -31,9 +31,9 @@ const BankItem = ({ bank, }) => {
 	return (
 		<Card className={styles.card}>
 			<Space size='small' direction='horizontal' className={styles.header}>
-				<AvatarWithUpload
+				<UploadButton
 					actionUrl={ `/bank-organization/avatar?bankId=${bank._id}` }
-					avatarImg={''/*TODO use back-end response*/}
+					avatar={bank.avatar}
 				/>
 				<div className={styles.metaContainer}>
 					<div className={styles.bankName}>
