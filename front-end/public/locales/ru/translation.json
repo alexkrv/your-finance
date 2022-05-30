@@ -29,7 +29,7 @@
     "remove": "Удалить",
     "keep": "Оставить",
     "sureToRemove": "Удалить запись?",
-    "save": "Save"
+    "save": "Сохранить"
   },
   "description": {
     "part1": "Первое описание",
@@ -80,5 +80,11 @@
     "selectCurrency": "Выберите валюту",
     "errorGetCurrListFailedTitle": "К сожалению, не удалось получить список валют",
     "errorGetCurrListFailedDescription": "Попробуйте позже"
+  },
+  "brokerItem": {
+    "addBroker": "Добавить брокера",
+    "errorBrokerNameRequired": "Имя брокера обязательно",
+    "inputBrokerName": "Введите имя брокера",
+    "brokerAdded": "Брокер добавлен"
   }
 }

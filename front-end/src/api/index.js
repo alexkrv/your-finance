@@ -141,6 +141,18 @@ export const api = createApi({
 				}
 			},
 		}),
+		getBrokersList: builder.query({
+			query: () => apiUrls.API_URL_BROKER,
+			providesTags: ['BrokersList'],
+		}),
+		addBroker: builder.mutation({
+			query: (brokerInfo) => ({
+				url: apiUrls.API_URL_BROKER,
+				method: 'POST',
+				body: brokerInfo,
+			}),
+			invalidatesTags: ['BrokersList'],
+		}),
 	})
 });
 
@@ -158,4 +170,6 @@ export const {
 	useDeleteBankOrganizationMutation,
 	useDeleteBankAccountMutation,
 	useAddBankAccountMutation,
+	useGetBrokersListQuery,
+	useAddBrokerMutation,
 } = api;

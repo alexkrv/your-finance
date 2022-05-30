@@ -9,4 +9,5 @@ module.exports = {
     ROUTE_BANK_ORGANIZATION: '/bank-organization',
     ROUTE_BANK_ACCOUNT: '/bank-organization/account',
     ROUTE_BANK_AVATAR: '/bank-organization/avatar',
+    ROUTE_BROKER: '/broker',
 }

@@ -8,6 +8,7 @@ const routes = require('../constants/routes')
 const userRoutes = require('../routes/users.routes')
 const cashCategoriesRoutes = require('../routes/cashCategories.routes')
 const banksRoutes = require('../routes/banks.routes')
+const brokersRoutes = require('../routes/broker.routes')
 const PORT = process.env.PORT || 3001;
 const { connectToServer } = require('../db')
 const storage = multer.diskStorage({
@@ -46,6 +47,9 @@ app.patch(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);
 app.delete(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);
 app.delete(routes.ROUTE_BANK_ACCOUNT, banksRoutes);
 app.post(routes.ROUTE_BANK_AVATAR, upload.single('avatar'), banksRoutes);
+
+app.get(routes.ROUTE_BROKER, brokersRoutes);
+app.post(routes.ROUTE_BROKER, brokersRoutes);
 
 const mockData = [// TODO delete mockData, use real from DB
     {

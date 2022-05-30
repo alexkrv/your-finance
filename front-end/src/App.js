@@ -17,6 +17,7 @@ import {
 	ROUTE_STATISTICS,
 	ROUTE_REGISTRATION,
 } from './constants/routes';
+import PageInvestment from './features/pageInvestments/PageInvestment';
 
 const App = () => {
 	const theme = useSelector( state => state.theme.value);
@@ -49,7 +50,7 @@ const App = () => {
 							path={ROUTE_INVESTMENTS}
 							element={
 								<RequireAuth>
-									<div>ROUTE_INVESTMENTS</div>
+									<PageInvestment/>
 								</RequireAuth>
 							}
 						/>

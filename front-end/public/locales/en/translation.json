@@ -80,5 +80,11 @@
     "selectCurrency": "Select currency",
     "errorGetCurrListFailedTitle": "Error while currencies list receiving",
     "errorGetCurrListFailedDescription": "Please, try later"
+  },
+  "brokerItem": {
+    "addBroker": "Add Broker",
+    "errorBrokerNameRequired": "Broker's name required",
+    "inputBrokerName": "Input broker's name",
+    "brokerAdded": "Broker added"
   }
 }
