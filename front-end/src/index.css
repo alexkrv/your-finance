@@ -30,6 +30,7 @@ code {
 
 :root {
 	--page-background: #f6f6f6;
+	--block-background: #747474;
 	--text-primary: #282c34;
 	--text-primary-hover: #576072;
 	--text-primary-active: #181b1f;
@@ -47,6 +48,7 @@ code {
 
 [data-theme="dark"] {
 	--page-background: #282c34;
+    --block-background: #34363b;
 	--text-primary: #f6f6f6;
 	--text-primary-hover: #fff;
 	--text-primary-active: #c7c7c7;

@@ -4,6 +4,7 @@ import { CaretRightOutlined } from '@ant-design/icons';
 
 import { useGetBrokersListQuery } from '../../../api';
 import BrokerCollapseHeader from '../BrokerCollapseHeader/BrokerCollapseHeader';
+import BrokerAssetsContainer from '../BrokerAssetsContainer/BrokerAssetsContainer';
 
 import styles from './BrokerItemsWrapper.module.scss';
 
@@ -11,7 +12,7 @@ const BrokerItemsWrapper = () => {
 	const { data } = useGetBrokersListQuery();
 	const onChange = key => console.log(key);
 
-	return <>
+	return <div className={styles.container}>
 		{ data?.length ? <Space size='small' align='start' wrap>
 			<Collapse
 				ghost
@@ -27,12 +28,12 @@ const BrokerItemsWrapper = () => {
 						key={broker._id}
 						header={<BrokerCollapseHeader broker={broker}/>}
 					>
-						<div>FUTURE CONTENT</div>
+						<BrokerAssetsContainer broker={broker}/>
 					</Collapse.Panel>) }
 			</Collapse>
 		</Space>
 			: null}
-	</>;
+	</div>;
 };
 
 export default BrokerItemsWrapper;

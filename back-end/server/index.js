@@ -50,6 +50,7 @@ app.post(routes.ROUTE_BANK_AVATAR, upload.single('avatar'), banksRoutes);
 
 app.get(routes.ROUTE_BROKER, brokersRoutes);
 app.post(routes.ROUTE_BROKER, brokersRoutes);
+app.post(routes.ROUTE_BROKER_ASSETS, brokersRoutes);
 
 const mockData = [// TODO delete mockData, use real from DB
     {

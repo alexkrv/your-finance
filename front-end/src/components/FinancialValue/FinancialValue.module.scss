@@ -4,6 +4,7 @@
 	justify-content: space-between;
 	width: 100%;
 	user-select: none;
+    color: var(--text-primary);
 }
 
 .hiddenValue {
@@ -16,6 +17,7 @@
 .icon {
 	margin-left: 5px;
 	cursor: pointer;
+    color: var(--text-secondary);
 }
 
 .plusSign {

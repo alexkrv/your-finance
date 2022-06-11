@@ -2,38 +2,37 @@ import { DEFAULT_EMPTY_STRING, DEFAULT_ZERO } from 'constants/default-values';
 
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Form, Input, InputNumber, Button, Space, } from 'antd';
+import { Form, InputNumber, Button, Space, } from 'antd';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useAddCashAssetMutation } from 'api';
 
-import styles from '../FormAddCashCategory/FormAddCashCategory.module.scss'; // TODO use appropriate file
-import SelectCurrency from '../../selectCurrency/SelectCurrency';
-import { useAddBankAccountMutation } from '../../../api';
+import SelectCurrency from '../../../../selectCurrency/SelectCurrency';
 
-const FormAddBankAccount = ({ bankId }) => {
+import styles from './FormAddCashAsset.scss';
+
+const FormAddCashAsset = ({ brokerId }) => {
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 	const [form] = Form.useForm();
 	const formRef = useRef();
 	const { t, } = useTranslation();
-	const [addBankAccount] = useAddBankAccountMutation();
+	const [addCashAsset] = useAddCashAssetMutation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const initialValues = {
-		accountName: DEFAULT_EMPTY_STRING,
 		accountValue: DEFAULT_EMPTY_STRING,
 		currency: baseCurrencyKey
 	};
-	const onFinish = ({ accountName, accountValue, currency }) => {
-		addBankAccount({ bankId, account: {
-			name: accountName,
-			value: accountValue,
-			currencyId: currency,
-		} });
-		formRef.current.resetFields(['accountName', 'accountValue']);
+	const onFinish = ({ accountValue, currency }) => {
+		addCashAsset({
+			brokerId,
+			type: 'cash',
+			name: currency,
+			amount: accountValue,
+		});
+		formRef.current.resetFields(['accountValue']);
 		setIsSaveButtonDisabled(true);
 	};
-	const onValuesChange = (changedValues, { accountName, accountValue }) => {
-		setIsSaveButtonDisabled(!Boolean(accountName) || !Boolean(accountValue));
-	};
+	const onValuesChange = (changedValues, { accountValue }) => setIsSaveButtonDisabled(!Boolean(accountValue));
 
 	return (
 		<Form
@@ -46,14 +45,8 @@ const FormAddBankAccount = ({ bankId }) => {
 			className={styles.form}
 			wrapperCol={{ span: 100 }}
 		>
-			<h2 className={styles.caption}>{t('bankItem.addAccount')}</h2>
+			<h2 className={styles.caption}>{t('brokerItem.addBrokerAssetCash')}</h2>
 			<Space size='small' align='start' direction='vertical' className={styles.inputControls}>
-				<Form.Item
-					name="accountName"
-					className={styles.inputControl}
-				>
-					<Input placeholder={t('bankItem.inputAccountName')}/>
-				</Form.Item>
 				<Form.Item
 					name="accountValue"
 					className={styles.inputControl}
@@ -62,7 +55,7 @@ const FormAddBankAccount = ({ bankId }) => {
 						style={{ width: '100%' }}
 						min={DEFAULT_ZERO}
 						max={Number.POSITIVE_INFINITY}
-						placeholder={t('bankItem.inputAccountValue')}
+						placeholder={t('brokerItem.inputCashValue')}
 					/>
 				</Form.Item>
 				<Form.Item
@@ -81,8 +74,8 @@ const FormAddBankAccount = ({ bankId }) => {
 	);
 };
 
-FormAddBankAccount.propTypes = {
-	bankId: PropTypes.string.isRequired
+FormAddCashAsset.propTypes = {
+	brokerId: PropTypes.string.isRequired
 };
 
-export default FormAddBankAccount;
+export default FormAddCashAsset;

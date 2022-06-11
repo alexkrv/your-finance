@@ -40,7 +40,7 @@ const getCurrenciesList = (req, response) => response.json({list: currenciesList
 
 const getConversionRates = (req, response) => {
     const conversionRatesCollection = dbo.getDb().collection("conversion_rates")
-    const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
+    const url = `https://123api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
     
     return https.get(url, (res) => {
         let data = ''
@@ -84,9 +84,13 @@ const getConversionRates = (req, response) => {
         
     }).on('error', (e) => {
         console.error(e);
-        response
-            .status(404)
-            .json(e)
+        conversionRatesCollection // TODO deal with duplication
+            .findOne({baseCurrencyKey: { $eq: req.query.base}},)
+            .then(result => {
+                const {_id, ...params} = result
+            
+                response.json(params);
+            })
     });
 }
 

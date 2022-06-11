@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get(routes.ROUTE_BROKER, brokerControllers.getBrokers);
 router.post(routes.ROUTE_BROKER, brokerControllers.addBroker);
+router.post(routes.ROUTE_BROKER_ASSETS, brokerControllers.addBrokerAsset);
 
 module.exports = router
 

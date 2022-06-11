@@ -1,3 +1,9 @@
+.container {
+    background-color: var(--block-background);
+    border-radius: 4px;
+    padding: 20px;
+}
+
 .collapseContainer {
 	background: transparent;
 	border: 1px solid var(--border-primary);

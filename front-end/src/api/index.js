@@ -153,6 +153,14 @@ export const api = createApi({
 			}),
 			invalidatesTags: ['BrokersList'],
 		}),
+		addCashAsset: builder.mutation({
+			query: (brokerAssetsInfo) => ({
+				url: `${apiUrls.API_URL_BROKER}/assets`,
+				method: 'POST',
+				body: brokerAssetsInfo,
+			}),
+			invalidatesTags: ['BrokerAssetsList'],
+		}),
 	})
 });
 
@@ -172,4 +180,5 @@ export const {
 	useAddBankAccountMutation,
 	useGetBrokersListQuery,
 	useAddBrokerMutation,
+	useAddCashAssetMutation,
 } = api;
