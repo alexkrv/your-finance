@@ -159,7 +159,15 @@ export const api = createApi({
 				method: 'POST',
 				body: brokerAssetsInfo,
 			}),
-			invalidatesTags: ['BrokerAssetsList'],
+			invalidatesTags: ['BrokersList'],
+		}),
+		removeCashAsset: builder.mutation({
+			query: (brokerAssetsInfo) => ({
+				url: `${apiUrls.API_URL_BROKER}/assets`,
+				method: 'DELETE',
+				body: brokerAssetsInfo,
+			}),
+			invalidatesTags: ['BrokersList'],
 		}),
 	})
 });
@@ -181,4 +189,5 @@ export const {
 	useGetBrokersListQuery,
 	useAddBrokerMutation,
 	useAddCashAssetMutation,
+	useRemoveCashAssetMutation,
 } = api;

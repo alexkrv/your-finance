@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
+import { useRemoveCashAssetMutation } from 'api';
 
 import styles from './CashAssets.module.scss';
 
@@ -12,14 +13,14 @@ import FormAddCashAsset from './FormAddCashAsset/FormAddCashAsset';
 
 const CashAssets = ({ broker }) => {
 	const { t } = useTranslation();
-	const assets = broker.cash;
-	const confirmCashRemoving = currencyId => {};//deleteBankAccount({ bankId: bank._id, accountId });
+	const [removeCashAsset] = useRemoveCashAssetMutation();
+	const confirmCashRemoving = currencyId => removeCashAsset({ brokerId: broker._id, name: currencyId, type: 'cash' });
 
 	return (
 		<Space direction='vertical'>
 			<Space size='large'>
 				<span className={styles.assetCaption}>{t('brokerItem.cash')}:</span>
-				{assets?.map(cash => <Space key={cash._id}>
+				{broker?.cash?.map(cash => <Space key={cash._id}>
 					<FinancialValue value={cash.amount} currencyId={cash._id}/>
 					<ButtonDeleteItem
 						confirmationPlacement="right"

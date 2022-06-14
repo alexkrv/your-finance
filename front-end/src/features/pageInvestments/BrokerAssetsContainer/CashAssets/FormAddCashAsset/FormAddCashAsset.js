@@ -9,7 +9,7 @@ import { useAddCashAssetMutation } from 'api';
 
 import SelectCurrency from '../../../../selectCurrency/SelectCurrency';
 
-import styles from './FormAddCashAsset.scss';
+import styles from './FormAddCashAsset.module.scss';
 
 const FormAddCashAsset = ({ brokerId }) => {
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);

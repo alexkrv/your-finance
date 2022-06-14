@@ -37,8 +37,8 @@ const addBrokerAsset = async(req, res) => {
         _id: req.body.name,
         amount: req.body.amount,
     }
-    const test = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
-    const updated = test[req.body.type].filter(asset => asset._id !== req.body.name)
+    const asset = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
+    const updated = asset[req.body.type].filter(asset => asset._id !== req.body.name)
     
     updated.push(assetInfo)
     
@@ -51,8 +51,24 @@ const addBrokerAsset = async(req, res) => {
     res.json(result)
 }
 
+const deleteBrokerAsset = async(req, res) => {
+    const brokers = dbo.getDb().collection('brokers')
+    
+    const asset = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
+    const updated = asset[req.body.type].filter(asset => asset._id !== req.body.name) // TODO figure out how to do it other way
+    
+    const result = await brokers.updateOne(
+        { _id: { $eq: req.body.brokerId} },
+        {
+            $set: {[req.body.type]: updated}
+        })
+    
+    res.json(result);
+}
+
 module.exports = {
     getBrokers,
     addBroker,
     addBrokerAsset,
+    deleteBrokerAsset,
 }
