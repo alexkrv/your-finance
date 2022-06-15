@@ -5,6 +5,7 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import { useGetBrokersListQuery } from '../../../api';
 import BrokerCollapseHeader from '../BrokerCollapseHeader/BrokerCollapseHeader';
 import BrokerAssetsContainer from '../BrokerAssetsContainer/BrokerAssetsContainer';
+import { DEFAULT_ZERO } from '../../../constants/default-values';
 
 import styles from './BrokerItemsWrapper.module.scss';
 
@@ -16,10 +17,10 @@ const BrokerItemsWrapper = () => {
 		{ data?.length ? <Space size='small' align='start' wrap>
 			<Collapse
 				ghost
-				defaultActiveKey={['1']}
+				defaultActiveKey={[data?.[DEFAULT_ZERO]._id]}
 				onChange={onChange}
 				expandIcon={({ isActive }) => <div className={styles.iconContainer}>
-					<CaretRightOutlined rotate={isActive ? 90 : 0} />
+					<CaretRightOutlined rotate={isActive ? 90 : 0} className={styles.caret}/>
 				</div>}
 				className={styles.collapseContainer}
 			>

@@ -18,19 +18,21 @@ const CashAssets = ({ broker }) => {
 
 	return (
 		<Space direction='vertical'>
-			<Space size='large'>
+			<Space size='large' align='start'>
 				<span className={styles.assetCaption}>{t('brokerItem.cash')}:</span>
-				{broker?.cash?.map(cash => <Space key={cash._id}>
-					<FinancialValue value={cash.amount} currencyId={cash._id}/>
-					<ButtonDeleteItem
-						confirmationPlacement="right"
-						confirmationCancelText={t('common.keep')}
-						confirmationOkText={t('common.remove')}
-						onConfirm={() => confirmCashRemoving(cash._id)}
-						title={t('common.sureToRemove')}
-						afterActionText={t('brokerItem.cashRemoved').replace(' ', ` ${cash._id} `)}
-					/>
-				</Space>)}
+				<Space wrap>
+					{broker?.cash?.map(cash => <Space key={cash._id} size='small' className={styles.cashAsset}>
+						<FinancialValue value={cash.amount} currencyId={cash._id}/>
+						<ButtonDeleteItem
+							confirmationPlacement="right"
+							confirmationCancelText={t('common.keep')}
+							confirmationOkText={t('common.remove')}
+							onConfirm={() => confirmCashRemoving(cash._id)}
+							title={t('common.sureToRemove')}
+							afterActionText={t('brokerItem.cashRemoved').replace(' ', ` ${cash._id} `)}
+						/>
+					</Space>)}
+				</Space>
 			</Space>
 			<ButtonAddItem
 				size='medium'

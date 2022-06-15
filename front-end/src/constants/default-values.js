@@ -1,5 +1,6 @@
 export const DEFAULT_EMPTY_STRING = '';
 export const DEFAULT_ZERO = 0;
+export const DEFAULT_ONE = 0;
 
 export const LANG_RU = 'ru';
 export const LANG_EN = 'en';
