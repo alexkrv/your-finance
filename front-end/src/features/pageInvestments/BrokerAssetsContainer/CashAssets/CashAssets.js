@@ -7,6 +7,8 @@ import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { useRemoveBrokerAssetMutation } from 'api';
 
+import AssetName from '../InvestmentAsset/AssetName/AssetName';
+
 import styles from './CashAssets.module.scss';
 
 import FormAddCashAsset from './FormAddCashAsset/FormAddCashAsset';
@@ -20,7 +22,7 @@ const CashAssets = ({ broker }) => {
 	return (
 		<Space direction='vertical'>
 			<Space size='large' align='start'>
-				<span className={styles.assetCaption}>{t('brokerItem.cash')}:</span>
+				<AssetName assetName={t('brokerItem.cash')}/>
 				<Space wrap>
 					{cashKeys.map(cashKey => <Space key={cashKey} size='small' className={styles.cashAsset}>
 						<FinancialValue value={broker.assets.cash[cashKey]} currencyId={cashKey}/>
