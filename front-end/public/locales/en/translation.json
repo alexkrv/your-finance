@@ -89,6 +89,8 @@
     "cashRemoved": "Cash removed",
     "cash": "Cash",
     "addBrokerAssetCash": "Add cash",
-    "inputCashValue": "Input value"
+    "inputCashValue": "Input value",
+    "stocksCaption": "Stocks",
+    "fundsCaption": "Funds"
   }
 }

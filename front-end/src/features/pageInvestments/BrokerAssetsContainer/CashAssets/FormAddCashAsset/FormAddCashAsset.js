@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Form, InputNumber, Button, Space, } from 'antd';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useAddCashAssetMutation } from 'api';
+import { useAddBrokerAssetMutation } from 'api';
 
 import SelectCurrency from '../../../../selectCurrency/SelectCurrency';
 
@@ -16,14 +16,14 @@ const FormAddCashAsset = ({ brokerId }) => {
 	const [form] = Form.useForm();
 	const formRef = useRef();
 	const { t, } = useTranslation();
-	const [addCashAsset] = useAddCashAssetMutation();
+	const [addBrokerAsset] = useAddBrokerAssetMutation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const initialValues = {
 		accountValue: DEFAULT_EMPTY_STRING,
 		currency: baseCurrencyKey
 	};
 	const onFinish = ({ accountValue, currency }) => {
-		addCashAsset({
+		addBrokerAsset({
 			brokerId,
 			type: 'cash',
 			name: currency,

@@ -7,7 +7,11 @@
 .collapseContainer {
     width: 500px;
 	background: transparent;
-	border: 1px solid var(--border-primary);
+}
+
+.collapsePanel {
+	background: transparent;
+	border: 1px solid var(--border-primary) !important;// TODO deal with ghost-mode when border-bottom is 0
 }
 
 .iconContainer {

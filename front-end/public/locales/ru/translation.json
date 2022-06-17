@@ -89,6 +89,8 @@
     "cashRemoved": "Валюта удалена",
     "cash": "Валюта",
     "addBrokerAssetCash": "Добавить валюту",
-    "inputCashValue": "Введите значение"
+    "inputCashValue": "Введите значение",
+    "stocksCaption": "Акции",
+    "fundsCaption": "Фонды"
   }
 }

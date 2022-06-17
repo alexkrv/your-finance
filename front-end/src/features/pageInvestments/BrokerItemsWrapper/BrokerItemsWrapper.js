@@ -28,6 +28,7 @@ const BrokerItemsWrapper = () => {
 					<Collapse.Panel
 						key={broker._id}
 						header={<BrokerCollapseHeader broker={broker}/>}
+						className={styles.collapsePanel}
 					>
 						<BrokerAssetsContainer broker={broker}/>
 					</Collapse.Panel>) }

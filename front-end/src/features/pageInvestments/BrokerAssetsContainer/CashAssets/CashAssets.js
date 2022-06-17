@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
-import { useRemoveCashAssetMutation } from 'api';
+import { useRemoveBrokerAssetMutation } from 'api';
 
 import styles from './CashAssets.module.scss';
 
@@ -13,23 +13,24 @@ import FormAddCashAsset from './FormAddCashAsset/FormAddCashAsset';
 
 const CashAssets = ({ broker }) => {
 	const { t } = useTranslation();
-	const [removeCashAsset] = useRemoveCashAssetMutation();
-	const confirmCashRemoving = currencyId => removeCashAsset({ brokerId: broker._id, name: currencyId, type: 'cash' });
+	const [removeBrokerAsset] = useRemoveBrokerAssetMutation();
+	const confirmCashRemoving = currencyId => removeBrokerAsset({ brokerId: broker._id, name: currencyId, type: 'cash' });
+	const cashKeys = broker?.assets?.cash ? Object.keys(broker?.assets?.cash) : [];
 
 	return (
 		<Space direction='vertical'>
 			<Space size='large' align='start'>
 				<span className={styles.assetCaption}>{t('brokerItem.cash')}:</span>
 				<Space wrap>
-					{broker?.cash?.map(cash => <Space key={cash._id} size='small' className={styles.cashAsset}>
-						<FinancialValue value={cash.amount} currencyId={cash._id}/>
+					{cashKeys.map(cashKey => <Space key={cashKey} size='small' className={styles.cashAsset}>
+						<FinancialValue value={broker.assets.cash[cashKey]} currencyId={cashKey}/>
 						<ButtonDeleteItem
 							confirmationPlacement="right"
 							confirmationCancelText={t('common.keep')}
 							confirmationOkText={t('common.remove')}
-							onConfirm={() => confirmCashRemoving(cash._id)}
+							onConfirm={() => confirmCashRemoving(cashKey)}
 							title={t('common.sureToRemove')}
-							afterActionText={t('brokerItem.cashRemoved').replace(' ', ` ${cash._id} `)}
+							afterActionText={t('brokerItem.cashRemoved').replace(' ', ` ${cashKey} `)}
 						/>
 					</Space>)}
 				</Space>
@@ -44,7 +45,7 @@ const CashAssets = ({ broker }) => {
 };
 
 CashAssets.propTypes = {
-
+	broker: PropTypes.object.isRequired// TODO shape
 };
 
 export default CashAssets;

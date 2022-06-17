@@ -12,17 +12,19 @@ const addBroker = (req, res) => {
     const brokerInfo = {
         _id: uuidv4(),
         name: req.body.name/*TODO prevent sql-injection-alike threat*/,
-        cash: [
-            {_id: 'RUB', amount: 1000},
-            {_id: 'USD', amount: 1000},
-        ],
-        funds: [
-            {_id: 'ETF', amount: 1},
-            {_id: 'ETF', amount: 2},
-        ],
-        stocks: [
-            {_id: 'APPH', amount: 1},
-        ]
+        assets: { // TODO delete mock later
+            cash: {
+                'RUB': 1000,
+                'USD': 100
+            },
+            funds: {
+                'ETF': {amount: 1000, pricePerItem: 2454, currencyId: 'RUB' },
+                'FTE': {amount: 100, pricePerItem: 1, currencyId: 'EUR' }
+            },
+            stocks: {
+                'APPH': { amount: 1, pricePerItem: 2.23, currencyId: 'USD' }
+            },
+        }
     }
     
     return dbo.getDb()
@@ -33,19 +35,15 @@ const addBroker = (req, res) => {
 
 const addBrokerAsset = async(req, res) => {
     const brokers = dbo.getDb().collection('brokers')
-    const assetInfo = {
-        _id: req.body.name,
-        amount: req.body.amount,
-    }
-    const asset = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
-    const updated = asset[req.body.type].filter(asset => asset._id !== req.body.name)
-    
-    updated.push(assetInfo)
+    const broker = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
+    broker.assets[req.body.type][req.body.name] = req.body.amount
     
     const result = await brokers.updateOne(
         { _id: { $eq: req.body.brokerId} },
         {
-            $set: {[req.body.type]: updated} // TODO figure out how to do it other way
+            $set: {
+                assets: broker.assets // TODO figure out how to do it other way
+            }
         })
     
     res.json(result)
@@ -54,13 +52,18 @@ const addBrokerAsset = async(req, res) => {
 const deleteBrokerAsset = async(req, res) => {
     const brokers = dbo.getDb().collection('brokers')
     
-    const asset = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
-    const updated = asset[req.body.type].filter(asset => asset._id !== req.body.name) // TODO figure out how to do it other way
+    const broker = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
+    const updated = broker.assets[req.body.type][req.body.name] = {} // TODO figure out how to do it other way
     
     const result = await brokers.updateOne(
         { _id: { $eq: req.body.brokerId} },
         {
-            $set: {[req.body.type]: updated}
+            $set: {
+                assets: {
+                    ...broker.assets,
+                    [req.body.type]: updated
+                } // TODO figure out how to do it other way
+            }
         })
     
     res.json(result);
