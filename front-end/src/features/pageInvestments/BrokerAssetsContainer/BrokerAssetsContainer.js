@@ -7,17 +7,12 @@ import { Collapse } from 'antd';
 import styles from './BrokerAssetsContainer.module.scss';
 
 import CashAssets from './CashAssets/CashAssets';
-import InvestmentAsset from './InvestmentAsset/InvestmentAsset';
 import AssetName from './InvestmentAsset/AssetName/AssetName';
+import StockAssets from './StockAssets/StockAssets';
 
 const BrokerAssetsContainer = ({ broker }) => {
 	const { t } = useTranslation();
 	const onChange = () => {};
-	const assetsKey = Object.keys(broker.assets).filter(assetKey => assetKey !== 'cash');
-	const assetNames = {
-		'stocks': t('brokerItem.stocksCaption'),
-		'funds': t('brokerItem.fundsCaption'),
-	};
 
 	return (
 		<div>
@@ -30,17 +25,13 @@ const BrokerAssetsContainer = ({ broker }) => {
 				</div>}
 				className={styles.collapseContainer}
 			>
-				{assetsKey.map(assetKey =>
-					<Collapse.Panel
-						key={assetKey}
-						header={<AssetName assetName={assetNames[assetKey]}/>}
-						className={styles.collapsePanel}
-					>
-						<InvestmentAsset
-							brokerId={broker._id}
-							assets={broker.assets[assetKey]}
-						/>
-					</Collapse.Panel>)}
+				<Collapse.Panel
+					key={'stocks'}
+					header={<AssetName assetName={t('brokerItem.stocksCaption')}/>}
+					className={styles.collapsePanel}
+				>
+					<StockAssets broker={broker}/>
+				</Collapse.Panel>
 			</Collapse>
 		</div>
 	);

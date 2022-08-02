@@ -5,13 +5,14 @@ import { Space, } from 'antd';
 
 import { FinancialValue } from '../../../../components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from '../../../../components/ButtonDeleteItem/ButtonDeleteItem';
+import ButtonAddItem from '../../../../components/ButtonAddItem/ButtonAddItem';
 
 import styles from './InvestmentAsset.module.scss';
 
-const InvestmentAsset = ({ brokerId, assets }) => {
+const InvestmentAsset = ({ brokerId, asset, buttonAddAssetText, addAssetForm }) => {
 	const { t, } = useTranslation();
 	const confirm = () => {/*TODO*/};
-	const assetKeys = Object.keys(assets);
+	const assetKeys = Object.keys(asset);
 
 	return (
 		<div className={styles.container}>
@@ -31,12 +32,17 @@ const InvestmentAsset = ({ brokerId, assets }) => {
 					/>
 				</Space>
 				<Space size="small" className={styles.assetAmount}>
-					<FinancialValue value={assets[assetKey].amount} />
+					<FinancialValue value={asset[assetKey].amount} />
 				</Space>
 				<Space size="small">
-					<FinancialValue currencyId={assets[assetKey].currencyId} value={assets[assetKey].amount * assets[assetKey].pricePerItem}/>
+					<FinancialValue currencyId={asset[assetKey].currencyId} value={asset[assetKey].amount * asset[assetKey].pricePerItem}/>
 				</Space>
 			</Space>)}
+			<ButtonAddItem
+				size='medium'
+				text={buttonAddAssetText}
+				addItemFormElement={addAssetForm}
+			/>
 		</div>
 	);
 };
