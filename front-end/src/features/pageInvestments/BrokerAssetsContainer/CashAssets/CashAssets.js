@@ -11,7 +11,7 @@ import AssetName from '../InvestmentAsset/AssetName/AssetName';
 
 import styles from './CashAssets.module.scss';
 
-import FormAddCashAsset from './FormAddCashAsset/FormAddCashAsset';
+import FormAddCashAsset from './FormAddCashAsset';
 
 const CashAssets = ({ broker }) => {
 	const { t } = useTranslation();
