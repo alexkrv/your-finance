@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
+
 import './i18n';
 import { Skeleton } from 'antd';
 

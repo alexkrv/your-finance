@@ -9,6 +9,7 @@ import styles from './BrokerAssetsContainer.module.scss';
 import CashAssets from './CashAssets/CashAssets';
 import AssetName from './InvestmentAsset/AssetName/AssetName';
 import StockAssets from './StockAssets/StockAssets';
+import FundAssets from './FundAssets/FundAssets';
 
 const BrokerAssetsContainer = ({ broker }) => {
 	const { t } = useTranslation();
@@ -31,6 +32,13 @@ const BrokerAssetsContainer = ({ broker }) => {
 					className={styles.collapsePanel}
 				>
 					<StockAssets broker={broker}/>
+				</Collapse.Panel>
+				<Collapse.Panel
+					key={'funds'}
+					header={<AssetName assetName={t('brokerItem.fundsCaption')}/>}
+					className={styles.collapsePanel}
+				>
+					<FundAssets broker={broker}/>
 				</Collapse.Panel>
 			</Collapse>
 		</div>

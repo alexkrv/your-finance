@@ -93,6 +93,9 @@
     "addBrokerStockAsset": "Add stock",
     "inputCashValue": "Input value",
     "stocksCaption": "Stocks",
-    "fundsCaption": "Funds"
+    "fundsCaption": "Funds",
+    "inputAssetAmount": "Input amount",
+    "inputAssetPricePerUnit": "Input price per unit",
+    "inputAssetName": "Input asset name"
   }
 }

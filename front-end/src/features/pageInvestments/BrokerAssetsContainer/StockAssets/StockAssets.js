@@ -14,7 +14,7 @@ const StockAssets = ({ broker }) => {
 			brokerId={broker._id}
 			asset={broker.assets['stocks']}
 			buttonAddAssetText={t('brokerItem.addBrokerStockAsset')}
-			addAssetForm={<FormAddStockAsset brokerId={broker._id}/>}
+			addAssetForm={<FormAddStockAsset broker={broker}/>}
 		/>
 	);
 };

@@ -93,6 +93,9 @@
     "addBrokerStockAsset": "Добавить акцию",
     "inputCashValue": "Введите значение",
     "stocksCaption": "Акции",
-    "fundsCaption": "Фонды"
+    "fundsCaption": "Фонды",
+    "inputAssetAmount": "Введите количество",
+    "inputAssetPricePerUnit": "Введите цену за единицу",
+    "inputAssetName": "Введите название инструмента"
   }
 }
