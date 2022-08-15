@@ -68,7 +68,7 @@ const FormAddAsset = ({
 					/>
 				</Form.Item>
 				{isPricePerUnitRequired && <Form.Item
-					name="assetPricePerUnit"
+					name="purchasePricePerUnit"
 					className={styles.inputControl}
 				>
 					<InputNumber

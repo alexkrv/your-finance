@@ -36,7 +36,18 @@ const addBroker = (req, res) => {
 const addBrokerAsset = async(req, res) => {
     const brokers = dbo.getDb().collection('brokers')
     const broker = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
-    broker.assets[req.body.type][req.body.name] = req.body.amount
+    
+    if(!broker.assets[req.body.type]) {
+        broker.assets[req.body.type] = {} // TODO refactor that
+    }
+    
+    broker.assets[req.body.type][req.body.name] = req.body.type === 'cash' ?
+        req.body.amount
+        : {
+            amount: req.body.amount,
+            purchasePricePerUnit: req.body.purchasePricePerUnit,
+            currency: req.body.currency,
+        }
     
     const result = await brokers.updateOne(
         { _id: { $eq: req.body.brokerId} },

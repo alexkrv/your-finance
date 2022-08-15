@@ -11,7 +11,7 @@ const FormAddStockAsset = ({ broker }) => {
 	const submitHandler = data => {
 		addBrokerAsset({
 			brokerId: broker._id,
-			type: 'stock',
+			type: 'stocks', // TODO move to constants
 			name: data.assetName,
 			amount: data.assetAmount,
 			currency: data.assetCurrency,

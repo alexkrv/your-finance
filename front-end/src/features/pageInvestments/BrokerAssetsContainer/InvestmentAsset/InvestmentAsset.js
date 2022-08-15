@@ -9,7 +9,7 @@ import ButtonAddItem from '../../../../components/ButtonAddItem/ButtonAddItem';
 
 import styles from './InvestmentAsset.module.scss';
 
-const InvestmentAsset = ({ brokerId, asset, buttonAddAssetText, addAssetForm }) => {
+const InvestmentAsset = ({ brokerId, asset = [], buttonAddAssetText, addAssetForm }) => {
 	const { t, } = useTranslation();
 	const confirm = () => {/*TODO*/};
 	const assetKeys = Object.keys(asset);
@@ -35,7 +35,7 @@ const InvestmentAsset = ({ brokerId, asset, buttonAddAssetText, addAssetForm }) 
 					<FinancialValue value={asset[assetKey].amount} />
 				</Space>
 				<Space size="small">
-					<FinancialValue currencyId={asset[assetKey].currencyId} value={asset[assetKey].amount * asset[assetKey].pricePerItem}/>
+					<FinancialValue currencyId={asset[assetKey].currency} value={asset[assetKey].amount * asset[assetKey].purchasePricePerUnit}/>
 				</Space>
 			</Space>)}
 			<ButtonAddItem
