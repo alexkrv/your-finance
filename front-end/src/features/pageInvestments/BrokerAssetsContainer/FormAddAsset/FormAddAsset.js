@@ -24,7 +24,7 @@ const FormAddAsset = ({
 		assetName: DEFAULT_EMPTY_STRING,
 		assetAmount: DEFAULT_EMPTY_STRING,
 		assetCurrency: baseCurrencyKey,
-		pricePerUnit: DEFAULT_ZERO
+		purchasePricePerUnit: DEFAULT_ZERO
 	};
 	const onFinish = data => {
 		submitHandler(data);
@@ -75,7 +75,7 @@ const FormAddAsset = ({
 						style={{ width: '100%' }}
 						min={DEFAULT_ZERO}
 						max={Number.POSITIVE_INFINITY}
-						placeholder={t('brokerItem.inputAssetPricePerUnit')}
+						placeholder={t('brokerItem.inputAssetPurchasePricePerUnit')}
 					/>
 				</Form.Item>}
 				<Form.Item

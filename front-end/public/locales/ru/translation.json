@@ -95,7 +95,7 @@
     "stocksCaption": "Акции",
     "fundsCaption": "Фонды",
     "inputAssetAmount": "Введите количество",
-    "inputAssetPricePerUnit": "Введите цену за единицу",
+    "inputAssetPurchasePricePerUnit": "Введите цену покупки за единицу",
     "inputAssetName": "Введите название инструмента"
   }
 }

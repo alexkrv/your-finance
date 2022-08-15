@@ -95,7 +95,7 @@
     "stocksCaption": "Stocks",
     "fundsCaption": "Funds",
     "inputAssetAmount": "Input amount",
-    "inputAssetPricePerUnit": "Input price per unit",
+    "inputAssetPurchasePricePerUnit": "Input purchase price per unit",
     "inputAssetName": "Input asset name"
   }
 }

@@ -51,9 +51,9 @@ const addBrokerAsset = async(req, res) => {
 
 const deleteBrokerAsset = async(req, res) => {
     const brokers = dbo.getDb().collection('brokers')
-    
     const broker = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
-    const updated = broker.assets[req.body.type][req.body.name] = {} // TODO figure out how to do it other way
+    
+    delete broker.assets[req.body.type][req.body.name] // TODO figure out how to do it other way
     
     const result = await brokers.updateOne(
         { _id: { $eq: req.body.brokerId} },
@@ -61,7 +61,6 @@ const deleteBrokerAsset = async(req, res) => {
             $set: {
                 assets: {
                     ...broker.assets,
-                    [req.body.type]: updated
                 } // TODO figure out how to do it other way
             }
         })

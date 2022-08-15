@@ -15,7 +15,7 @@ const FormAddFundAsset = ({ broker }) => {
 			name: data.assetName,
 			amount: data.assetAmount,
 			currency: data.assetCurrency,
-			pricePerUnit: data.pricePerUnit,
+			purchasePricePerUnit: data.purchasePricePerUnit,
 		});
 	};
 
