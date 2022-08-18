@@ -4,16 +4,19 @@ import { useTranslation } from 'react-i18next';
 
 import { useAddBrokerAssetMutation } from '../../../../api';
 import FormAddAsset from '../FormAddAsset/FormAddAsset';
+import { DEFAULT_ONE } from '../../../../constants/default-values';
 
 const FormAddCashAsset = ({ brokerId }) => {
 	const { t } = useTranslation();
 	const [addBrokerAsset] = useAddBrokerAssetMutation();
-	const submitHandler = ({ assetAmount, assetCurrency }) => {
+	const submitHandler = ({ assetAmount, assetCurrency, assetName, purchasePricePerUnit }) => {
 		addBrokerAsset({
 			brokerId,
 			type: 'cash',
-			name: assetCurrency,
+			currency: assetCurrency,
+			name: assetName,
 			amount: assetAmount,
+			purchasePricePerUnit: assetCurrency === assetName ? DEFAULT_ONE : purchasePricePerUnit
 		});
 	};
 

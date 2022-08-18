@@ -11,9 +11,7 @@ import styles from './FormAddAsset.module.scss';
 
 const FormAddAsset = ({
 	addAssetCaption,
-	isAssetNameRequired,
 	submitHandler,
-	isPricePerUnitRequired,
 }) => {
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 	const [form] = Form.useForm();
@@ -50,12 +48,12 @@ const FormAddAsset = ({
 				{addAssetCaption}
 			</Typography.Title>
 			<Space size='small' align='start' direction='vertical' className={styles.inputControls}>
-				{isAssetNameRequired && <Form.Item
+				<Form.Item
 					name="assetName"
 					className={styles.inputControl}
 				>
 					<Input placeholder={t('brokerItem.inputAssetName')}/>
-				</Form.Item>}
+				</Form.Item>
 				<Form.Item
 					name="assetAmount"
 					className={styles.inputControl}
@@ -67,7 +65,7 @@ const FormAddAsset = ({
 						placeholder={t('brokerItem.inputAssetAmount')}
 					/>
 				</Form.Item>
-				{isPricePerUnitRequired && <Form.Item
+				<Form.Item
 					name="purchasePricePerUnit"
 					className={styles.inputControl}
 				>
@@ -77,7 +75,7 @@ const FormAddAsset = ({
 						max={Number.POSITIVE_INFINITY}
 						placeholder={t('brokerItem.inputAssetPurchasePricePerUnit')}
 					/>
-				</Form.Item>}
+				</Form.Item>
 				<Form.Item
 					name="assetCurrency"
 					className={styles.inputControl}

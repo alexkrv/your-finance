@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Space } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,7 @@ import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { useRemoveBrokerAssetMutation } from 'api';
 
 import AssetName from '../InvestmentAsset/AssetName/AssetName';
+import { DEFAULT_ZERO } from '../../../../constants/default-values';
 
 import styles from './CashAssets.module.scss';
 
@@ -17,15 +18,23 @@ const CashAssets = ({ broker }) => {
 	const { t } = useTranslation();
 	const [removeBrokerAsset] = useRemoveBrokerAssetMutation();
 	const confirmCashRemoving = currencyId => removeBrokerAsset({ brokerId: broker._id, name: currencyId, type: 'cash' });
-	const cashKeys = broker?.assets?.cash ? Object.keys(broker?.assets?.cash) : [];
+	const processCash = cashAsset => {
+		const cashNames = cashAsset ? Object.keys(cashAsset) : [];
+
+		return cashNames.reduce((acc, cashName) => ({
+			...acc,
+			[cashName]: broker.assets.cash[cashName].reduce((riceSum, cashRecord) => riceSum + cashRecord.amount, DEFAULT_ZERO)
+		}), {});
+	};
+	const cashWithAmounts = useMemo( () => processCash(broker?.assets?.cash), [broker?.assets?.cash]);
 
 	return (
 		<Space direction='vertical'>
 			<Space size='large' align='start'>
 				<AssetName assetName={t('brokerItem.cash')}/>
 				<Space wrap>
-					{cashKeys.map(cashKey => <Space key={cashKey} size='small' className={styles.cashAsset}>
-						<FinancialValue value={broker.assets.cash[cashKey]} currencyId={cashKey}/>
+					{Object.keys(cashWithAmounts).map(cashKey => <Space key={cashKey} size='small' className={styles.cashAsset}>
+						<FinancialValue value={cashWithAmounts[cashKey]} currencyId={cashKey}/>
 						<ButtonDeleteItem
 							confirmationPlacement="right"
 							confirmationCancelText={t('common.keep')}

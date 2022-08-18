@@ -22,8 +22,6 @@ const FormAddStockAsset = ({ broker }) => {
 	return (
 		<FormAddAsset
 			brokerId={broker._id}
-			isPricePerUnitRequired={true}
-			isAssetNameRequired={true}
 			assetType='stocks'
 			addAssetCaption={t('brokerItem.addBrokerStockAsset')}
 			submitHandler={submitHandler}

@@ -12,18 +12,10 @@ const addBroker = (req, res) => {
     const brokerInfo = {
         _id: uuidv4(),
         name: req.body.name/*TODO prevent sql-injection-alike threat*/,
-        assets: { // TODO delete mock later
-            cash: {
-                'RUB': 1000,
-                'USD': 100
-            },
-            funds: {
-                'ETF': {amount: 1000, pricePerItem: 2454, currencyId: 'RUB' },
-                'FTE': {amount: 100, pricePerItem: 1, currencyId: 'EUR' }
-            },
-            stocks: {
-                'APPH': { amount: 1, pricePerItem: 2.23, currencyId: 'USD' }
-            },
+        assets: {
+            cash: {},
+            funds: {},
+            stocks: {},
         }
     }
     
@@ -37,17 +29,15 @@ const addBrokerAsset = async(req, res) => {
     const brokers = dbo.getDb().collection('brokers')
     const broker = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
     
-    if(!broker.assets[req.body.type]) {
-        broker.assets[req.body.type] = {} // TODO refactor that
+    if(!broker.assets[req.body.type][req.body.name]) {
+        broker.assets[req.body.type][req.body.name] = [] // TODO figure out how to do it other way
     }
     
-    broker.assets[req.body.type][req.body.name] = req.body.type === 'cash' ?
-        req.body.amount
-        : {
-            amount: req.body.amount,
-            purchasePricePerUnit: req.body.purchasePricePerUnit,
-            currency: req.body.currency,
-        }
+    broker.assets[req.body.type][req.body.name].push({
+        amount: req.body.amount,
+        purchasePricePerUnit: req.body.purchasePricePerUnit,
+        currency: req.body.currency,
+    })
     
     const result = await brokers.updateOne(
         { _id: { $eq: req.body.brokerId} },
