@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAddBrokerAssetMutation } from 'api';
 
 import FormAddAsset from '../FormAddAsset/FormAddAsset';
+import { TYPE_ASSET_STOCKS } from '../../../../constants/broker-asset-types';
 
 const FormAddStockAsset = ({ broker }) => {
 	const { t } = useTranslation();
@@ -11,7 +12,7 @@ const FormAddStockAsset = ({ broker }) => {
 	const submitHandler = data => {
 		addBrokerAsset({
 			brokerId: broker._id,
-			type: 'stocks', // TODO move to constants
+			type: TYPE_ASSET_STOCKS,
 			name: data.assetName,
 			amount: data.assetAmount,
 			currency: data.assetCurrency,
@@ -22,7 +23,7 @@ const FormAddStockAsset = ({ broker }) => {
 	return (
 		<FormAddAsset
 			brokerId={broker._id}
-			assetType='stocks'
+			assetType={TYPE_ASSET_STOCKS}
 			addAssetCaption={t('brokerItem.addBrokerStockAsset')}
 			submitHandler={submitHandler}
 		/>

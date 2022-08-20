@@ -29,7 +29,8 @@
     "remove": "Удалить",
     "keep": "Оставить",
     "sureToRemove": "Удалить запись?",
-    "save": "Сохранить"
+    "save": "Сохранить",
+    "total": "Всего"
   },
   "description": {
     "part1": "Первое описание",
@@ -55,7 +56,6 @@
     "incomeTitle": "Доходы",
     "spendingTitle": "Расходы",
     "frozenTitle": "Заморожено",
-    "total": "Всего",
     "addItem": "Добавить источник",
     "noItems": "Нет источников",
     "netBalance": "Всего",
@@ -96,6 +96,7 @@
     "fundsCaption": "Фонды",
     "inputAssetAmount": "Введите количество",
     "inputAssetPurchasePricePerUnit": "Введите цену покупки за единицу",
-    "inputAssetName": "Введите название инструмента"
+    "inputAssetName": "Введите название инструмента",
+    "averageAssetPrice": "Средняя цена"
   }
 }

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useAddBrokerAssetMutation } from '../../../../api';
 import FormAddAsset from '../FormAddAsset/FormAddAsset';
 import { DEFAULT_ONE } from '../../../../constants/default-values';
+import { TYPE_ASSET_CASH } from '../../../../constants/broker-asset-types';
 
 const FormAddCashAsset = ({ brokerId }) => {
 	const { t } = useTranslation();
@@ -12,7 +13,7 @@ const FormAddCashAsset = ({ brokerId }) => {
 	const submitHandler = ({ assetAmount, assetCurrency, assetName, purchasePricePerUnit }) => {
 		addBrokerAsset({
 			brokerId,
-			type: 'cash',
+			type: TYPE_ASSET_CASH,
 			currency: assetCurrency,
 			name: assetName,
 			amount: assetAmount,
@@ -23,7 +24,7 @@ const FormAddCashAsset = ({ brokerId }) => {
 	return (
 		<FormAddAsset
 			brokerId={brokerId}
-			assetType='cash'
+			assetType={TYPE_ASSET_CASH}
 			addAssetCaption={t('brokerItem.addBrokerAssetCash')}
 			submitHandler={submitHandler}
 		/>

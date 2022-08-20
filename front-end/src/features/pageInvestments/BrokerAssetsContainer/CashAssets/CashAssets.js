@@ -9,6 +9,7 @@ import { useRemoveBrokerAssetMutation } from 'api';
 
 import AssetName from '../InvestmentAsset/AssetName/AssetName';
 import { DEFAULT_ZERO } from '../../../../constants/default-values';
+import { TYPE_ASSET_CASH } from '../../../../constants/broker-asset-types';
 
 import styles from './CashAssets.module.scss';
 
@@ -17,7 +18,7 @@ import FormAddCashAsset from './FormAddCashAsset';
 const CashAssets = ({ broker }) => {
 	const { t } = useTranslation();
 	const [removeBrokerAsset] = useRemoveBrokerAssetMutation();
-	const confirmCashRemoving = currencyId => removeBrokerAsset({ brokerId: broker._id, name: currencyId, type: 'cash' });
+	const confirmCashRemoving = currencyId => removeBrokerAsset({ brokerId: broker._id, name: currencyId, type: TYPE_ASSET_CASH });
 	const processCash = cashAsset => {
 		const cashNames = cashAsset ? Object.keys(cashAsset) : [];
 
@@ -36,7 +37,7 @@ const CashAssets = ({ broker }) => {
 					{Object.keys(cashWithAmounts).map(cashKey => <Space key={cashKey} size='small' className={styles.cashAsset}>
 						<FinancialValue value={cashWithAmounts[cashKey]} currencyId={cashKey}/>
 						<ButtonDeleteItem
-							confirmationPlacement="right"
+							confirmationPlacement='right'
 							confirmationCancelText={t('common.keep')}
 							confirmationOkText={t('common.remove')}
 							onConfirm={() => confirmCashRemoving(cashKey)}

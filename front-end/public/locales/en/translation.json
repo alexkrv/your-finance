@@ -29,7 +29,8 @@
     "remove": "Remove",
     "keep": "Keep",
     "sureToRemove": "Remove the item?",
-    "save": "Save"
+    "save": "Save",
+    "total": "Total"
   },
   "description": {
     "part1": "First description",
@@ -55,7 +56,6 @@
     "incomeTitle": "Incomes",
     "spendingTitle": "Spending",
     "frozenTitle": "Frozen",
-    "total": "Total",
     "addItem": "Add item",
     "noItems": "No items",
     "netBalance": "Net Balance",
@@ -96,6 +96,7 @@
     "fundsCaption": "Funds",
     "inputAssetAmount": "Input amount",
     "inputAssetPurchasePricePerUnit": "Input purchase price per unit",
-    "inputAssetName": "Input asset name"
+    "inputAssetName": "Input asset name",
+    "averageAssetPrice": "Average Price"
   }
 }

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useAddBrokerAssetMutation } from '../../../../api';
 import FormAddAsset from '../FormAddAsset/FormAddAsset';
+import { TYPE_ASSET_FUNDS } from '../../../../constants/broker-asset-types';
 
 const FormAddFundAsset = ({ broker }) => {
 	const { t } = useTranslation();
@@ -11,7 +12,7 @@ const FormAddFundAsset = ({ broker }) => {
 	const submitHandler = data => {
 		addBrokerAsset({
 			brokerId: broker._id,
-			type: 'fund',
+			type: TYPE_ASSET_FUNDS,
 			name: data.assetName,
 			amount: data.assetAmount,
 			currency: data.assetCurrency,
@@ -22,7 +23,7 @@ const FormAddFundAsset = ({ broker }) => {
 	return (
 		<FormAddAsset
 			brokerId={broker._id}
-			assetType='funds'
+			assetType={TYPE_ASSET_FUNDS}
 			addAssetCaption={t('brokerItem.addBrokerAssetFund')}
 			submitHandler={submitHandler}
 		/>

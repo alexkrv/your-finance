@@ -93,7 +93,7 @@ const CategoryBlock = ({ title, type, items, }) => {
 	return (
 		<Card>
 			<div className={styles.title}>{title}</div>
-			<div className={styles.totalSum} data-value-hidden='false'>{t('cashCategories.total')}:&nbsp;
+			<div className={styles.totalSum} data-value-hidden='false'>{t('common.total')}:&nbsp;
 				{isFetching ?
 					<Spin size="small"/>
 					: <FinancialValue value={total} type={type} currencyId={baseCurrencyKey}/>

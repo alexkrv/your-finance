@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse } from 'antd';
 
+import { TYPE_ASSET_FUNDS, TYPE_ASSET_STOCKS } from '../../../constants/broker-asset-types';
+
 import styles from './BrokerAssetsContainer.module.scss';
 
 import CashAssets from './CashAssets/CashAssets';
@@ -27,14 +29,14 @@ const BrokerAssetsContainer = ({ broker }) => {
 				className={styles.collapseContainer}
 			>
 				<Collapse.Panel
-					key={'stocks'}
+					key={TYPE_ASSET_STOCKS}
 					header={<AssetName assetName={t('brokerItem.stocksCaption')}/>}
 					className={styles.collapsePanel}
 				>
 					<StockAssets broker={broker}/>
 				</Collapse.Panel>
 				<Collapse.Panel
-					key={'funds'}
+					key={TYPE_ASSET_FUNDS}
 					header={<AssetName assetName={t('brokerItem.fundsCaption')}/>}
 					className={styles.collapsePanel}
 				>

@@ -36,7 +36,8 @@ const addBrokerAsset = async(req, res) => {
     broker.assets[req.body.type][req.body.name].push({
         amount: req.body.amount,
         purchasePricePerUnit: req.body.purchasePricePerUnit,
-        currency: req.body.currency,
+        currentAssetPrice: req.body.purchasePricePerUnit, // TODO use api about asset current price
+        purchaseCurrency: req.body.currency,
     })
     
     const result = await brokers.updateOne(
