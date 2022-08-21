@@ -7,12 +7,12 @@ import FormAddAsset from '../FormAddAsset/FormAddAsset';
 import { DEFAULT_ONE } from '../../../../constants/default-values';
 import { TYPE_ASSET_CASH } from '../../../../constants/broker-asset-types';
 
-const FormAddCashAsset = ({ brokerId }) => {
+const FormAddCashAsset = ({ broker }) => {
 	const { t } = useTranslation();
 	const [addBrokerAsset] = useAddBrokerAssetMutation();
 	const submitHandler = ({ assetAmount, assetCurrency, assetName, purchasePricePerUnit }) => {
 		addBrokerAsset({
-			brokerId,
+			brokerId: broker._id,
 			type: TYPE_ASSET_CASH,
 			currency: assetCurrency,
 			name: assetName,
@@ -23,7 +23,7 @@ const FormAddCashAsset = ({ brokerId }) => {
 
 	return (
 		<FormAddAsset
-			brokerId={brokerId}
+			brokerId={broker._id}
 			assetType={TYPE_ASSET_CASH}
 			addAssetCaption={t('brokerItem.addBrokerAssetCash')}
 			submitHandler={submitHandler}
