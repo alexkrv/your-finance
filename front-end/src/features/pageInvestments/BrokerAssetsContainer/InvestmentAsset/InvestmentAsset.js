@@ -19,7 +19,7 @@ const InvestmentAsset = ({
 	buttonAddAssetText,
 	addAssetForm,
 }) => {
-	const asset = broker[assetType];
+	const asset = broker.assets?.[assetType];
 	const [removeBrokerAsset] = useRemoveBrokerAssetMutation();
 	const confirmAssetRemoving = assetName => removeBrokerAsset({ brokerId: broker._id, name: assetName, type: assetType });
 	const { t, } = useTranslation();
@@ -71,7 +71,7 @@ const InvestmentAsset = ({
 						confirmationOkText={t('common.remove')}
 						confirmationCancelText={t('common.keep')}
 						afterActionText={`${assetKey} ${t('common.removed')}`}
-						onConfirm={confirm}
+						onConfirm={() => confirm(assetKey)/*TODO useCallback?*/}
 						title={t('common.sureToRemove')}
 						iconClassName={styles.deleteIcon}
 					/>
