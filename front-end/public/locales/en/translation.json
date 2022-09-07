@@ -86,7 +86,6 @@
     "errorBrokerNameRequired": "Broker's name required",
     "inputBrokerName": "Input broker's name",
     "brokerAdded": "Broker added",
-    "cashRemoved": "Cash removed",
     "cash": "Cash",
     "addBrokerAssetCash": "Add cash",
     "addBrokerAssetFund": "Add fund",

@@ -10,6 +10,11 @@ import { store } from './store';
 
 import './i18n';
 
+//TODO uncomment for using msw if (process.env.NODE_ENV === 'development') {
+// 	const { worker } = require('./__mocks__/browser');
+// 	worker.start();
+// }
+
 ReactDOM.render(
 	<React.StrictMode>
 		<Suspense fallback={<Skeleton active/>}>

@@ -3,21 +3,33 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Space, } from 'antd';
 import { useSelector } from 'react-redux';
-import { useGetConversionRatesQuery,  } from 'api/';
+import { useGetConversionRatesQuery, } from 'api/';
 
 import { FinancialValue } from '../../../../components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from '../../../../components/ButtonDeleteItem/ButtonDeleteItem';
 import ButtonAddItem from '../../../../components/ButtonAddItem/ButtonAddItem';
 import { DEFAULT_ONE, DEFAULT_ZERO } from '../../../../constants/default-values';
+import { useRemoveBrokerAssetMutation } from '../../../../api';
 
 import styles from './InvestmentAsset.module.scss';
 
-const InvestmentAsset = ({ brokerId, asset = {}, buttonAddAssetText, addAssetForm }) => {
+const InvestmentAsset = ({
+	broker,
+	assetType,
+	buttonAddAssetText,
+	addAssetForm,
+}) => {
+	const asset = broker.assets?.[assetType];
+	const [removeBrokerAsset] = useRemoveBrokerAssetMutation();
+	const confirmAssetRemoving = assetName => removeBrokerAsset({ brokerId: broker._id, name: assetName, type: assetType });
 	const { t, } = useTranslation();
 	const [processedAsset, setProcessAsset] = useState({});
 	const { baseCurrencyKey } = useSelector(state => state.currencies); // TODO unite in custom hook
 	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey); // TODO unite in custom hook
-	const confirm = () => {/*TODO*/};
+	const confirm = assetToDelete => {
+		/*TODO add logic here 	assetToDelete*/
+		confirmAssetRemoving(assetToDelete);
+	};
 	const processAsset = (investmentAsset, rates) => {
 		const assetItemNames = investmentAsset ? Object.keys(investmentAsset) : [];
 
@@ -59,7 +71,7 @@ const InvestmentAsset = ({ brokerId, asset = {}, buttonAddAssetText, addAssetFor
 						confirmationOkText={t('common.remove')}
 						confirmationCancelText={t('common.keep')}
 						afterActionText={`${assetKey} ${t('common.removed')}`}
-						onConfirm={confirm}
+						onConfirm={() => confirm(assetKey)/*TODO useCallback?*/}
 						title={t('common.sureToRemove')}
 						iconClassName={styles.deleteIcon}
 					/>
@@ -86,7 +98,10 @@ const InvestmentAsset = ({ brokerId, asset = {}, buttonAddAssetText, addAssetFor
 };
 
 InvestmentAsset.propTypes = {
-	brokerId: PropTypes.string.isRequired
+	broker: PropTypes.object.isRequired,
+	assetType: PropTypes.string.isRequired,
+	buttonAddAssetText: PropTypes.string.isRequired,
+	addAssetForm: PropTypes.node.isRequired,
 };
 
 export default InvestmentAsset;

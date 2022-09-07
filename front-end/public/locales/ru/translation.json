@@ -86,7 +86,6 @@
     "errorBrokerNameRequired": "Имя брокера обязательно",
     "inputBrokerName": "Введите имя брокера",
     "brokerAdded": "Брокер добавлен",
-    "cashRemoved": "Валюта удалена",
     "cash": "Валюта",
     "addBrokerAssetCash": "Добавить валюту",
     "addBrokerAssetFund": "Добавить фонд",
