@@ -34,10 +34,10 @@ const InvestmentAsset = ({
 		const assetItemNames = investmentAsset ? Object.keys(investmentAsset) : [];
 
 		return assetItemNames.reduce((acc, itemName) => {
-			const amountOfPurchases = investmentAsset[itemName].length;
 			const totalAmountOfItems = investmentAsset[itemName].reduce((amountOfItems, item) => amountOfItems + item.amount, DEFAULT_ZERO);
 			const averageAssetPrice = investmentAsset[itemName].reduce((totalSum, item) =>
-				totalSum + item.purchasePricePerUnit/(rates[item.purchaseCurrency].value || DEFAULT_ONE), DEFAULT_ZERO)/amountOfPurchases;
+				totalSum + item.amount*item.purchasePricePerUnit/(rates[item.purchaseCurrency].value || DEFAULT_ONE)
+			, DEFAULT_ZERO)/totalAmountOfItems;
 			const processedCurrentAssetPrice = investmentAsset[itemName][DEFAULT_ZERO].currentAssetPrice
                 /(rates[investmentAsset[itemName][DEFAULT_ZERO].purchaseCurrency].value || DEFAULT_ONE);
 
@@ -81,11 +81,17 @@ const InvestmentAsset = ({
 				</Space>
 				<Space size="small">
 					{t('common.total')}
-					<FinancialValue currencyId={processedAsset[assetKey].currency} value={processedAsset[assetKey].amount * processedAsset[assetKey].currentAssetPrice}/>
+					<FinancialValue
+						currencyId={processedAsset[assetKey].currency}
+						value={processedAsset[assetKey].amount * processedAsset[assetKey].averageAssetPrice/*TODO use current asset price*/}
+					/>
 				</Space>
 				<Space size="small">
 					{t('brokerItem.averageAssetPrice')}
-					<FinancialValue currencyId={processedAsset[assetKey].currency} value={processedAsset[assetKey].averageAssetPrice}/>
+					<FinancialValue
+						currencyId={processedAsset[assetKey].currency}
+						value={processedAsset[assetKey].averageAssetPrice}
+					/>
 				</Space>
 			</Space>)}
 			<ButtonAddItem
