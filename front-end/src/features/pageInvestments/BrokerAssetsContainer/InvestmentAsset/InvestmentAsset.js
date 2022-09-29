@@ -61,9 +61,9 @@ const InvestmentAsset = ({
 
 	return (
 		<div className={styles.container}>
-			{Object.keys(processedAsset).map( assetKey => <Space size="middle" key={assetKey}>
-				<Space size="small">
-					<div className={styles.assetInfo}>
+			{Object.keys(processedAsset).map( assetKey => <div className={styles.asset}>
+				<div className={styles.infoBlock}>
+					<div className={styles.assetName}>
 						{assetKey}
 					</div>
 					<ButtonDeleteItem
@@ -75,29 +75,29 @@ const InvestmentAsset = ({
 						title={t('common.sureToRemove')}
 						iconClassName={styles.deleteIcon}
 					/>
-				</Space>
-				<Space size="small" className={styles.assetAmount}>
+					{/*TODO edit button form*/}
 					<FinancialValue value={processedAsset[assetKey].amount} />
-				</Space>
-				<Space size="small">
+				</div>
+				<div className={styles.infoBlock}>
 					{t('common.total')}
 					<FinancialValue
 						currencyId={processedAsset[assetKey].currency}
-						value={processedAsset[assetKey].amount * processedAsset[assetKey].averageAssetPrice/*TODO use current asset price*/}
+						value={(processedAsset[assetKey].amount * processedAsset[assetKey].averageAssetPrice).toFixed(DEFAULT_ONE)/*TODO use current asset price*/}
 					/>
-				</Space>
-				<Space size="small">
+				</div>
+				<div className={styles.infoBlock}>
 					{t('brokerItem.averageAssetPrice')}
 					<FinancialValue
 						currencyId={processedAsset[assetKey].currency}
 						value={processedAsset[assetKey].averageAssetPrice}
 					/>
-				</Space>
-			</Space>)}
+				</div>
+			</div>)}
 			<ButtonAddItem
 				size='medium'
 				text={buttonAddAssetText}
 				addItemFormElement={addAssetForm}
+				className={styles.buttonAddItem}
 			/>
 		</div>
 	);
