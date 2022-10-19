@@ -30,7 +30,10 @@
     "keep": "Оставить",
     "sureToRemove": "Удалить запись?",
     "save": "Сохранить",
-    "total": "Всего"
+    "total": "Всего",
+    "done": "Готово",
+    "buy": "Покупка",
+    "sell": "Продажа"
   },
   "description": {
     "part1": "Первое описание",
@@ -96,6 +99,7 @@
     "inputAssetAmount": "Введите количество",
     "inputAssetPurchasePricePerUnit": "Введите цену покупки за единицу",
     "inputAssetName": "Введите название инструмента",
-    "averageAssetPrice": "Средняя цена"
+    "averageAssetPrice": "Средняя цена",
+    "editInvestItem": "Редактирование инструмента"
   }
 }

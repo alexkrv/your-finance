@@ -30,7 +30,10 @@
     "keep": "Keep",
     "sureToRemove": "Remove the item?",
     "save": "Save",
-    "total": "Total"
+    "total": "Total",
+    "done": "Done",
+    "buy": "Buy",
+    "sell": "Sell"
   },
   "description": {
     "part1": "First description",
@@ -96,6 +99,7 @@
     "inputAssetAmount": "Input amount",
     "inputAssetPurchasePricePerUnit": "Input purchase price per unit",
     "inputAssetName": "Input asset name",
-    "averageAssetPrice": "Average Price"
+    "averageAssetPrice": "Average Price",
+    "editInvestItem": "Invest instrument editing"
   }
 }

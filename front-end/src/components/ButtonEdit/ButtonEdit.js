@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { EditOutlined } from '@ant-design/icons';
-import { Popconfirm, message, } from 'antd';
+import { message, Modal, Button, } from 'antd';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -9,40 +9,43 @@ import styles from './ButtonEdit.module.scss';
 
 const ButtonEdit = ({
 	onConfirm,
-	title,
-	confirmationOkText,
-	confirmationCancelText,
-	confirmationPlacement,
 	iconClassName,
 	afterActionText,
+	editItemFormElement
 }) => {
+	const [isVisible, setIsVisible] = useState(false);
 	const { t, } = useTranslation();
 	const handleOkClick = () => {
 		onConfirm?.();
 		message.success(afterActionText || t('common.removed'));
+		setIsVisible(false);
 	};
 
 	return (
-		<div>
-			<Popconfirm
-				confirmationPlacement={confirmationPlacement}
-				title={title}
-				onConfirm={handleOkClick}
-				okText={confirmationOkText}
-				cancelText={confirmationCancelText}
+		<>
+			<Button
+				type="tertiary"
+				size='small'
+				onClick={() => setIsVisible(!isVisible)}
+				className={styles.getState}
+				icon={<EditOutlined className={clsx(styles.icon, iconClassName)} />}
+			/>
+			<Modal
+				width={'fit-content'}
+				visible={isVisible}
+				onOk={handleOkClick}
+				onCancel={() => setIsVisible(false)}
+				closable={false}
 			>
-				<EditOutlined className={clsx(styles.icon, iconClassName)} />
-			</Popconfirm>
-		</div>
+				{editItemFormElement}
+			</Modal>
+		</>
 	);
 };
 
 ButtonEdit.propTypes = {
 	onConfirm: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
-	confirmationOkText: PropTypes.string.isRequired,
-	confirmationCancelText: PropTypes.string.isRequired,
-	confirmationPlacement: PropTypes.string.isRequired,
 	iconClassName: PropTypes.string,
 	afterActionText: PropTypes.string,
 };

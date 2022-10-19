@@ -52,6 +52,7 @@ app.get(routes.ROUTE_BROKER, brokersRoutes);
 app.post(routes.ROUTE_BROKER, brokersRoutes);
 app.post(routes.ROUTE_BROKER_ASSETS, brokersRoutes);
 app.delete(routes.ROUTE_BROKER_ASSETS, brokersRoutes);
+app.patch(routes.ROUTE_BROKER_ASSETS, brokersRoutes);
 
 const mockData = [// TODO delete mockData, use real from DB
     {

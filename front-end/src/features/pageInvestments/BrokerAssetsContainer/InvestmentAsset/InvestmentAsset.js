@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Space, } from 'antd';
 import { useSelector } from 'react-redux';
 import { useGetConversionRatesQuery, } from 'api/';
 
@@ -9,9 +8,12 @@ import { FinancialValue } from '../../../../components/FinancialValue/FinancialV
 import ButtonDeleteItem from '../../../../components/ButtonDeleteItem/ButtonDeleteItem';
 import ButtonAddItem from '../../../../components/ButtonAddItem/ButtonAddItem';
 import { DEFAULT_ONE, DEFAULT_ZERO } from '../../../../constants/default-values';
-import { useRemoveBrokerAssetMutation } from '../../../../api';
+import { useEditBrokerAssetMutation, useRemoveBrokerAssetMutation } from '../../../../api';
+import ButtonEdit from '../../../../components/ButtonEdit/ButtonEdit';
 
 import styles from './InvestmentAsset.module.scss';
+
+import EditItemForm from './EditItemForm/EditItemForm';
 
 const InvestmentAsset = ({
 	broker,
@@ -21,11 +23,23 @@ const InvestmentAsset = ({
 }) => {
 	const asset = broker.assets?.[assetType];
 	const [removeBrokerAsset] = useRemoveBrokerAssetMutation();
-	const confirmAssetRemoving = assetName => removeBrokerAsset({ brokerId: broker._id, name: assetName, type: assetType });
 	const { t, } = useTranslation();
 	const [processedAsset, setProcessAsset] = useState({});
 	const { baseCurrencyKey } = useSelector(state => state.currencies); // TODO unite in custom hook
 	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey); // TODO unite in custom hook
+	const [editBrokerAsset] = useEditBrokerAssetMutation();
+
+	const editAsset = ({ assetName, amount, purchasePricePerUnit, isBuyMode, currency }) =>
+		editBrokerAsset({
+			brokerId: broker._id,
+			name: assetName,
+			type: assetType,
+			amount,
+			purchasePricePerUnit,
+			isBuyMode,
+			currency,
+		});
+	const confirmAssetRemoving = assetName => removeBrokerAsset({ brokerId: broker._id, name: assetName, type: assetType });
 	const confirm = assetToDelete => {
 		/*TODO add logic here 	assetToDelete*/
 		confirmAssetRemoving(assetToDelete);
@@ -61,11 +75,22 @@ const InvestmentAsset = ({
 
 	return (
 		<div className={styles.container}>
-			{Object.keys(processedAsset).map( assetKey => <div className={styles.asset}>
+			{Object.keys(processedAsset).map( assetKey => <div key={assetKey} className={styles.asset}>
 				<div className={styles.infoBlock}>
 					<div className={styles.assetName}>
 						{assetKey}
 					</div>
+					<ButtonEdit
+						onConfirm={() => {/*TODO create handler*/}}
+						title={t('brokerItem.editInvestItem')}
+						afterActionText={t('common.done')}
+						editItemFormElement={
+							<EditItemForm
+								assetName={assetKey}
+								submitHandler={editAsset}
+							/>
+						}
+					/>
 					<ButtonDeleteItem
 						confirmationPlacement="right"
 						confirmationOkText={t('common.remove')}
@@ -75,7 +100,6 @@ const InvestmentAsset = ({
 						title={t('common.sureToRemove')}
 						iconClassName={styles.deleteIcon}
 					/>
-					{/*TODO edit button form*/}
 					<FinancialValue value={processedAsset[assetKey].amount} />
 				</div>
 				<div className={styles.infoBlock}>
