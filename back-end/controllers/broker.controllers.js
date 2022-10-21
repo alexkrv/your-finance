@@ -1,5 +1,6 @@
 const dbo = require('../db')
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
 
 const getBrokers = (req, response) => dbo.getDb()
     .collection("brokers")
@@ -23,6 +24,19 @@ const addBroker = (req, res) => {
         .collection('brokers')
         .insertOne(brokerInfo)
         .then( () => res.json(brokerInfo))
+}
+
+const editBroker = async(req, res) => {
+	const brokers = dbo.getDb().collection('brokers')
+	const result = await brokers.updateOne(
+		{ _id: { $eq: req.body.brokerId} },
+		{
+			$set: {
+				name: req.body.brokerName
+			}
+		})
+	
+	res.json(result)
 }
 
 const addBrokerAsset = async(req, res) => {
@@ -143,10 +157,30 @@ const editBrokerAsset = async(req, res) => { // TODO create separate handlers or
 	
 }
 
+const addBrokerAvatar = (req, res) => { // TODO share with the same on in bank account
+	const bitmap = fs.readFileSync(req.file.path)
+	const imageBase64 = `data:image/png;base64, ${Buffer.alloc(bitmap.length, bitmap, ).toString('base64')}`
+	
+	return dbo.getDb()
+		.collection('brokers')
+		.updateOne(
+			{_id: { $eq: req.query.brokerId}},
+			{
+				$set: {
+					avatar: imageBase64
+				}
+			}
+		).then( () =>
+			res.json(imageBase64)
+		)
+}
+
 module.exports = {
     getBrokers,
     addBroker,
+	editBroker,
     addBrokerAsset,
     deleteBrokerAsset,
 	editBrokerAsset,
+	addBrokerAvatar,
 }

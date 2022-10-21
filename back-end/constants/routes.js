@@ -11,4 +11,5 @@ module.exports = {
     ROUTE_BANK_AVATAR: '/bank-organization/avatar',
     ROUTE_BROKER: '/broker',
     ROUTE_BROKER_ASSETS: '/broker/assets',
+	ROUTE_BROKER_AVATAR: '/broker/avatar',
 }
