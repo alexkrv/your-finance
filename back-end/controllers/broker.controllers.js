@@ -1,6 +1,7 @@
 const dbo = require('../db')
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
+const retrieveAssetPrice = require('../utils/get-asset-price')
 
 const getBrokers = (req, response) => dbo.getDb()
     .collection("brokers")
@@ -46,11 +47,12 @@ const addBrokerAsset = async(req, res) => {
     if(!broker.assets[req.body.type][req.body.name]) {
         broker.assets[req.body.type][req.body.name] = [] // TODO figure out how to do it other way
     }
-    
+	
+    const currentAssetPrice = await retrieveAssetPrice(req.body.name) // TODO cash asset should retrieve current price from other place
     broker.assets[req.body.type][req.body.name].push({
         amount: req.body.amount,
         purchasePricePerUnit: req.body.purchasePricePerUnit,
-        currentAssetPrice: req.body.purchasePricePerUnit, // TODO use api about asset current price
+        currentAssetPrice,
         purchaseCurrency: req.body.currency,
     })
     
@@ -91,10 +93,12 @@ const editBrokerAsset = async(req, res) => { // TODO create separate handlers or
 	const currentAssetInfo = broker.assets[req.body.type][req.body.name]
 	
 	if(req.body.isBuyMode) {
+		const currentAssetPrice = await retrieveAssetPrice(req.body.name)
+		
 		currentAssetInfo.push({
 			amount: req.body.amount,
 			purchasePricePerUnit: req.body.purchasePricePerUnit,
-			currentAssetPrice: req.body.purchasePricePerUnit, // TODO use api about asset current price
+			currentAssetPrice,
 			purchaseCurrency: req.body.currency,
 		})
 		
@@ -137,11 +141,16 @@ const editBrokerAsset = async(req, res) => { // TODO create separate handlers or
 				...asset,
 				amount: 0
 			}
+		} else if(amountToSell === 0){
+			return asset
 		} else {
-			return {
+			const processedAsset = {
 				...asset,
 				amount: asset.amount - amountToSell
 			}
+			amountToSell = 0
+			
+			return processedAsset
 		}
 	}).filter(asset => asset.amount)
 	
