@@ -1,5 +1,6 @@
 const { MongoClient } = require("mongodb");
 const connectionString = process.env.MONGODB_URI;
+const dbName = process.env.NODE_ENV === 'production' ? 'your_finance' : 'dev_your_finance';
 const client = new MongoClient(connectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -14,7 +15,7 @@ module.exports = {
                 return callback(err);
             }
             
-            dbConnection = db.db("your_finance");
+            dbConnection = db.db(dbName);
             console.log("Successfully connected to MongoDB.");
             
             return callback();

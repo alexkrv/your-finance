@@ -5,7 +5,7 @@ const currenciesList = require('../constants/currencies.json')
 
 const addCashCategoryItem = (req, res) => {
     const categoryId = uuidv4()
-        
+    
     dbo.getDb()
     .collection('cash_category_items')
     .insertOne({
