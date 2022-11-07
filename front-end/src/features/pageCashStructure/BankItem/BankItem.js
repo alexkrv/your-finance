@@ -12,8 +12,11 @@ import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
 import { useDeleteBankAccountMutation, useDeleteBankOrganizationMutation, useGetConversionRatesQuery } from '../../../api';
 import { DEFAULT_ZERO } from '../../../constants/default-values';
 import UploadButton from '../../../components/UploadButton/UploadButton';
+import ButtonEdit from '../../../components/ButtonEdit/ButtonEdit';
 
 import styles from './BankItem.module.scss';
+
+import EditAccountForm from './EditAccountForm/EditAccountForm';
 
 const BankItem = ({ bank, }) => {
 	const { t } = useTranslation();
@@ -60,6 +63,14 @@ const BankItem = ({ bank, }) => {
 						<div className={styles.accountName}>
 							{account.name}
 						</div>
+						<ButtonEdit
+							title={t('bankItem.editAccount')}
+							afterActionText={t('common.done')}
+							editItemFormElement={<EditAccountForm
+								bankId={bank._id}
+								account={account}
+							/>}
+						/>
 						<ButtonDeleteItem
 							confirmationPlacement="right"
 							confirmationCancelText={t('common.keep')}

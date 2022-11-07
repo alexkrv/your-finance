@@ -88,7 +88,7 @@ const deleteBrokerAsset = async(req, res) => {
 
 const editBrokerAsset = async(req, res) => { // TODO create separate handlers or use query params
     const brokers = dbo.getDb().collection('brokers')
-    const broker = await brokers.findOne({ _id: { $eq: req.body.brokerId} })
+    const broker = await brokers.findOne({ _id: { $eq: req.body.brokerId } })
 	const amount = broker.assets[req.body.type][req.body.name].reduce((acc, el) => acc + el.amount, 0)
 	const currentAssetInfo = broker.assets[req.body.type][req.body.name]
 	

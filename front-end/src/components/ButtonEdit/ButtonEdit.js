@@ -17,7 +17,7 @@ const ButtonEdit = ({
 	const { t, } = useTranslation();
 	const handleOkClick = () => {
 		onConfirm?.();
-		message.success(afterActionText || t('common.removed'));
+		message.success(afterActionText || t('common.done'));
 		setIsVisible(false);
 	};
 
@@ -44,7 +44,7 @@ const ButtonEdit = ({
 };
 
 ButtonEdit.propTypes = {
-	onConfirm: PropTypes.func.isRequired,
+	onConfirm: PropTypes.func,
 	title: PropTypes.string.isRequired,
 	iconClassName: PropTypes.string,
 	afterActionText: PropTypes.string,

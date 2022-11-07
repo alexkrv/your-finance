@@ -43,6 +43,7 @@ app.get(routes.ROUTE_GET_CASH_STRUCTURE, cashCategoriesRoutes);
 
 app.get(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);
 app.post(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);
+app.put(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);
 app.patch(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);
 app.delete(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);
 app.delete(routes.ROUTE_BANK_ACCOUNT, banksRoutes);

@@ -74,10 +74,12 @@
     "addAccount": "Add account",
     "inputAccountName": "Input account name",
     "inputAccountValue": "Input account balance",
+    "editAccountName": "Edit account name",
     "bankRemoved": "Bank removed",
     "accountRemoved": "Account removed",
     "errorBankNameRequired": "Bank name required",
-    "bankAdded": "Bank added"
+    "bankAdded": "Bank added",
+    "editAccount": "Edit account"
   },
   "currency": {
     "selectCurrency": "Select currency",

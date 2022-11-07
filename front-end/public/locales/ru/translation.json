@@ -74,10 +74,12 @@
     "addAccount": "Добавить счет",
     "inputAccountName": "Введите название счета",
     "inputAccountValue": "Введите сумму на счете",
+    "editAccountName": "Новое имя счета",
     "bankRemoved": "Банк удален",
     "accountRemoved": "Счет удален",
     "errorBankNameRequired": "Имя банка обязательно",
-    "bankAdded": "Банк добавлен"
+    "bankAdded": "Банк добавлен",
+    "editAccount": "Изменить счет"
   },
   "currency": {
     "selectCurrency": "Выберите валюту",

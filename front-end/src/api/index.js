@@ -64,6 +64,14 @@ export const api = createApi({
 		addBankAccount: builder.mutation({
 			query: (accountInfo) => ({
 				url: apiUrls.API_URL_BANK_ORGANIZATION,
+				method: 'PUT',
+				body: accountInfo,
+			}),
+			invalidatesTags: ['BanksList'],
+		}),
+		editBankAccount: builder.mutation({
+			query: (accountInfo) => ({
+				url: apiUrls.API_URL_BANK_ORGANIZATION,
 				method: 'PATCH',
 				body: accountInfo,
 			}),
@@ -202,6 +210,7 @@ export const {
 	useDeleteBankOrganizationMutation,
 	useDeleteBankAccountMutation,
 	useAddBankAccountMutation,
+	useEditBankAccountMutation,
 	useGetBrokersListQuery,
 	useAddBrokerMutation,
 	useAddBrokerAssetMutation,

@@ -39,6 +39,34 @@ const addBankAccount = (req, res) => {
         )
 }
 
+const editBankAccount = async(req, res) => {
+	const bankCollection = dbo.getDb().collection('bank_organizations')
+	const bank = await bankCollection.findOne({ _id: { $eq: req.body.bankId } })
+	const updatedAccountsInfo = bank.accounts.map(el => {
+		if(el._id === req.body.accountId){
+			return {
+				...el,
+				name: req.body.accountName/*TODO prevent sql-injection-alike threat*/,
+				value: req.body.accountValue/*TODO prevent sql-injection-alike threat*/
+			}
+		} else {
+			return el
+		}
+	})
+
+	return bankCollection
+		.updateOne(
+			{_id: { $eq: req.body.bankId}},
+			{
+				$set: {
+					accounts: updatedAccountsInfo
+				}
+			}
+		).then( () =>
+			res.json(updatedAccountsInfo)
+		)
+}
+
 const addBankOrganizationAvatar = (req, res) => {
     const bitmap = fs.readFileSync(req.file.path)
     const imageBase64 = `data:image/png;base64, ${Buffer.alloc(bitmap.length, bitmap, ).toString('base64')}`
@@ -94,6 +122,7 @@ module.exports = {
     getBanksList,
     deleteBankOrganization,
     addBankAccount,
+	editBankAccount,
     deleteBankAccount,
     addBankOrganizationAvatar,
 }

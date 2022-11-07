@@ -6,9 +6,10 @@ import { Form, Input, InputNumber, Button, Space, } from 'antd';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import styles from '../FormAddCashCategory/FormAddCashCategory.module.scss'; // TODO use appropriate file
 import SelectCurrency from '../../selectCurrency/SelectCurrency';
 import { useAddBankAccountMutation } from '../../../api';
+
+import styles from './FormAddBankAccount.module.scss';
 
 const FormAddBankAccount = ({ bankId }) => {
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
