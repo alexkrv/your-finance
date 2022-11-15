@@ -9,6 +9,7 @@ const userRoutes = require('../routes/users.routes')
 const cashCategoriesRoutes = require('../routes/cashCategories.routes')
 const banksRoutes = require('../routes/banks.routes')
 const brokersRoutes = require('../routes/broker.routes')
+const statisticsRoutes = require('../routes/statistics.routes')
 const PORT = process.env.PORT || 3001;
 const { connectToServer } = require('../db')
 const storage = multer.diskStorage({
@@ -57,35 +58,8 @@ app.delete(routes.ROUTE_BROKER_ASSETS, brokersRoutes);
 app.patch(routes.ROUTE_BROKER_ASSETS, brokersRoutes);
 app.post(routes.ROUTE_BROKER_AVATAR, upload.single('avatar'), brokersRoutes);
 
-const mockData = [// TODO delete mockData, use real from DB
-    {
-        timeStamp: Date.now(),
-        value: Math.round(Math.random()*1000),
-        difference: Math.round(Math.random()*1000),
-        currencyId: 'RUB',
-        comment: 'Some comment',
-        id: Date.now()
-    }
-]
-
-app.get(routes.ROUTE_CASH_STATISTICS, (req, response) => {
-    response.json(mockData) // TODO delete mockData, use real from DB
-});
-
-app.get(`${routes.ROUTE_CREATE_STATISTICS_RECORD}/:currencyId`, (req, response) => {
-    const lastRecord = mockData[mockData.length - 1]
-
-    mockData.push({ // TODO delete mockData, use real from DB
-        timeStamp: Date.now(),
-        value: Math.round(Math.random()*1000),
-        difference: Math.round(Math.random()*1000) - lastRecord.value,
-        currencyId: req.params.currencyId,
-        comment: 'Some very long comment about global financial situation in the world that lead to so weird balance state',
-        id: Date.now()
-    })
-
-    response.json(mockData)
-});
+app.get(routes.ROUTE_CASH_STATISTICS, statisticsRoutes);
+app.post(routes.ROUTE_CASH_STATISTICS, statisticsRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

@@ -3,22 +3,21 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import TextStyler from 'components/TextStyler/TextStyler';
 import { Button, Space, } from 'antd';
-import { useGetCashStatisticsQuery, useCreateStatisticsRecordMutation, } from 'api/';
+import { useGetCashStatisticsQuery, useCreateStatisticsRecordMutation, } from 'api';
 
 import styles from './PageCashStatistics.module.scss';
 
 import StatisticsRecord from './StatisticsRecord/StatisticsRecord';
-import ValueDifference from './ValueDifference/ValueDifference';
 
 const PageCashStatistics = () => {
 	const [ isUpdateInProgress, setIsUpdateInProgress ] = useState(false);
 	const { t, } = useTranslation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
-	const { data, isFetching, error/*TODO*/ } = useGetCashStatisticsQuery();
-	const [createStatisticsRecord, mutation] = useCreateStatisticsRecordMutation();
+	const { data, isFetching, error/*TODO*/ } = useGetCashStatisticsQuery(baseCurrencyKey);
+	const [createStatisticsRecord, mutation] = useCreateStatisticsRecordMutation(baseCurrencyKey);
 	const handleGetNewRecord = () => {
-		createStatisticsRecord(baseCurrencyKey);
 		setIsUpdateInProgress(true);
+		createStatisticsRecord(baseCurrencyKey);
 	};
 
 	useEffect(() => {
@@ -38,9 +37,8 @@ const PageCashStatistics = () => {
 				</TextStyler>
 			</div>
 			<div className={styles.list/*TODO create virtual-list*/}>
-				{data?.map(record => <Space key={record.id} size='middle' direction='horizontal' align='start' className={styles.listItem}>
+				{data?.map(record => <Space key={record._id} size='middle' direction='horizontal' align='start' className={styles.listItem}>
 					<StatisticsRecord data={record}/>
-					<ValueDifference value={record.difference} currencyId={record.currencyId}/>
 				</Space>)}
 			</div>
 			<Button

@@ -7,21 +7,25 @@ import { useTranslation } from 'react-i18next';
 import TextStyler from '../../../components/TextStyler/TextStyler';
 import { FinancialValue } from '../../../components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from '../../../components/ButtonDeleteItem/ButtonDeleteItem';
+import { useConvertedCurrencyValue } from '../../../utils/custom-react-hooks';
+import ValueDifference from '../ValueDifference/ValueDifference';
 
 import styles from './StatisticsRecord.module.scss';
 
 const StatisticsRecord = ({ data }) => {
 	const { t, } = useTranslation();
+	const { convertedValue, currencyId } = useConvertedCurrencyValue({ value: data.value, currencyId: data.currencyId });
+	const { convertedValue: convertedDifference, } = useConvertedCurrencyValue({ value: data.difference, currencyId: data.currencyId });
 	const confirm = () => {};
 
 	return (
 		<Space size={0} direction='vertical' align='start'>
 			<Space size='small' direction='horizontal' align='end'>
 				<TextStyler className={styles.date}>
-					{dayjs(data.timeStamp).format('DD.MM.YYYY')}
+					{dayjs(data.date).format('DD.MM.YYYY')}
 				</TextStyler>
 				<TextStyler className={styles.value} size='big'>
-					<FinancialValue value={`${data.value} ${data.currencyId}`}/>
+					<FinancialValue value={convertedValue} currencyId={currencyId}/>
 				</TextStyler>
 				<ButtonDeleteItem
 					confirmationPlacement="right"
@@ -31,11 +35,12 @@ const StatisticsRecord = ({ data }) => {
 					title={t('common.sureToRemove')}
 					iconClassName={styles.deleteIcon}
 				/>
+				<ValueDifference value={convertedDifference} currencyId={currencyId}/>
 			</Space>
-			<Tooltip placement="rightTop" title={data.comment}>
+			<Tooltip placement="rightTop" title={data.description}>
 				<Space size='small' direction='horizontal' align='start'>
 					<TextStyler className={styles.comment}>
-						{data.comment}
+						{data.description}
 					</TextStyler>
 				</Space>
 			</Tooltip>
@@ -45,10 +50,11 @@ const StatisticsRecord = ({ data }) => {
 
 StatisticsRecord.propTypes = {
 	data: PropTypes.shape({
-		timeStamp: PropTypes.number.isRequired,
+		date: PropTypes.number.isRequired,
 		value: PropTypes.number.isRequired,
 		currencyId: PropTypes.string.isRequired,
-		comment: PropTypes.string.isRequired,
+		description: PropTypes.string.isRequired,
+		difference: PropTypes.number.isRequired,
 	}).isRequired
 };
 

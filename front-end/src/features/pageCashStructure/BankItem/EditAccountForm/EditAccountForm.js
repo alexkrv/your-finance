@@ -14,7 +14,6 @@ const EditAccountForm = ({ bankId, account }) => {
 	const [form] = Form.useForm();
 	const formRef = useRef();
 	const { t, } = useTranslation();
-	const accountName = Form.useWatch('accountName', form);
 	const accountValue = Form.useWatch('accountValue', form);
 	const initialValues = {
 		bankId: DEFAULT_EMPTY_STRING,
@@ -24,10 +23,8 @@ const EditAccountForm = ({ bankId, account }) => {
 	};
 	const onFinish = ({ accountName, accountValue }) => {
 		editBankAccount({ bankId, accountName, accountValue, accountId: account._id });
-		console.log('TEST', accountName, accountValue);
 		formRef.current.resetFields(['accountName', 'accountValue']);
 	};
-	const isSaveButtonDisabled = !accountName || !accountValue;
 
 	return (
 		<Form
@@ -67,7 +64,7 @@ const EditAccountForm = ({ bankId, account }) => {
 					/>
 				</Form.Item>
 				<Space size="small">
-					<Button disabled={isSaveButtonDisabled} type="primary" shape="round" size="medium" htmlType="submit"
+					<Button disabled={!accountValue} type="primary" shape="round" size="medium" htmlType="submit"
 						className={styles.button}>
 						{t('common.save')}
 					</Button>

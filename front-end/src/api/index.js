@@ -118,11 +118,15 @@ export const api = createApi({
 			providesTags: ['BanksList'],
 		}),
 		getCashStatistics: builder.query({
-			query: () => 'cash-statistics',
+			query: baseCurrencyKey => `cash-statistics?base=${baseCurrencyKey}`,
 			providesTags: ['CashStatistics'],
 		}),
 		createStatisticsRecord: builder.mutation({
-			query: (currencyId) => `create-statistics-record/${currencyId}`,
+			query: currencyId => ({
+				url: apiUrls.API_URL_CASH_STATISTICS,
+				method: 'POST',
+				body: { currencyId }
+			}),
 			invalidatesTags: ['CashStatistics'],
 		}),
 		getAllCurrencies: builder.query({
@@ -138,7 +142,7 @@ export const api = createApi({
 			},
 		}),
 		getConversionRates: builder.query({
-			query: (baseCurrencyKey) => `conversion-rates?base=${baseCurrencyKey}`,
+			query: baseCurrencyKey => `conversion-rates?base=${baseCurrencyKey}`,
 			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
 				try {
 					const { data } = await queryFulfilled;

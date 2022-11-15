@@ -36,10 +36,11 @@ const getCashCategories = (req, response) => dbo.getDb()
         response.json(structured)
     })
 
-const getCurrenciesList = (req, response) => response.json({list: currenciesList});
+const getCurrenciesList = (req, response) => response.json({list: currenciesList}); // TODO check is it still needed
 
 const getConversionRates = (req, response) => {
     const conversionRatesCollection = dbo.getDb().collection("conversion_rates")
+	//TODO if dev-mode get  stale data from DB
     const url = `https://123api.currencyapi.com/v3/latest?apikey=${process.env.FREE_CURRENCY_API_KEY}&base_currency=${req.query.base}`;
     
     return https.get(url, (res) => {
