@@ -6,6 +6,7 @@ const multer  = require('multer')
 
 const routes = require('../constants/routes')
 const userRoutes = require('../routes/users.routes')
+const conversionRatesRoutes = require('../routes/conversion-rates.routes')
 const cashCategoriesRoutes = require('../routes/cashCategories.routes')
 const banksRoutes = require('../routes/banks.routes')
 const brokersRoutes = require('../routes/broker.routes')
@@ -36,10 +37,11 @@ app.use(bodyParser.json())
 
 app.post(routes.ROUTE_LOGIN, userRoutes);
 
+app.get(routes.ROUTE_CONVERSION_RATES, conversionRatesRoutes);
+
 app.post(routes.ROUTE_CASH_CATEGORY_ITEM, cashCategoriesRoutes);
 app.delete(routes.ROUTE_CASH_CATEGORY_ITEM, cashCategoriesRoutes);
 app.get(routes.ROUTE_CURRENCIES, cashCategoriesRoutes);
-app.get(routes.ROUTE_CONVERSION_RATES, cashCategoriesRoutes);
 app.get(routes.ROUTE_GET_CASH_STRUCTURE, cashCategoriesRoutes);
 
 app.get(routes.ROUTE_BANK_ORGANIZATION, banksRoutes);

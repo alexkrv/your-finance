@@ -7,7 +7,10 @@ const initialState = {
 	currenciesInfo: {
 		list: {}
 	},
-	conversionRates: {}
+	conversionRates: {
+		meta: {},
+		rates: {}
+	}
 };
 
 export const currencyOperationsSlice = createSlice({

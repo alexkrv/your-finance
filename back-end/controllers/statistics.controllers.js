@@ -1,5 +1,6 @@
 const dbo = require('../db')
 const { v4: uuidv4 } = require('uuid');
+const { getCashCategoriesTotal, getBankAccountsTotal, getBrokersAssetsTotal } = require('../utils/get-totals');
 
 const getStatistics = (req, response) => {
 	dbo.getDb()
@@ -10,18 +11,18 @@ const getStatistics = (req, response) => {
 		})
 }
 
-const addStatisticsRecord = (req, response) => {
-	// const bankCollection = dbo.getDb()
-	// 	.collection('bank_organizations')
-	// 	.find()
-	// 	.toArray((err, result) => {
-	// 		//TODO agregate all bank accounts
-	// 	})
+const addStatisticsRecord = async(req, response) => {
+	const [ categoriesTotal, accountsTotal, brokersTotal ] = await Promise.allSettled([
+		getCashCategoriesTotal(req.body.currencyId),
+		getBankAccountsTotal(req.body.currencyId),
+		getBrokersAssetsTotal(req.body.currencyId)
+	])
+	
 	const recordId = uuidv4()
 	const recordInfo = {
 		_id: recordId,
 		date: Date.now(),
-		value: 1234567, // TODO count amount
+		value: categoriesTotal.value + accountsTotal.value + brokersTotal.value,
 		currencyId: req.body.currencyId,/*TODO prevent sql-injection-alike threat*/
 		description: '',
 		difference: 0, // TODO for difference extract last record and fill `difference` filed with value
