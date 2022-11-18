@@ -129,6 +129,14 @@ export const api = createApi({
 			}),
 			invalidatesTags: ['CashStatistics'],
 		}),
+		editStatisticsRecord: builder.mutation({
+			query: recordDescription => ({
+				url: apiUrls.API_URL_CASH_STATISTICS,
+				method: 'PATCH',
+				body: recordDescription
+			}),
+			invalidatesTags: ['CashStatistics'],
+		}),
 		getAllCurrencies: builder.query({
 			query: () => 'currencies',
 			async onQueryStarted(arg, { dispatch, queryFulfilled, }) {
@@ -203,6 +211,7 @@ export const api = createApi({
 export const {
 	useGetCashStatisticsQuery,
 	useCreateStatisticsRecordMutation,
+	useEditStatisticsRecordMutation,
 	useLoginMutation,
 	useAddCashCategoryItemMutation,
 	useDeleteCashCategoryItemMutation,

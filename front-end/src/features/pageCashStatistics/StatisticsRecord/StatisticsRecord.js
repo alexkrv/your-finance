@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Space, Tooltip, } from 'antd';
+import { Space, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
@@ -9,14 +9,21 @@ import { FinancialValue } from '../../../components/FinancialValue/FinancialValu
 import ButtonDeleteItem from '../../../components/ButtonDeleteItem/ButtonDeleteItem';
 import { useConvertedCurrencyValue } from '../../../utils/custom-react-hooks';
 import ValueDifference from '../ValueDifference/ValueDifference';
+import { useEditStatisticsRecordMutation } from '../../../api';
 
 import styles from './StatisticsRecord.module.scss';
 
 const StatisticsRecord = ({ data }) => {
+	const [description, setDescription] = useState(data.description);
 	const { t, } = useTranslation();
 	const { convertedValue, currencyId } = useConvertedCurrencyValue({ value: data.value, currencyId: data.currencyId });
 	const { convertedValue: convertedDifference, } = useConvertedCurrencyValue({ value: data.difference, currencyId: data.currencyId });
+	const [editStatisticsRecord] = useEditStatisticsRecordMutation();
 	const confirm = () => {};
+	const handleDescriptionEdit = input => {
+		editStatisticsRecord({ ...data, description: input });
+		setDescription(input);
+	};
 
 	return (
 		<Space size={0} direction='vertical' align='start'>
@@ -37,13 +44,15 @@ const StatisticsRecord = ({ data }) => {
 				/>
 				<ValueDifference value={convertedDifference} currencyId={currencyId}/>
 			</Space>
-			<Tooltip placement="rightTop" title={data.description}>
-				<Space size='small' direction='horizontal' align='start'>
-					<TextStyler className={styles.comment}>
-						{data.description}
-					</TextStyler>
-				</Space>
-			</Tooltip>
+			<Typography.Paragraph
+				type='secondary'
+				className={styles.comment}
+				editable={{
+					onChange: handleDescriptionEdit,
+				}}
+			>
+				{description}
+			</Typography.Paragraph>
 		</Space>
 	);
 };
