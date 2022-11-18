@@ -1,6 +1,7 @@
 const express = require('express');
+
 const bankControllers = require('../controllers/bank.controllers');
-const routes = require('../constants/routes')
+const routes = require('../constants/routes');
 
 const router = express.Router();
 
@@ -12,5 +13,5 @@ router.delete(routes.ROUTE_BANK_ORGANIZATION, bankControllers.deleteBankOrganiza
 router.delete(routes.ROUTE_BANK_ACCOUNT, bankControllers.deleteBankAccount);
 router.post(routes.ROUTE_BANK_AVATAR, bankControllers.addBankOrganizationAvatar);
 
-module.exports = router
+module.exports = router;
 
