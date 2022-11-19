@@ -22,6 +22,8 @@ const addStatisticsRecord = async(req, response) => {
 	]);
 	const value = categoriesTotal.value + accountsTotal.value + brokersTotal.value;
 	const recordId = uuidv4();
+	const statisticsCollection = dbo.getDb().collection('statistics_money');
+	const [lastStatisticsRecord] = await statisticsCollection.find().sort({ _id:1 }).toArray();
 	const recordInfo = {
 		_id: recordId,
 		date: Date.now(),
@@ -29,11 +31,11 @@ const addStatisticsRecord = async(req, response) => {
 		currencyId: req.body.currencyId,/*TODO prevent sql-injection-alike threat*/
 		description: '',
 		valueInUsd: parseFloat((value*rates.USD.value).toFixed(2)) || 0,
-		difference: 0, // TODO for difference extract last record and fill `difference` filed with value
+		difference: lastStatisticsRecord ? parseFloat((lastStatisticsRecord.value*rates[lastStatisticsRecord.currencyId].value)
+			.toFixed(2)) || 0 : 0
 	};
 
-	dbo.getDb()
-		.collection('statistics_money')
+	statisticsCollection
 		.insertOne(recordInfo)
 		.then(() => response.json(recordInfo));
 };
