@@ -7,17 +7,15 @@ import { useTranslation } from 'react-i18next';
 import TextStyler from '../../../components/TextStyler/TextStyler';
 import { FinancialValue } from '../../../components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from '../../../components/ButtonDeleteItem/ButtonDeleteItem';
-import { useConvertedCurrencyValue } from '../../../utils/custom-react-hooks';
 import ValueDifference from '../ValueDifference/ValueDifference';
 import { useEditStatisticsRecordMutation, useRemoveStatisticsRecordMutation } from '../../../api';
+import { CUR_USD } from '../../../constants/default-values';
 
 import styles from './StatisticsRecord.module.scss';
 
 const StatisticsRecord = ({ data }) => {
 	const [description, setDescription] = useState(data.description);
 	const { t, } = useTranslation();
-	const { convertedValue, currencyId } = useConvertedCurrencyValue({ value: data.value, currencyId: data.currencyId });
-	const { convertedValue: convertedDifference, } = useConvertedCurrencyValue({ value: data.difference, currencyId: data.currencyId });
 	const [editStatisticsRecord] = useEditStatisticsRecordMutation();
 	const [removeStatisticsRecord] = useRemoveStatisticsRecordMutation();
 	const confirm = () => removeStatisticsRecord(data._id);
@@ -33,7 +31,8 @@ const StatisticsRecord = ({ data }) => {
 					{dayjs(data.date).format('DD.MM.YYYY')}
 				</TextStyler>
 				<TextStyler className={styles.value} size='big'>
-					<FinancialValue value={convertedValue} currencyId={currencyId}/>
+					<FinancialValue value={data.value} currencyId={data.currencyId}/>
+					<FinancialValue value={data.valueInUsd} currencyId={CUR_USD}/>
 				</TextStyler>
 				<ButtonDeleteItem
 					confirmationPlacement="right"
@@ -43,7 +42,7 @@ const StatisticsRecord = ({ data }) => {
 					title={t('common.sureToRemove')}
 					iconClassName={styles.deleteIcon}
 				/>
-				<ValueDifference value={convertedDifference} currencyId={currencyId}/>
+				<ValueDifference value={data.difference} currencyId={data.currencyId}/>
 			</Space>
 			<Typography.Paragraph
 				type='secondary'

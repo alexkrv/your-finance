@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const dbo = require('../db');
 const { getCashCategoriesTotal, getBankAccountsTotal, getBrokersAssetsTotal } = require('../utils/get-totals');
+const getConversionRatesByBase = require('../utils/get-conversion-rates');
 
 const getStatistics = (req, response) => {
 	dbo.getDb()
@@ -13,19 +14,21 @@ const getStatistics = (req, response) => {
 };
 
 const addStatisticsRecord = async(req, response) => {
+	const { rates } = await getConversionRatesByBase(req.body.currencyId);
 	const [ categoriesTotal, accountsTotal, brokersTotal ] = await Promise.allSettled([
-		getCashCategoriesTotal(req.body.currencyId),
-		getBankAccountsTotal(req.body.currencyId),
-		getBrokersAssetsTotal(req.body.currencyId)
+		getCashCategoriesTotal(req.body.currencyId, rates),
+		getBankAccountsTotal(req.body.currencyId, rates),
+		getBrokersAssetsTotal(req.body.currencyId, rates)
 	]);
-
+	const value = categoriesTotal.value + accountsTotal.value + brokersTotal.value;
 	const recordId = uuidv4();
 	const recordInfo = {
 		_id: recordId,
 		date: Date.now(),
-		value: categoriesTotal.value + accountsTotal.value + brokersTotal.value,
+		value: parseFloat(value.toFixed(2)),
 		currencyId: req.body.currencyId,/*TODO prevent sql-injection-alike threat*/
 		description: '',
+		valueInUsd: parseFloat((value*rates.USD.value).toFixed(2)) || 0,
 		difference: 0, // TODO for difference extract last record and fill `difference` filed with value
 	};
 

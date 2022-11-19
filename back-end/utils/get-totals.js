@@ -1,9 +1,8 @@
 const dbo = require('../db');
 
-const getConversionRatesByBase = require('./get-conversion-rates');
 const retrieveAssetPrice = require('./get-asset-price');
-
 const E_NOT_COUNTED = -1;
+
 const getTotalCash = ({ broker, rates, }) => {
 	return Object.keys(broker.assets.cash)
 		.reduce((acc, key) =>
@@ -28,9 +27,7 @@ const getTotalStocks = async ({ broker, rates }) => {
 };
 
 module.exports = {
-	getCashCategoriesTotal: async (currencyId) => {
-		const { rates } = await getConversionRatesByBase(currencyId);
-
+	getCashCategoriesTotal: async (currencyId, rates) => {
 		if(rates) {
 			const cashCategories = await dbo.getDb()
 				.collection('cash_category_items')
@@ -44,9 +41,7 @@ module.exports = {
 			return E_NOT_COUNTED;
 		}
 	},
-	getBankAccountsTotal: async (currencyId) => {
-		const { rates } = await getConversionRatesByBase(currencyId);
-
+	getBankAccountsTotal: async (currencyId, rates) => {
 		if(rates) {
 			const banks = await dbo.getDb()
 				.collection('bank_organizations')
@@ -61,9 +56,7 @@ module.exports = {
 			return E_NOT_COUNTED;
 		}
 	},
-	getBrokersAssetsTotal: async (currencyId) => {
-		const { rates } = await getConversionRatesByBase(currencyId);
-
+	getBrokersAssetsTotal: async (currencyId, rates) => {
 		if(rates) {
 			const brokers = await dbo.getDb()
 				.collection('brokers')
