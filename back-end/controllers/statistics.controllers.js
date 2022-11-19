@@ -54,8 +54,15 @@ const editStatisticsRecord = async(req, response) => {
 		);
 };
 
+const deleteStatisticsRecord = (req, response) => {
+	dbo.getDb().collection('statistics_money')
+		.deleteOne({ _id: { $eq: req.body.recordId } })
+		.then(() => response.json({ _id: req.body.recordId }));
+};
+
 module.exports = {
 	getStatistics,
 	addStatisticsRecord,
+	deleteStatisticsRecord,
 	editStatisticsRecord
 };

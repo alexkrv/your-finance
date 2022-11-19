@@ -129,6 +129,14 @@ export const api = createApi({
 			}),
 			invalidatesTags: ['CashStatistics'],
 		}),
+		removeStatisticsRecord: builder.mutation({
+			query: recordId => ({
+				url: apiUrls.API_URL_CASH_STATISTICS,
+				method: 'DELETE',
+				body: { recordId },
+			}),
+			invalidatesTags: ['CashStatistics'],
+		}),
 		editStatisticsRecord: builder.mutation({
 			query: recordDescription => ({
 				url: apiUrls.API_URL_CASH_STATISTICS,
@@ -211,6 +219,7 @@ export const api = createApi({
 export const {
 	useGetCashStatisticsQuery,
 	useCreateStatisticsRecordMutation,
+	useRemoveStatisticsRecordMutation,
 	useEditStatisticsRecordMutation,
 	useLoginMutation,
 	useAddCashCategoryItemMutation,

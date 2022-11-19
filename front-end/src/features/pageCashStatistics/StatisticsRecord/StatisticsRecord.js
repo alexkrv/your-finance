@@ -9,7 +9,7 @@ import { FinancialValue } from '../../../components/FinancialValue/FinancialValu
 import ButtonDeleteItem from '../../../components/ButtonDeleteItem/ButtonDeleteItem';
 import { useConvertedCurrencyValue } from '../../../utils/custom-react-hooks';
 import ValueDifference from '../ValueDifference/ValueDifference';
-import { useEditStatisticsRecordMutation } from '../../../api';
+import { useEditStatisticsRecordMutation, useRemoveStatisticsRecordMutation } from '../../../api';
 
 import styles from './StatisticsRecord.module.scss';
 
@@ -19,7 +19,8 @@ const StatisticsRecord = ({ data }) => {
 	const { convertedValue, currencyId } = useConvertedCurrencyValue({ value: data.value, currencyId: data.currencyId });
 	const { convertedValue: convertedDifference, } = useConvertedCurrencyValue({ value: data.difference, currencyId: data.currencyId });
 	const [editStatisticsRecord] = useEditStatisticsRecordMutation();
-	const confirm = () => {};
+	const [removeStatisticsRecord] = useRemoveStatisticsRecordMutation();
+	const confirm = () => removeStatisticsRecord(data._id);
 	const handleDescriptionEdit = input => {
 		editStatisticsRecord({ ...data, description: input });
 		setDescription(input);

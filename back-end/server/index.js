@@ -63,6 +63,7 @@ app.post(routes.ROUTE_BROKER_AVATAR, upload.single('avatar'), brokersRoutes);
 app.get(routes.ROUTE_CASH_STATISTICS, statisticsRoutes);
 app.post(routes.ROUTE_CASH_STATISTICS, statisticsRoutes);
 app.patch(routes.ROUTE_CASH_STATISTICS, statisticsRoutes);
+app.delete(routes.ROUTE_CASH_STATISTICS, statisticsRoutes);
 
 app.listen(PORT, () => {
 	console.log(`Server listening on ${PORT}`);
