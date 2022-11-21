@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 
 const dbo = require('../db');
-const { getCashCategoriesTotal, getBankAccountsTotal, getBrokersAssetsTotal } = require('../utils/get-totals');
+const { getBankAccountsTotal, getBrokersAssetsTotal } = require('../utils/get-totals');
 const getConversionRatesByBase = require('../utils/get-conversion-rates');
 
 const getStatistics = (req, response) => {
@@ -15,12 +15,11 @@ const getStatistics = (req, response) => {
 
 const addStatisticsRecord = async(req, response) => {
 	const { rates } = await getConversionRatesByBase(req.body.currencyId);
-	const [ categoriesTotal, accountsTotal, brokersTotal ] = await Promise.allSettled([
-		getCashCategoriesTotal(req.body.currencyId, rates),
+	const [ accountsTotal, brokersTotal ] = await Promise.allSettled([
 		getBankAccountsTotal(req.body.currencyId, rates),
 		getBrokersAssetsTotal(req.body.currencyId, rates)
 	]);
-	const value = categoriesTotal.value + accountsTotal.value + brokersTotal.value;
+	const value = accountsTotal.value + brokersTotal.value;
 	const recordId = uuidv4();
 	const statisticsCollection = dbo.getDb().collection('statistics_money');
 	const [lastStatisticsRecord] = await statisticsCollection.find().sort({ date: -1 }).toArray();

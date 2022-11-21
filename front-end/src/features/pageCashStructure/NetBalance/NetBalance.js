@@ -9,7 +9,7 @@ import { CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING, DEFAULT_ZERO } from '../.
 
 import styles from './NetBalance.module.scss';
 
-const NetBalance = () => {
+const NetBalance = () => { // TODO delete frozen from avaluation of total + total rename to Profit or Income/Outcome Balance
 	const { t } = useTranslation();
 	const { income, spending, frozen } = useSelector(state => state.cashCategories.totalSums);
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
