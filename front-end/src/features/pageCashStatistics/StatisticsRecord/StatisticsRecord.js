@@ -9,7 +9,7 @@ import { FinancialValue } from '../../../components/FinancialValue/FinancialValu
 import ButtonDeleteItem from '../../../components/ButtonDeleteItem/ButtonDeleteItem';
 import ValueDifference from '../ValueDifference/ValueDifference';
 import { useEditStatisticsRecordMutation, useRemoveStatisticsRecordMutation } from '../../../api';
-import { CUR_USD } from '../../../constants/default-values';
+import { CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING, CUR_USD } from '../../../constants/default-values';
 
 import styles from './StatisticsRecord.module.scss';
 
@@ -31,8 +31,8 @@ const StatisticsRecord = ({ data }) => {
 					{dayjs(data.date).format('DD.MM.YYYY')}
 				</TextStyler>
 				<TextStyler className={styles.value} size='big'>
-					<FinancialValue value={data.value} currencyId={data.currencyId}/>
-					<FinancialValue value={data.valueInUsd} currencyId={CUR_USD}/>
+					<FinancialValue value={parseFloat(data.value.toFixed(2))} currencyId={data.currencyId}/>
+					<FinancialValue value={parseFloat(data.valueInUsd.toFixed(2))} currencyId={CUR_USD}/>
 				</TextStyler>
 				<ButtonDeleteItem
 					confirmationPlacement="right"
@@ -42,7 +42,11 @@ const StatisticsRecord = ({ data }) => {
 					title={t('common.sureToRemove')}
 					iconClassName={styles.deleteIcon}
 				/>
-				<ValueDifference value={data.difference} currencyId={data.currencyId}/>
+				<ValueDifference
+					value={parseFloat(data.difference.toFixed(2))}
+					currencyId={data.currencyId}
+					type={data.difference < 0 ? CATEGORY_TYPE_SPENDING : CATEGORY_TYPE_INCOME}
+				/>
 			</Space>
 			<Typography.Paragraph
 				type='secondary'

@@ -6,7 +6,9 @@ import { EyeOutlined, EyeInvisibleOutlined, PlusOutlined, MinusOutlined } from '
 import {
 	CATEGORY_TYPE_FROZEN,
 	CATEGORY_TYPE_INCOME,
-	CATEGORY_TYPE_SPENDING, DEFAULT_EMPTY_STRING, DEFAULT_ZERO,
+	CATEGORY_TYPE_SPENDING,
+	DEFAULT_EMPTY_STRING,
+	DEFAULT_ZERO,
 } from '../../constants/default-values';
 
 import styles from './FinancialValue.module.scss';
@@ -30,7 +32,7 @@ export const FinancialValue = ({ value, type, currencyId, size }) => {
 
 	const getSign = (type) => {
 		switch (type){
-			case CATEGORY_TYPE_INCOME:
+			case CATEGORY_TYPE_INCOME: // TODO refactor ex POSITIVE / NEGATIVE or do zero-comparison
 				return <PlusOutlined className={styles.plusSign}/>;
 			case CATEGORY_TYPE_SPENDING:
 				return <MinusOutlined className={styles.minusSign}/>;

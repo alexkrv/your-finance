@@ -23,16 +23,18 @@ const addStatisticsRecord = async(req, response) => {
 	const value = categoriesTotal.value + accountsTotal.value + brokersTotal.value;
 	const recordId = uuidv4();
 	const statisticsCollection = dbo.getDb().collection('statistics_money');
-	const [lastStatisticsRecord] = await statisticsCollection.find().sort({ _id:1 }).toArray();
+	const [lastStatisticsRecord] = await statisticsCollection.find().sort({ date: -1 }).toArray();
+	const previousValue = lastStatisticsRecord
+		? lastStatisticsRecord.value/rates[lastStatisticsRecord.currencyId].value || 0
+		: 0;
 	const recordInfo = {
 		_id: recordId,
 		date: Date.now(),
-		value: parseFloat(value.toFixed(2)),
+		value,
 		currencyId: req.body.currencyId,/*TODO prevent sql-injection-alike threat*/
 		description: '',
-		valueInUsd: parseFloat((value*rates.USD.value).toFixed(2)) || 0,
-		difference: lastStatisticsRecord ? parseFloat((lastStatisticsRecord.value*rates[lastStatisticsRecord.currencyId].value)
-			.toFixed(2)) || 0 : 0
+		valueInUsd: value*rates.USD.value || 0,
+		difference: previousValue ? value - previousValue : 0
 	};
 
 	statisticsCollection
