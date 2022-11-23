@@ -28,7 +28,7 @@ const getCashCategories = (req, response) => dbo.getDb()
 	.collection('cash_category_items')
 	.find()
 	.toArray((err, result) => {
-		const structured = result.reduce((acc, item) => ({
+		const structured = result.sort((a , b) => b.sourceValue - a.sourceValue).reduce((acc, item) => ({
 			...acc,
 			[item.type]: acc[item.type] ? [].concat(acc[item.type] , item) : [item] })
 		, {});
