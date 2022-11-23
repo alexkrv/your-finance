@@ -82,7 +82,7 @@ const CategoryBlock = ({ title, type, items, }) => {
 		};
 
 		return [stepsMetaInfo[type]];
-	}, [type, t]);
+	}, [type, t, addCashCategoryItem]);
 
 	useEffect(() => {
 		if(data && !error) {
@@ -91,11 +91,14 @@ const CategoryBlock = ({ title, type, items, }) => {
 	}, [data, error, total, dispatch, type]);
 
 	return (
-		<Card>
-			<div className={styles.title}>{title}</div>
-			<div className={styles.totalSum} data-value-hidden='false'>{t('common.total')}:&nbsp;
-				{isFetching ?
-					<Spin size="small"/>
+		<Card className={styles.card}>
+			<div className={styles.title}>
+				{title}
+			</div>
+			<div className={styles.totalSum} data-value-hidden='false'>
+				{t('common.total')}:&nbsp;
+				{isFetching
+					? <Spin size="small"/>
 					: <FinancialValue value={total} type={type} currencyId={baseCurrencyKey}/>
 				}
 			</div>

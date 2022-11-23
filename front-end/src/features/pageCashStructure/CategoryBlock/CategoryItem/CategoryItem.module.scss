@@ -1,19 +1,19 @@
 .container {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr 16px;
 	width: 100%;
+    column-gap: 4px;
 }
 
 .sourceName,
 .sourceValue,
 .currency {
 	color: var(--text-primary);
+    cursor: default;
 }
 
 .sourceName,
 .sourceValue {
-	max-width: 100px;
 	overflow: hidden;
 	text-align: left;
 	text-overflow: ellipsis;
@@ -21,11 +21,9 @@
 }
 
 .sourceName {
-	width: 70px;
-	flex-shrink: 0;
+	width: 100%;
 }
 
 .deleteIcon {
 	color: var(--text-secondary);
-	margin-left: 6px;
 }

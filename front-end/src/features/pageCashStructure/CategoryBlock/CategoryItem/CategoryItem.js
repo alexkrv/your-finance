@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
+import { Tooltip } from 'antd';
 
 import { useDeleteCashCategoryItemMutation } from '../../../../api';
 
@@ -15,8 +16,20 @@ export const CategoryItem = ({ item }) => {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.sourceName}>{item.sourceName}&nbsp;</div>
-			<FinancialValue value={item.sourceValue} type={item.type} currencyId={item.currency}/>
+			<Tooltip
+				title={item.sourceName}
+				color='black'
+				placement='left'
+			>
+				<div className={styles.sourceName}>
+					{item.sourceName}&nbsp;
+				</div>
+			</Tooltip>
+			<FinancialValue
+				value={item.sourceValue}
+				type={item.type}
+				currencyId={item.currency}
+			/>
 			<ButtonDeleteItem
 				confirmationPlacement="right"
 				confirmationOkText={t('common.remove')}
@@ -35,5 +48,5 @@ CategoryItem.propTypes = {
 		sourceName: PropTypes.string.isRequired,
 		sourceValue: PropTypes.number.isRequired,
 		currency: PropTypes.string.isRequired,
-	})
+	}).isRequired
 };
