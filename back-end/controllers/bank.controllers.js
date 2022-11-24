@@ -48,8 +48,8 @@ const editBankAccount = async(req, res) => {
 		if(el._id === req.body.accountId){
 			return {
 				...el,
-				name: req.body.accountName/*TODO prevent sql-injection-alike threat*/,
-				value: req.body.accountValue/*TODO prevent sql-injection-alike threat*/
+				name: req.body.accountName ? req.body.accountName : el.name/*TODO prevent sql-injection-alike threat*/,
+				value: req.body.accountValue ? req.body.accountValue : el.value/*TODO prevent sql-injection-alike threat*/
 			};
 		} else {
 			return el;

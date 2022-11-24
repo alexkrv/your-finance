@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { EditOutlined } from '@ant-design/icons';
-import { message, Modal, Button, } from 'antd';
+import { message, Modal, } from 'antd';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -23,13 +23,9 @@ const ButtonEdit = ({
 
 	return (
 		<>
-			<Button
-				type="tertiary"
-				size='small'
-				onClick={() => setIsVisible(!isVisible)}
-				className={styles.getState}
-				icon={<EditOutlined className={clsx(styles.icon, iconClassName)} />}
-			/>
+			<div onClick={() => setIsVisible(!isVisible)} className={styles.button}>
+				<EditOutlined className={clsx(styles.icon, iconClassName)} />
+			</div>
 			<Modal
 				width={'fit-content'}
 				visible={isVisible}

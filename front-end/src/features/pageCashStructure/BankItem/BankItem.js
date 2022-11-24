@@ -52,7 +52,7 @@ const BankItem = ({ bank, }) => {
 						/>
 					</div>
 					<div className={styles.bankTotalValue}>
-						{t('cashCategories.netBalance')}
+						{t('common.total')}
 						&nbsp;{ isFetching ? <Spin size='small' />: <FinancialValue value={total} currencyId={baseCurrencyKey}/> }
 					</div>
 				</div>

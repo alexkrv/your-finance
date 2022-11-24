@@ -15,6 +15,7 @@ const EditAccountForm = ({ bankId, account }) => {
 	const formRef = useRef();
 	const { t, } = useTranslation();
 	const accountValue = Form.useWatch('accountValue', form);
+	const accountName = Form.useWatch('accountName', form);
 	const initialValues = {
 		bankId: DEFAULT_EMPTY_STRING,
 		accountId: DEFAULT_EMPTY_STRING,
@@ -64,7 +65,7 @@ const EditAccountForm = ({ bankId, account }) => {
 					/>
 				</Form.Item>
 				<Space size="small">
-					<Button disabled={!accountValue} type="primary" shape="round" size="medium" htmlType="submit"
+					<Button disabled={!accountValue && !accountName} type="primary" shape="round" size="medium" htmlType="submit"
 						className={styles.button}>
 						{t('common.save')}
 					</Button>
