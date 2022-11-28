@@ -2,7 +2,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	width: 100%;
 	user-select: none;
     color: var(--text-primary);
 }
@@ -15,7 +14,7 @@
 }
 
 .icon {
-	margin-left: 5px;
+    padding: 4px;
 	cursor: pointer;
     color: var(--text-secondary);
 }

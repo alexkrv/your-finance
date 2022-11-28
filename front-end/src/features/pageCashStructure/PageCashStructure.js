@@ -3,7 +3,7 @@ import { CATEGORY_TYPE_FROZEN, CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING } fr
 import React from 'react';
 import { useSelector, } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Space, Alert, Skeleton } from 'antd';
+import { Space, Skeleton } from 'antd';
 import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 
 import { useGetCashCategoriesQuery } from '../../api';
@@ -20,19 +20,11 @@ const PageCashStructure = () => {
 	const { categories: {
 		income, spending, frozen,
 	}, isCategoriesStarterFinished, } = useSelector(state => state.cashCategories);
-	const { isStale, timestamp } = useSelector(state => state.currencies.conversionRates);
 	const { t } = useTranslation();
 	const { isFetching } = useGetCashCategoriesQuery();
 
 	return (
 		<div className={styles.container}>
-			{isStale ?
-				<Alert
-					message={`${t('cashCategories.staleConversionRates')} ${new Date(timestamp)}`}
-					type="warning"
-					closable
-				/>
-				: null}
 			{isCategoriesStarterFinished ? null : <CashCategoriesStarter/>}
 			<NetBalance/>
 			<Space size='large' align='start' direction='vertical'>

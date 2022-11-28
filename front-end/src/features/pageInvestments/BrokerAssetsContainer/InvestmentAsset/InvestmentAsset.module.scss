@@ -4,9 +4,10 @@
 
 .asset {
     display: grid;
-    grid-template: 1fr / 1fr 1fr 1fr 2fr 2fr 2fr 2fr;
+    grid-template: 1fr/1fr 1fr 1fr;
     align-items: center;
     justify-items: start;
+    column-gap: 8px;
 }
 
 .infoBlock {
@@ -15,9 +16,8 @@
     justify-content: flex-start;
 }
 
-.assetName{
-    grid-row: 1/2;
-    color: var(--text-primary);
+.caption{
+    margin-right: 8px;
 }
 
 .buttonAddItem {
@@ -26,4 +26,8 @@
 
 .assetAmount {
     width: 60px;
+}
+
+.deleteIcon {
+    padding: 4px;
 }

@@ -52,7 +52,9 @@ export const FinancialValue = ({ value, type, currencyId, size }) => {
 					: DEFAULT_EMPTY_STRING
 				}
 			</span>
-			<span onClick={handleClick} className={styles.icon}>{ isHidden ? <EyeOutlined /> : <EyeInvisibleOutlined/> }</span>
+			<span onClick={handleClick} className={styles.icon}>
+				{ isHidden ? <EyeOutlined /> : <EyeInvisibleOutlined/> }
+			</span>
 		</span>
 	);
 };

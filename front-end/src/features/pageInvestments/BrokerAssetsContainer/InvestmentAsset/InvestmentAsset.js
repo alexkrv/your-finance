@@ -10,6 +10,7 @@ import ButtonAddItem from '../../../../components/ButtonAddItem/ButtonAddItem';
 import { DEFAULT_ONE, DEFAULT_ZERO } from '../../../../constants/default-values';
 import { useEditBrokerAssetMutation, useRemoveBrokerAssetMutation } from '../../../../api';
 import ButtonEdit from '../../../../components/ButtonEdit/ButtonEdit';
+import TextStyler from '../../../../components/TextStyler/TextStyler';
 
 import styles from './InvestmentAsset.module.scss';
 
@@ -77,9 +78,10 @@ const InvestmentAsset = ({
 		<div className={styles.container}>
 			{Object.keys(processedAsset).map( assetKey => <div key={assetKey} className={styles.asset}>
 				<div className={styles.infoBlock}>
-					<div className={styles.assetName}>
+					<TextStyler size='medium' className={styles.caption}>
 						{assetKey}
-					</div>
+					</TextStyler>
+					<FinancialValue value={processedAsset[assetKey].amount} />
 					<ButtonEdit
 						onConfirm={() => {/*TODO create handler*/}}
 						title={t('brokerItem.editInvestItem')}
@@ -100,17 +102,20 @@ const InvestmentAsset = ({
 						title={t('common.sureToRemove')}
 						iconClassName={styles.deleteIcon}
 					/>
-					<FinancialValue value={processedAsset[assetKey].amount} />
 				</div>
 				<div className={styles.infoBlock}>
-					{t('common.total')}
+					<TextStyler size='medium'  className={styles.caption} secondary>
+						{t('common.total')}
+					</TextStyler>
 					<FinancialValue
 						currencyId={processedAsset[assetKey].currency}
 						value={(processedAsset[assetKey].amount * processedAsset[assetKey].averageAssetPrice).toFixed(DEFAULT_ONE)/*TODO use current asset price*/}
 					/>
 				</div>
 				<div className={styles.infoBlock}>
-					{t('brokerItem.averageAssetPrice')}
+					<TextStyler size='medium'  className={styles.caption} secondary>
+						{t('brokerItem.averageAssetPrice')}
+					</TextStyler>
 					<FinancialValue
 						currencyId={processedAsset[assetKey].currency}
 						value={processedAsset[assetKey].averageAssetPrice}
