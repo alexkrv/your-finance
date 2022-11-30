@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Space, Typography } from 'antd';
+import { Typography } from 'antd';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
@@ -25,39 +25,41 @@ const StatisticsRecord = ({ data }) => {
 	};
 
 	return (
-		<Space size={0} direction='vertical' align='start'>
-			<Space size='small' direction='horizontal' align='end'>
-				<TextStyler className={styles.date}>
-					{dayjs(data.date).format('DD.MM.YYYY')}
-				</TextStyler>
-				<TextStyler className={styles.value} size='big'>
-					<FinancialValue value={parseFloat(data.value.toFixed(2))} currencyId={data.currencyId}/>
-					<FinancialValue value={parseFloat(data.valueInUsd.toFixed(2))} currencyId={CUR_USD}/>
-				</TextStyler>
-				<ButtonDeleteItem
-					confirmationPlacement="right"
-					confirmationOkText={t('common.remove')}
-					confirmationCancelText={t('common.keep')}
-					onConfirm={confirm}
-					title={t('common.sureToRemove')}
-					iconClassName={styles.deleteIcon}
-				/>
-				<ValueDifference
-					value={parseFloat(data.difference.toFixed(2))}
-					currencyId={data.currencyId}
-					type={data.difference < 0 ? CATEGORY_TYPE_SPENDING : CATEGORY_TYPE_INCOME}
-				/>
-			</Space>
-			<Typography.Paragraph
+		<div className={styles.container}>
+			<TextStyler className={styles.date}>
+				{dayjs(data.date).format('DD.MM.YYYY')}
+			</TextStyler>
+			<TextStyler className={styles.value} size='big'>
+				<FinancialValue value={parseFloat(data.value.toFixed(2))} currencyId={data.currencyId}/>
+			</TextStyler>
+			<ValueDifference
+				value={parseFloat(data.difference.toFixed(2))}
+				currencyId={data.currencyId}
+				type={data.difference < 0 ? CATEGORY_TYPE_SPENDING : CATEGORY_TYPE_INCOME}
+				className={styles.difference}
+			/>
+			<FinancialValue
+				value={parseFloat(data.valueInUsd.toFixed(2))}
+				currencyId={CUR_USD}
+				className={styles.convertedValue}
+			/>
+			<ButtonDeleteItem
+				confirmationPlacement="right"
+				confirmationOkText={t('common.remove')}
+				confirmationCancelText={t('common.keep')}
+				onConfirm={confirm}
+				title={t('common.sureToRemove')}
+				iconClassName={styles.deleteIcon}
+			/>
+			<Typography.Text
 				type='secondary'
 				className={styles.comment}
-				editable={{
-					onChange: handleDescriptionEdit,
-				}}
+				editable={{ onChange: handleDescriptionEdit }}
+				ellipsis={{ tooltip: true }}
 			>
-				{description}
-			</Typography.Paragraph>
-		</Space>
+				{description || t('cashStatistics.addComment')}
+			</Typography.Text>
+		</div>
 	);
 };
 

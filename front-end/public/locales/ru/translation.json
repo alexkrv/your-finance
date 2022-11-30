@@ -66,7 +66,8 @@
   },
   "cashStatistics": {
     "balanceStates": "Состояния баланса",
-    "getCurrentState": "Посчитать текущее состояние в"
+    "getCurrentState": "Посчитать текущее состояние в",
+    "addComment": "Добавить комментарий"
   },
   "bankItem": {
     "addBank": "Добавить банк",

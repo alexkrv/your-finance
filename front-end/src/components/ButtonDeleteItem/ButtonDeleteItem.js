@@ -23,17 +23,15 @@ const ButtonDeleteItem = ({
 	};
 
 	return (
-		<div>
-			<Popconfirm
-				confirmationPlacement={confirmationPlacement}
-				title={title}
-				onConfirm={handleOkClick}
-				okText={confirmationOkText}
-				cancelText={confirmationCancelText}
-			>
-				<DeleteOutlined className={clsx(styles.icon, iconClassName)} />
-			</Popconfirm>
-		</div>
+		<Popconfirm
+			confirmationPlacement={confirmationPlacement}
+			title={title}
+			onConfirm={handleOkClick}
+			okText={confirmationOkText}
+			cancelText={confirmationCancelText}
+		>
+			<DeleteOutlined className={clsx(styles.icon, iconClassName)} />
+		</Popconfirm>
 	);
 };
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { EyeOutlined, EyeInvisibleOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import clsx from 'clsx';
 
 import {
 	CATEGORY_TYPE_FROZEN,
@@ -13,7 +14,7 @@ import {
 
 import styles from './FinancialValue.module.scss';
 
-export const FinancialValue = ({ value, type, currencyId, size }) => {
+export const FinancialValue = ({ value, type, currencyId, size, className }) => {
 	const timeoutRef = useRef(null);
 	const isVisible = useSelector(state => state.valueVisibility.isVisible);
 	const [isHidden, setIsHidden] = useState(!isVisible);
@@ -43,7 +44,7 @@ export const FinancialValue = ({ value, type, currencyId, size }) => {
 	};
 
 	return (
-		<span className={styles.container}>
+		<span className={clsx(styles.container, className)}>
 			<span className={styles.hiddenValue} data-value-hidden={isHidden}>
 				{value === DEFAULT_ZERO ? DEFAULT_EMPTY_STRING : getSign(type)}
 				<span className={styles[size]}>{Math.abs(value)}</span>
