@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const dbo = require('../db');
 const { getBankAccountsTotal, getBrokersAssetsTotal } = require('../utils/get-totals');
-const getConversionRatesByBase = require('../utils/get-conversion-rates');
+const { getConversionRatesByBase } = require('../utils/get-conversion-rates');
 
 const getStatistics = (req, response) => {
 	dbo.getDb()

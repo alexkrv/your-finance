@@ -45,22 +45,24 @@ const getConversionRatesByBaseWithUpdate = async (conversionRatesCollection, bas
 	return preparedInfo;
 };
 
-module.exports = getConversionRatesByBase = baseCurrencyId => {
-	const conversionRatesCollection = dbo.getDb().collection('conversion_rates');
+module.exports = {
+	getConversionRatesByBase: baseCurrencyId => {
+		const conversionRatesCollection = dbo.getDb().collection('conversion_rates');
 
-	if (process.env.NODE_ENV === 'development') {
-		return new Promise((resolve, reject) => {
-			conversionRatesCollection
-				.findOne({ baseCurrencyKey: { $eq: baseCurrencyId } },)
-				.then(async result => {
-					if(result) {
-						resolve(result);
-					} else {
-						resolve(await getConversionRatesByBaseWithUpdate(conversionRatesCollection, baseCurrencyId));
-					}
-				});
-		});
-	} else {
-		return getConversionRatesByBaseWithUpdate(conversionRatesCollection, baseCurrencyId);
+		if (process.env.NODE_ENV === 'development') {
+			return new Promise((resolve, reject) => {
+				conversionRatesCollection
+					.findOne({ baseCurrencyKey: { $eq: baseCurrencyId } },)
+					.then(async result => {
+						if (result) {
+							resolve(result);
+						} else {
+							resolve(await getConversionRatesByBaseWithUpdate(conversionRatesCollection, baseCurrencyId));
+						}
+					});
+			});
+		} else {
+			return getConversionRatesByBaseWithUpdate(conversionRatesCollection, baseCurrencyId);
+		}
 	}
 };

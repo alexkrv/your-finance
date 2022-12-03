@@ -109,7 +109,7 @@ const InvestmentAsset = ({
 					</TextStyler>
 					<FinancialValue
 						currencyId={processedAsset[assetKey].currency}
-						value={(processedAsset[assetKey].amount * processedAsset[assetKey].averageAssetPrice).toFixed(DEFAULT_ONE)/*TODO use current asset price*/}
+						value={(processedAsset[assetKey].amount * processedAsset[assetKey].currentAssetPrice).toFixed(DEFAULT_ONE)/*TODO use current asset price*/}
 					/>
 				</div>
 				<div className={styles.infoBlock}>

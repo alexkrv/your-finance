@@ -1,6 +1,6 @@
 const dbo = require('../db');
 
-const retrieveAssetPrice = require('./get-asset-price');
+const { retrieveAssetPriceUSD } = require('./get-asset-price');
 const E_NOT_COUNTED = -1;
 
 const getTotalCash = ({ broker, rates, }) => {
@@ -11,17 +11,32 @@ const getTotalCash = ({ broker, rates, }) => {
 		, 0);
 };
 
-const getTotalStocks = async ({ broker, rates }) => {
+const getTotalStocks = async ({ broker, rates, baseCurrencyId }) => {
 	const stockTickers = Object.keys(broker.assets.stocks);
 	const prices = {};
 
 	for(let i = 0; i < stockTickers.length; i++) {
-		prices[stockTickers[i]] = await retrieveAssetPrice(stockTickers[i]);
+		prices[stockTickers[i]] = await retrieveAssetPriceUSD(stockTickers[i], rates, baseCurrencyId);
 	}
 
 	return Object.keys(broker.assets.stocks).reduce((acc, stockTicker) => {
 		return acc + broker.assets.stocks[stockTicker].reduce((sum, record) => {
 			return sum + prices[stockTicker]*record.amount/(rates['USD'].value || 1);
+		}, 0);
+	}, 0);
+};
+
+const getTotalFunds = async ({ broker, rates, baseCurrencyId }) => {
+	const fundTickers = Object.keys(broker.assets.funds);
+	const prices = {};
+
+	for(let i = 0; i < fundTickers.length; i++) {
+		prices[fundTickers[i]] = await retrieveAssetPriceUSD(fundTickers[i], rates, baseCurrencyId);
+	}
+
+	return Object.keys(broker.assets.funds).reduce((acc, fundTicker) => {
+		return acc + broker.assets.funds[fundTicker].reduce((sum, record) => {
+			return sum + prices[fundTicker]*record.amount/(rates['USD'].value || 1);
 		}, 0);
 	}, 0);
 };
@@ -65,22 +80,29 @@ module.exports = {
 			const brokerKeys = Object.keys(brokers);
 			let totalCashSum = 0;
 			let totalStocksSum = 0;
+			let totalFundsSum = 0;
 
 			for(let i = 0; i < brokerKeys.length; i++) {
 				totalCashSum += getTotalCash({
 					broker: brokers[brokerKeys[i]],
-					rates
+					rates,
+					baseCurrencyId: currencyId
 				});
 
 				totalStocksSum += await getTotalStocks({
 					broker: brokers[brokerKeys[i]],
-					rates
+					rates,
+					baseCurrencyId: currencyId
 				});
 
-				// TODO deal somehow with Funds
+				totalFundsSum += await getTotalFunds({
+					broker: brokers[brokerKeys[i]],
+					rates,
+					baseCurrencyId: currencyId
+				});
 			}
 
-			return totalCashSum + totalStocksSum;
+			return totalCashSum + totalStocksSum + totalFundsSum;
 		} else {
 			return E_NOT_COUNTED;
 		}
