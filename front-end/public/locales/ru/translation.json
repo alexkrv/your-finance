@@ -104,6 +104,7 @@
     "inputAssetName": "Введите название инструмента",
     "averageAssetPrice": "Средняя цена",
     "editInvestItem": "Редактирование инструмента",
-    "editBrokerName": "Новое имя брокера"
+    "editBrokerName": "Новое имя брокера",
+    "pricePerUnit": "Цена за шт."
   }
 }

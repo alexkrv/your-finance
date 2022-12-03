@@ -3,6 +3,8 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
 const dbo = require('../db');
+const { retrieveAssetPriceUSD } = require('../utils/get-asset-price');
+const { getConversionRatesByBase } = require('../utils/get-conversion-rates');
 
 const getBrokers = (req, response) => dbo.getDb()
 	.collection('brokers')
@@ -65,6 +67,13 @@ const addBrokerAsset = async(req, res) => {
 		});
 
 	res.json(result);
+};
+
+const getAssetPriceByTicker = async(req, res) => {
+	const { rates } = await getConversionRatesByBase(req.query.base);
+	const price = await retrieveAssetPriceUSD(req.query.ticker, rates, req.query.base);
+
+	res.json(price/(rates['USD'].value || 1));
 };
 
 const deleteBrokerAsset = async(req, res) => {
@@ -187,6 +196,7 @@ module.exports = {
 	addBroker,
 	editBroker,
 	addBrokerAsset,
+	getAssetPriceByTicker,
 	deleteBrokerAsset,
 	editBrokerAsset,
 	addBrokerAvatar,

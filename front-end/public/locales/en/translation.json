@@ -104,6 +104,7 @@
     "inputAssetName": "Input asset name",
     "averageAssetPrice": "Average Price",
     "editInvestItem": "Invest instrument editing",
-    "editBrokerName": "New broker's name"
+    "editBrokerName": "New broker's name",
+    "pricePerUnit": "Price per unit"
   }
 }

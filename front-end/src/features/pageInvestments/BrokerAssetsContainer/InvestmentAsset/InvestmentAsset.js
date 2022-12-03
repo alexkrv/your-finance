@@ -8,13 +8,14 @@ import { FinancialValue } from '../../../../components/FinancialValue/FinancialV
 import ButtonDeleteItem from '../../../../components/ButtonDeleteItem/ButtonDeleteItem';
 import ButtonAddItem from '../../../../components/ButtonAddItem/ButtonAddItem';
 import { DEFAULT_ONE, DEFAULT_ZERO } from '../../../../constants/default-values';
-import { useEditBrokerAssetMutation, useRemoveBrokerAssetMutation } from '../../../../api';
+import { useEditBrokerAssetMutation, useRemoveBrokerAssetMutation, } from '../../../../api';
 import ButtonEdit from '../../../../components/ButtonEdit/ButtonEdit';
 import TextStyler from '../../../../components/TextStyler/TextStyler';
 
 import styles from './InvestmentAsset.module.scss';
 
 import EditItemForm from './EditItemForm/EditItemForm';
+import CurrentTickerPrice from './CurrentTickerPrice/CurrentTickerPrice';
 
 const InvestmentAsset = ({
 	broker,
@@ -102,6 +103,9 @@ const InvestmentAsset = ({
 						title={t('common.sureToRemove')}
 						iconClassName={styles.deleteIcon}
 					/>
+				</div>
+				<div className={styles.infoBlock}>
+					<CurrentTickerPrice ticker={assetKey}/>
 				</div>
 				<div className={styles.infoBlock}>
 					<TextStyler size='medium'  className={styles.caption} secondary>

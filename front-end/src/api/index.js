@@ -189,6 +189,9 @@ export const api = createApi({
 			}),
 			invalidatesTags: ['BrokersList'],
 		}),
+		getBrokerAssetPrice: builder.query({
+			query: request => `${apiUrls.API_URL_BROKER}/assets?base=${request.baseCurrencyKey}&ticker=${request.ticker}`,
+		}),
 		removeBrokerAsset: builder.mutation({
 			query: (brokerAssetsInfo) => ({
 				url: `${apiUrls.API_URL_BROKER}/assets`,
@@ -234,6 +237,7 @@ export const {
 	useAddBankAccountMutation,
 	useEditBankAccountMutation,
 	useGetBrokersListQuery,
+	useGetBrokerAssetPriceQuery,
 	useAddBrokerMutation,
 	useAddBrokerAssetMutation,
 	useRemoveBrokerAssetMutation,
