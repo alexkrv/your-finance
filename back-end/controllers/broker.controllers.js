@@ -71,9 +71,10 @@ const addBrokerAsset = async(req, res) => {
 
 const getAssetPriceByTicker = async(req, res) => {
 	const { rates } = await getConversionRatesByBase(req.query.base);
-	const price = await retrieveAssetPriceUSD(req.query.ticker, rates, req.query.base);
+	const priceInfo = await retrieveAssetPriceUSD(req.query.ticker, rates, req.query.base);
+	const priceValue = priceInfo.currentPrice/(rates['USD'].value || 1);
 
-	res.json(price/(rates['USD'].value || 1));
+	res.json({ ...priceInfo, currentPrice: priceValue });
 };
 
 const deleteBrokerAsset = async(req, res) => {

@@ -22,13 +22,19 @@ const moexTickerLast = async ticker => {
 
 					console.log(`${ticker} price is ${price} (MOEX)`);
 					resolve({
+						ticker,
 						exchange: MOSCOW_EXCHANGE,
 						currencyId: 'RUB',
-						value: parseFloat(price) || 0
+						currentPrice: parseFloat(price) || 0
 					});
 				} else {
 					console.log(`${ticker} price is 0 (MOEX)`);
-					resolve(0);
+					resolve({
+						ticker,
+						exchange: MOSCOW_EXCHANGE,
+						currencyId: 'RUB',
+						currentPrice: 0
+					});
 				}
 			});
 		};
@@ -37,7 +43,7 @@ const moexTickerLast = async ticker => {
 		https.get(url, responseHandler)
 			.on('error', error => {
 				console.error(error);
-				reject(error);
+				reject(error); // TODO correct reject result
 			});
 	});
 };
@@ -100,9 +106,10 @@ const yahooFinanceTickerPrice = ticker => {
 
 				console.log(`${ticker} price is ${price} (${info.quoteSummary?.result[0]?.price?.exchangeName})`);
 				resolve({
+					ticker,
 					exchange: info.quoteSummary?.result[0]?.price?.exchangeName,
 					currencyId: info.quoteSummary?.result[0]?.price?.currency,
-					value: price
+					currentPrice: price
 				});
 			});
 		};
@@ -110,7 +117,7 @@ const yahooFinanceTickerPrice = ticker => {
 		https.get(url, responseHandler)
 			.on('error', error => {
 				console.error(error);
-				reject(error);
+				reject(error); // TODO correct reject result
 			});
 	});
 };
@@ -121,7 +128,14 @@ const retrieveAssetPrice = async (assetSymbol) => {
 
 	const [moexTickerPrice, yahooTickerPrice] = await Promise.allSettled([moexTickerPricePromise, yahooTickerPricePromise]);
 
-	return moexTickerPrice.value || yahooTickerPrice.value || { exchange: null, currencyId: null, value: 0 };
+	if(moexTickerPrice.value.currentPrice) {
+		return moexTickerPrice.value;
+	} else if(yahooTickerPrice.value.currentPrice) {
+		return yahooTickerPrice.value;
+	} else {
+		return { ticker: assetSymbol, exchange: null, currencyId: null, currentPrice: 0 };
+	}
+
 };
 
 module.exports = {
@@ -129,11 +143,13 @@ module.exports = {
 		const priceInfo = await retrieveAssetPrice(assetSymbol);
 
 		if (priceInfo.currencyId === 'USD') {
-			return priceInfo.value;
+			return priceInfo;
 		} else {
-			return baseCurrencyId === 'USD'
-				? priceInfo.value / (rates['RUB'].value || 1)
-				: (priceInfo.value / (rates['RUB'].value || 1)) * (rates['USD'].value || 1);
+			const price = baseCurrencyId === 'USD'
+				? priceInfo.currentPrice / (rates['RUB'].value || 1)
+				: (priceInfo.currentPrice / (rates['RUB'].value || 1)) * (rates['USD'].value || 1);
+
+			return { ...priceInfo, currentPrice: price };
 		}
 	}
 };

@@ -15,7 +15,7 @@ import TextStyler from '../../../../components/TextStyler/TextStyler';
 import styles from './InvestmentAsset.module.scss';
 
 import EditItemForm from './EditItemForm/EditItemForm';
-import CurrentTickerPrice from './CurrentTickerPrice/CurrentTickerPrice';
+import TickerInfo from './TickerInfo/TickerInfo';
 
 const InvestmentAsset = ({
 	broker,
@@ -105,24 +105,10 @@ const InvestmentAsset = ({
 					/>
 				</div>
 				<div className={styles.infoBlock}>
-					<CurrentTickerPrice ticker={assetKey}/>
-				</div>
-				<div className={styles.infoBlock}>
-					<TextStyler size='medium'  className={styles.caption} secondary>
-						{t('common.total')}
-					</TextStyler>
-					<FinancialValue
-						currencyId={processedAsset[assetKey].currency}
-						value={(processedAsset[assetKey].amount * processedAsset[assetKey].currentAssetPrice).toFixed(DEFAULT_ONE)/*TODO use current asset price*/}
-					/>
-				</div>
-				<div className={styles.infoBlock}>
-					<TextStyler size='medium'  className={styles.caption} secondary>
-						{t('brokerItem.averageAssetPrice')}
-					</TextStyler>
-					<FinancialValue
-						currencyId={processedAsset[assetKey].currency}
-						value={processedAsset[assetKey].averageAssetPrice}
+					<TickerInfo
+						ticker={assetKey}
+						amount={processedAsset[assetKey].amount}
+						averagePrice={processedAsset[assetKey].averageAssetPrice}
 					/>
 				</div>
 			</div>)}
