@@ -16,7 +16,7 @@ const getTotalStocks = async ({ broker, rates, baseCurrencyId }) => {
 	const prices = {};
 
 	for(let i = 0; i < stockTickers.length; i++) {
-		prices[stockTickers[i]] = (await retrieveAssetPriceUSD(stockTickers[i], rates, baseCurrencyId)).value;
+		prices[stockTickers[i]] = (await retrieveAssetPriceUSD(stockTickers[i], rates, baseCurrencyId)).currentPrice;
 	}
 
 	return Object.keys(broker.assets.stocks).reduce((acc, stockTicker) => {
@@ -31,7 +31,7 @@ const getTotalFunds = async ({ broker, rates, baseCurrencyId }) => {
 	const prices = {};
 
 	for(let i = 0; i < fundTickers.length; i++) {
-		prices[fundTickers[i]] = (await retrieveAssetPriceUSD(fundTickers[i], rates, baseCurrencyId)).value;
+		prices[fundTickers[i]] = (await retrieveAssetPriceUSD(fundTickers[i], rates, baseCurrencyId)).currentPrice;
 	}
 
 	return Object.keys(broker.assets.funds).reduce((acc, fundTicker) => {
