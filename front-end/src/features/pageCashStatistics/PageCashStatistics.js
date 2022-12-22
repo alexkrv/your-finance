@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import TextStyler from 'components/TextStyler/TextStyler';
@@ -8,23 +8,14 @@ import { useGetCashStatisticsQuery, useCreateStatisticsRecordMutation, } from 'a
 import styles from './PageCashStatistics.module.scss';
 
 import StatisticsRecord from './StatisticsRecord/StatisticsRecord';
+import BarsCashStatistics from './BarsCashStatistics/BarsCashStatistics';
 
 const PageCashStatistics = () => {
-	const [ isUpdateInProgress, setIsUpdateInProgress ] = useState(false);
 	const { t, } = useTranslation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
-	const { data, isFetching, error/*TODO*/ } = useGetCashStatisticsQuery(baseCurrencyKey);
-	const [createStatisticsRecord,] = useCreateStatisticsRecordMutation(baseCurrencyKey);
-	const handleGetNewRecord = () => {
-		setIsUpdateInProgress(true);
-		createStatisticsRecord(baseCurrencyKey);
-	};
-
-	useEffect(() => {
-		if(!isFetching) {
-			setIsUpdateInProgress(false);
-		}
-	}, [isFetching]);
+	const { data, error/*TODO*/ } = useGetCashStatisticsQuery(baseCurrencyKey);
+	const [createStatisticsRecord, { isLoading }] = useCreateStatisticsRecordMutation(baseCurrencyKey);
+	const handleGetNewRecord = () => createStatisticsRecord(baseCurrencyKey);
 
 	return (
 		<div className={styles.container}>
@@ -44,11 +35,18 @@ const PageCashStatistics = () => {
 				shape="round"
 				size='large'
 				onClick={handleGetNewRecord}
-				className={styles.getState}
-				loading={isUpdateInProgress}
+				className={styles.buttonGetState}
+				loading={isLoading}
 			>
 				{t('cashStatistics.getCurrentState')}&nbsp;{baseCurrencyKey}
 			</Button>
+			{data && <BarsCashStatistics
+				className={styles.barsChart}
+				width={500}
+				height={500}
+				verticalMargin={100}
+				data={data}
+			/>}
 		</div>
 	);
 };

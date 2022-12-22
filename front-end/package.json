@@ -57,6 +57,15 @@
     ]
   },
   "devDependencies": {
+    "@visx/axis": "^2.14.0",
+    "@visx/gradient": "^2.10.0",
+    "@visx/grid": "^2.12.2",
+    "@visx/group": "^2.10.0",
+    "@visx/legend": "^2.10.0",
+    "@visx/responsive": "^2.10.0",
+    "@visx/scale": "^2.2.2",
+    "@visx/shape": "^2.12.2",
+    "d3-time-format": "^4.1.0",
     "jest-matchmedia-mock": "^1.1.0",
     "msw": "^0.45.0",
     "stylelint": "^14.2.0",

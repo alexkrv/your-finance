@@ -29,11 +29,28 @@ const addStatisticsRecord = async(req, response) => {
 	const recordInfo = {
 		_id: recordId,
 		date: Date.now(),
-		value,
 		currencyId: req.body.currencyId,/*TODO prevent sql-injection-alike threat*/
 		description: '',
-		valueInUsd: value*rates.USD.value || 0,
-		difference: previousValue ? value - previousValue : 0
+		value, // TODO refactor as duplication
+		valueInUsd: value*rates.USD.value || 0, // TODO refactor as duplication
+		valueInRub: value*rates.RUB.value || 0, // TODO refactor as duplication
+		difference: previousValue ? value - previousValue : 0, // TODO refactor as duplication
+		total: {
+			valueInBaseCurrency: value,
+			valueInUsd: value*rates.USD.value || 0,
+			valueInRub: value*rates.RUB.value || 0,
+			difference: previousValue ? value - previousValue : 0,
+		},
+		structure: {
+			accounts: {
+				total: accountsTotal,
+				// TODO each currency total
+			},
+			brokers: {
+				total: brokersTotal,
+				// TODO each asset total
+			}
+		}
 	};
 
 	statisticsCollection

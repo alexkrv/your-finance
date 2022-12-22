@@ -42,7 +42,10 @@ code {
 	--border-primary: #a9b9d9;
 	--icon-primary-green: #4d860a;
 	--icon-secondary-red: #ff7875;
-
+	--color-white-semitransparent: rgb(255 255 255 / 50%);
+	--color-baltic-light: #467c8d;
+	--color-baltic-dark: #478aad;
+	--color-teal-light: #66bb95;
 	--font-size-small: 12px;
 	--font-size-medium: 14px;
 	--font-size-big: 16px;
@@ -62,6 +65,9 @@ code {
 	--icon-primary-active: #114bbd;
 	--border-primary: #404652;
 	--icon-primary-green: #91ea25;
+	--color-baltic-light: #3b6978;
+	--color-baltic-dark: #204051;
+	--color-teal-light: #75daad;
 }
 
 [data-value-hidden="true"] {

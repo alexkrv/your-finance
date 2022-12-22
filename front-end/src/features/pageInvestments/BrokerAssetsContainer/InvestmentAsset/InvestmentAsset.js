@@ -11,6 +11,7 @@ import { DEFAULT_ONE, DEFAULT_ZERO } from '../../../../constants/default-values'
 import { useEditBrokerAssetMutation, useRemoveBrokerAssetMutation, } from '../../../../api';
 import ButtonEdit from '../../../../components/ButtonEdit/ButtonEdit';
 import TextStyler from '../../../../components/TextStyler/TextStyler';
+import { TYPE_ASSET_CASH } from '../../../../constants/broker-asset-types';
 
 import styles from './InvestmentAsset.module.scss';
 
@@ -104,13 +105,13 @@ const InvestmentAsset = ({
 						iconClassName={styles.deleteIcon}
 					/>
 				</div>
-				<div className={styles.infoBlock}>
+				{assetType !== TYPE_ASSET_CASH /*TODO refactor usage*/&& <div className={styles.infoBlock}>
 					<TickerInfo
 						ticker={assetKey}
 						amount={processedAsset[assetKey].amount}
 						averagePrice={processedAsset[assetKey].averageAssetPrice}
 					/>
-				</div>
+				</div>}
 			</div>)}
 			<ButtonAddItem
 				size='medium'
