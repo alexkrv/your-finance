@@ -43,11 +43,11 @@ const addStatisticsRecord = async(req, response) => {
 		},
 		structure: {
 			accounts: {
-				total: accountsTotal,
+				total: accountsTotal.value,
 				// TODO each currency total
 			},
 			brokers: {
-				total: brokersTotal,
+				total: brokersTotal.value,
 				// TODO each asset total
 			}
 		}

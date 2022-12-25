@@ -44,7 +44,6 @@ const PageCashStatistics = () => {
 				className={styles.barsChart}
 				width={500}
 				height={500}
-				verticalMargin={100}
 				data={data}
 			/>}
 		</div>
