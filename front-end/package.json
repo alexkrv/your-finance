@@ -57,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@react-spring/web": "^9.6.1",
     "@visx/axis": "^2.14.0",
     "@visx/gradient": "^2.10.0",
     "@visx/grid": "^2.12.2",

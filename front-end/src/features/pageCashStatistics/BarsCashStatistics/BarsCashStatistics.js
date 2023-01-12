@@ -15,6 +15,10 @@ const BarsCashStatistics = ({
 	margin = { top: 40, right: 30, bottom: 50, left: 80 },
 	className
 }) => {
+	if(!data?.length) {
+		return null;
+	}
+
 	const xMax = width - margin.left - margin.right;
 	const yMax = height - margin.top - margin.bottom;
 	const strokeColor = 'var(--color-white-semitransparent)';
@@ -33,54 +37,51 @@ const BarsCashStatistics = ({
 	});
 
 	return (
-		<div style={{ position: 'relative' }}>
-			<svg width={width} height={height} className={className}>
-				<LinearGradient id="chartBg" from='var(--color-baltic-light)' to='var(--color-baltic-dark)' />
-				<rect width={width} height={height} fill="url(#chartBg)" rx={14} />
-
-				<Group left={margin.left} top={margin.top}>
-					<GridRows scale={valuesScale} width={xMax} height={yMax} stroke={strokeColor} />
-					<GridColumns scale={timeScale} width={xMax} height={yMax} stroke={strokeColor} />
-					<AxisBottom
-						top={yMax}
-						scale={timeScale}
-						numTicks={data.length}
-						tickFormat={formatDate}
-						stroke={strokeColor}
-						tickStroke={strokeColor}
-						tickLabelProps={() => ({
-							fill: strokeColor,
-							textAnchor: 'middle', })}
-					/>
-					<AxisLeft
-						scale={valuesScale}
-						stroke={strokeColor}
-						tickStroke={strokeColor}
-						tickLabelProps={() => ({
-							textAnchor: 'end',
-							fill: strokeColor,
-						})}
-					/>
-					{data.map((d, index) => {
-						const barWidth = 40;
-						const barHeight = yMax - (valuesScale(d.valueInRub) ?? 0);
-						const barX = timeScale(index) - barWidth/2;
-						const barY = yMax - barHeight;
-
-						return (
-							<Bar
-								key={d.date}
-								x={barX}
-								y={barY}
-								width={barWidth}
-								height={barHeight}
-								fill='var(--color-teal-light)'
-							/>
-						);
+		<svg width={width} height={height} className={className}>
+			<LinearGradient id="chartBg" from='var(--color-baltic-light)' to='var(--color-baltic-dark)' />
+			<rect width={width} height={height} fill="url(#chartBg)" rx={14} />
+			<Group left={margin.left} top={margin.top}>
+				<GridRows scale={valuesScale} width={xMax} height={yMax} stroke={strokeColor} />
+				<GridColumns scale={timeScale} width={xMax} height={yMax} stroke={strokeColor} />
+				<AxisBottom
+					top={yMax}
+					scale={timeScale}
+					numTicks={data.length}
+					tickFormat={formatDate}
+					stroke={strokeColor}
+					tickStroke={strokeColor}
+					tickLabelProps={() => ({
+						fill: strokeColor,
+						textAnchor: 'middle', })}
+				/>
+				<AxisLeft
+					scale={valuesScale}
+					stroke={strokeColor}
+					tickStroke={strokeColor}
+					tickLabelProps={() => ({
+						textAnchor: 'end',
+						fill: strokeColor,
 					})}
-				</Group>
-			</svg>
-		</div>
+				/>
+				{data.map((d, index) => {
+					const barWidth = 40;
+					const barHeight = yMax - (valuesScale(d.valueInRub) ?? 0);
+					const barX = timeScale(index) - barWidth/2;
+					const barY = yMax - barHeight;
+
+					return (
+						<Bar
+							key={d.date}
+							x={barX}
+							y={barY}
+							width={barWidth}
+							height={barHeight}
+							fill='var(--color-teal-light)'
+						/>
+					);
+				})}
+			</Group>
+		</svg>
 	);
 };
 

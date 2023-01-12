@@ -1,7 +1,7 @@
 .container {
 	display: grid;
-    grid-template: 32px 1fr / 1fr 1fr;
-    row-gap: 20px;
+    grid-template: 32px 400px 1fr/1fr 1fr;
+    gap: 10px;
     align-items: start;
     justify-items: start;
 	width: 1024px;
@@ -25,7 +25,7 @@
 }
 
 .list {
-    grid-area: 2 / 1 / 3 / 2;
+    grid-area: 2 / 1 / 4 / 2;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -38,6 +38,14 @@
 	padding: 4px 0;
 }
 
-.barsChart {
+.pieChart {
     grid-area: 2 / 2 / 3 / 3;
+}
+
+.barsChart {
+    grid-area: 3 / 2 / 4 / 3;
+}
+
+.pieChartMainLegend {
+    fill: var(--text-primary);
 }

@@ -3,12 +3,22 @@ const dbo = require('../db');
 const { retrieveAssetPriceUSD } = require('./get-asset-price');
 const E_NOT_COUNTED = -1;
 
-const getTotalCash = ({ broker, rates, }) => {
+const getTotalsCashInBase = ({ broker, rates, }) => {
 	return Object.keys(broker.assets.cash)
-		.reduce((acc, key) =>
-			acc + broker.assets.cash[key]
-				.reduce((sum, record) => sum + record.amount / (rates[key].value || 1), 0)
-		, 0);
+		.reduce((acc, key) => {
+			if(acc[key]){
+				acc[key] += broker.assets.cash[key]
+					.reduce((sum, record) => sum + record.amount / (rates[key].value || 1), 0);
+
+				return acc;
+			} else {
+				acc[key] = broker.assets.cash[key]
+					.reduce((sum, record) => sum + record.amount / (rates[key].value || 1), 0);
+
+				return acc;
+			}
+
+		}, {});
 };
 
 const getTotalStocks = async ({ broker, rates, baseCurrencyId }) => {
@@ -63,10 +73,24 @@ module.exports = {
 				.find()
 				.toArray();
 			const allAccounts = banks.reduce((acc, bank) => acc.concat(bank.accounts), []);
+			const allCurrenciesTotals = allAccounts.reduce((acc, account) => {
+				if(acc[account.currencyId]) {
+					acc[account.currencyId] += account.value/(rates[account.currencyId].value || 1);
+				} else {
+					acc[account.currencyId] = account.value/(rates[account.currencyId].value || 1);
+				}
 
-			return allAccounts.reduce(
+				return acc;
+			}, {});
+
+			 const totalInBaseCurrency = allAccounts.reduce(
 				(acc, { currencyId, value }) => acc + value/(rates[currencyId].value || 1)
 				, 0);
+
+			 return {
+				 totalInBaseCurrency,
+				 allCurrenciesTotals
+			 };
 		} else {
 			return E_NOT_COUNTED;
 		}
@@ -77,34 +101,67 @@ module.exports = {
 				.collection('brokers')
 				.find()
 				.toArray();
-			const brokerKeys = Object.keys(brokers);
-			let totalCashSum = 0;
+			let totalCashByCurrency = {};
 			let totalStocksSum = 0;
 			let totalFundsSum = 0;
+			let current = undefined;
 
-			for(let i = 0; i < brokerKeys.length; i++) {
-				totalCashSum += getTotalCash({
-					broker: brokers[brokerKeys[i]],
+			for(let i = 0; i < brokers.length; i++) {
+				current = getTotalsCashInBase({
+					broker: brokers[i],
 					rates,
-					baseCurrencyId: currencyId
 				});
 
+				if(Object.keys(current).length) {
+					Object.keys(current).forEach(currencyKey => {
+						if(totalCashByCurrency[currencyKey]) {
+							totalCashByCurrency[currencyKey] += current[currencyKey];
+						} else {
+							totalCashByCurrency[currencyKey] = current[currencyKey];
+						}
+					});
+				}
+
 				totalStocksSum += await getTotalStocks({
-					broker: brokers[brokerKeys[i]],
+					broker: brokers[i],
 					rates,
 					baseCurrencyId: currencyId
 				});
 
 				totalFundsSum += await getTotalFunds({
-					broker: brokers[brokerKeys[i]],
+					broker: brokers[i],
 					rates,
 					baseCurrencyId: currencyId
 				});
 			}
 
-			return totalCashSum + totalStocksSum + totalFundsSum;
+			const sumAllBrokersCashInBase = brokersCurrencies =>
+				Object.keys(brokersCurrencies)
+					.reduce((acc, brokerCurrency) => acc + brokersCurrencies[brokerCurrency]
+						, 0);
+			const totalCashSum = sumAllBrokersCashInBase(totalCashByCurrency);
+
+			return {
+				totalInBaseCurrency: totalStocksSum + totalFundsSum + totalCashSum,
+				allAssetsTotals: {
+					stocks: totalStocksSum,
+					funds: totalFundsSum,
+					...totalCashByCurrency
+				}
+			};
 		} else {
 			return E_NOT_COUNTED;
 		}
-	}
+	},
+	mergeTotals: (...args) => args.reduce((acc,total) => {
+		Object.keys(total).forEach(assetName => {
+			if(acc[assetName]) {
+				acc[assetName] += total[assetName];
+			} else {
+				acc[assetName] = total[assetName];
+			}
+		});
+
+		return acc;
+	}, {})
 };

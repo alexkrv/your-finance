@@ -5,10 +5,14 @@ import TextStyler from 'components/TextStyler/TextStyler';
 import { Button, } from 'antd';
 import { useGetCashStatisticsQuery, useCreateStatisticsRecordMutation, } from 'api';
 
+import { DEFAULT_ZERO } from '../../constants/default-values';
+import { FinancialValue } from '../../components/FinancialValue/FinancialValue';
+
 import styles from './PageCashStatistics.module.scss';
 
 import StatisticsRecord from './StatisticsRecord/StatisticsRecord';
 import BarsCashStatistics from './BarsCashStatistics/BarsCashStatistics';
+import { PieChart } from './PieChart/PieChart';
 
 const PageCashStatistics = () => {
 	const { t, } = useTranslation();
@@ -16,6 +20,8 @@ const PageCashStatistics = () => {
 	const { data, error/*TODO*/ } = useGetCashStatisticsQuery(baseCurrencyKey);
 	const [createStatisticsRecord, { isLoading }] = useCreateStatisticsRecordMutation(baseCurrencyKey);
 	const handleGetNewRecord = () => createStatisticsRecord(baseCurrencyKey);
+	const pieParts = data?.at(-1)?.structure;
+	const totalValueInBaseCurrency = data?.at(-1).total?.valueInBaseCurrency?.toFixed(0) || DEFAULT_ZERO;
 
 	return (
 		<div className={styles.container}>
@@ -40,12 +46,23 @@ const PageCashStatistics = () => {
 			>
 				{t('cashStatistics.getCurrentState')}&nbsp;{baseCurrencyKey}
 			</Button>
-			{data && <BarsCashStatistics
+			<PieChart
+				className={styles.pieChart}
+				width={400}
+				height={400}
+				data={pieParts}
+				legend={<FinancialValue
+					size='big'
+					value={totalValueInBaseCurrency}
+					currencyId={baseCurrencyKey}
+				/>}
+			/>
+			<BarsCashStatistics
 				className={styles.barsChart}
-				width={500}
-				height={500}
+				width={400}
+				height={400}
 				data={data}
-			/>}
+			/>
 		</div>
 	);
 };

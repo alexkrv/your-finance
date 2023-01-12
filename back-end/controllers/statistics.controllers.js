@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 
 const dbo = require('../db');
-const { getBankAccountsTotal, getBrokersAssetsTotal } = require('../utils/get-totals');
+const { getBankAccountsTotal, getBrokersAssetsTotal, mergeTotals } = require('../utils/get-totals');
 const { getConversionRatesByBase } = require('../utils/get-conversion-rates');
 
 const getStatistics = (req, response) => {
@@ -19,13 +19,14 @@ const addStatisticsRecord = async(req, response) => {
 		getBankAccountsTotal(req.body.currencyId, rates),
 		getBrokersAssetsTotal(req.body.currencyId, rates)
 	]);
-	const value = accountsTotal.value + brokersTotal.value;
+	const value = accountsTotal.value.totalInBaseCurrency + brokersTotal.value.totalInBaseCurrency;
 	const recordId = uuidv4();
 	const statisticsCollection = dbo.getDb().collection('statistics_money');
 	const [lastStatisticsRecord] = await statisticsCollection.find().sort({ date: -1 }).toArray();
 	const previousValue = lastStatisticsRecord
 		? lastStatisticsRecord.value/rates[lastStatisticsRecord.currencyId].value || 0
 		: 0;
+	const structure = mergeTotals(accountsTotal.value.allCurrenciesTotals, brokersTotal.value.allAssetsTotals);
 	const recordInfo = {
 		_id: recordId,
 		date: Date.now(),
@@ -41,16 +42,7 @@ const addStatisticsRecord = async(req, response) => {
 			valueInRub: value*rates.RUB.value || 0,
 			difference: previousValue ? value - previousValue : 0,
 		},
-		structure: {
-			accounts: {
-				total: accountsTotal.value,
-				// TODO each currency total
-			},
-			brokers: {
-				total: brokersTotal.value,
-				// TODO each asset total
-			}
-		}
+		structure,
 	};
 
 	statisticsCollection
