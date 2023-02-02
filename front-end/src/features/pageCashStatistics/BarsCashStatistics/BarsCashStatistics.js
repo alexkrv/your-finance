@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { GridRows, GridColumns } from '@visx/grid';
 import { LinearGradient } from '@visx/gradient';
@@ -7,27 +7,42 @@ import { Bar } from '@visx/shape';
 import { scaleLinear, } from '@visx/scale';
 import { AxisBottom, AxisLeft } from '@visx/axis';
 import dayjs from 'dayjs';
+import { withTooltip, TooltipWithBounds, defaultStyles } from '@visx/tooltip';
 
+import { CUR_RUB, DEFAULT_EMPTY_STRING } from '../../../constants/default-values';
+import AreaPointer from '../AreaGraph/AreaPointer/AreaPointer';
+
+const background = '#3b6978';
+const tooltipStyles = {
+	...defaultStyles,
+	background,
+	border: '1px solid white',
+	color: 'white',
+};
+const getDate = d => d.date;
+const getDataValue = d => d.valueInRub;
 const BarsCashStatistics = ({
 	data,
 	width,
 	height,
 	margin = { top: 40, right: 30, bottom: 50, left: 80 },
-	className
+	className,
+	showTooltip,
+	hideTooltip,
+	tooltipData,
+	tooltipTop = 0,
+	tooltipLeft = 0,
 }) => {
-	if(!data?.length) {
-		return null;
-	}
-
 	const xMax = width - margin.left - margin.right;
 	const yMax = height - margin.top - margin.bottom;
 	const strokeColor = 'var(--color-white-semitransparent)';
 	const formatDate = index => {
-		return data[index]?.date ? dayjs(data[index].date).format('DD.MM.YYYY') : '';
+		return data[index]?.date ? dayjs(data[index].date).format('MM.YY') : DEFAULT_EMPTY_STRING;
 	};
+	const BAR_WIDTH = 20;
 	const timeScale = scaleLinear({
 		domain: [0, data.length],
-		range: [0, xMax],
+		range: [BAR_WIDTH, xMax],
 		nice: true,
 	});
 	const valuesScale = scaleLinear({
@@ -35,53 +50,94 @@ const BarsCashStatistics = ({
 		range: [yMax , 0],
 		nice: true,
 	});
+	const handleTooltip = useCallback(
+		(event) => {
+			const x = parseInt(event.target.getAttribute('x'), 10) + BAR_WIDTH/2 + margin.left;
+			const x0 = Math.floor(timeScale.invert(x)) - 1;
+			const d0 = data[x0 - 1];
+			const d1 = data[x0];
+			let d = d0;
+
+			if (d1 && getDate(d1)) {
+				d = x0.valueOf() - getDate(d0).valueOf() > getDate(d1).valueOf() - x0.valueOf() ? d1 : d0;
+			}
+
+			showTooltip({
+				tooltipData: d,
+				tooltipLeft: x,
+				tooltipTop: valuesScale(getDataValue(d)) + margin.top,
+			});
+		},
+		[showTooltip, valuesScale, timeScale, data, margin],
+	);
 
 	return (
-		<svg width={width} height={height} className={className}>
-			<LinearGradient id="chartBg" from='var(--color-baltic-light)' to='var(--color-baltic-dark)' />
-			<rect width={width} height={height} fill="url(#chartBg)" rx={14} />
-			<Group left={margin.left} top={margin.top}>
-				<GridRows scale={valuesScale} width={xMax} height={yMax} stroke={strokeColor} />
-				<GridColumns scale={timeScale} width={xMax} height={yMax} stroke={strokeColor} />
-				<AxisBottom
-					top={yMax}
-					scale={timeScale}
-					numTicks={data.length}
-					tickFormat={formatDate}
-					stroke={strokeColor}
-					tickStroke={strokeColor}
-					tickLabelProps={() => ({
-						fill: strokeColor,
-						textAnchor: 'middle', })}
-				/>
-				<AxisLeft
-					scale={valuesScale}
-					stroke={strokeColor}
-					tickStroke={strokeColor}
-					tickLabelProps={() => ({
-						textAnchor: 'end',
-						fill: strokeColor,
-					})}
-				/>
-				{data.map((d, index) => {
-					const barWidth = 40;
-					const barHeight = yMax - (valuesScale(d.valueInRub) ?? 0);
-					const barX = timeScale(index) - barWidth/2;
-					const barY = yMax - barHeight;
+		<>
+			<svg width={width} height={height} className={className}>
+				<LinearGradient id="chartBg" from='var(--color-baltic-light)' to='var(--color-baltic-dark)' />
+				<rect width={width} height={height} fill="url(#chartBg)" rx={14} />
+				<Group left={margin.left} top={margin.top}>
+					<GridRows scale={valuesScale} width={xMax} height={yMax} stroke={strokeColor} />
+					<GridColumns scale={timeScale} width={xMax} height={yMax} stroke={strokeColor} />
+					<AxisBottom
+						top={yMax}
+						scale={timeScale}
+						numTicks={data.length}
+						tickFormat={formatDate}
+						stroke={strokeColor}
+						tickStroke={strokeColor}
+						tickLabelProps={() => ({
+							fill: strokeColor,
+							textAnchor: 'middle',
+							fontSize: '10px'
+						})}
+					/>
+					<AxisLeft
+						scale={valuesScale}
+						stroke={strokeColor}
+						tickStroke={strokeColor}
+						tickLabelProps={() => ({
+							textAnchor: 'end',
+							fill: strokeColor,
+						})}
+					/>
+					{data.map((d, index) => {
+						const barHeight = yMax - (valuesScale(d.valueInRub) ?? 0);
+						const barX = timeScale(index) - BAR_WIDTH/2;
+						const barY = yMax - barHeight;
 
-					return (
-						<Bar
-							key={d.date}
-							x={barX}
-							y={barY}
-							width={barWidth}
-							height={barHeight}
-							fill='var(--color-teal-light)'
-						/>
-					);
-				})}
-			</Group>
-		</svg>
+						return (
+							<Bar
+								key={d.date}
+								x={barX}
+								y={barY}
+								width={BAR_WIDTH}
+								height={barHeight}
+								fill='var(--color-teal-light)'
+								onMouseEnter={handleTooltip}
+								onMouseLeave={hideTooltip}
+							/>
+						);
+					})}
+				</Group>
+				{tooltipData &&
+					<AreaPointer circleConfig={{ cx: tooltipLeft, cy: tooltipTop }}
+							 lineTo={{ x: tooltipLeft, y: yMax + margin.top }}
+							 lineFrom={{ x: tooltipLeft, y: margin.top }}/>
+				}
+
+			</svg>
+			{tooltipData && (
+				<TooltipWithBounds
+					key={Math.random()}
+					top={tooltipTop}
+					left={tooltipLeft}
+					style={tooltipStyles}
+				>
+					{`${getDataValue(tooltipData).toFixed(2)}${CUR_RUB}`}
+				</TooltipWithBounds>
+			)}
+		</>
 	);
 };
 
@@ -101,4 +157,4 @@ BarsCashStatistics.propTypes = {
 	className: PropTypes.string
 };
 
-export default BarsCashStatistics;
+export default withTooltip(BarsCashStatistics);

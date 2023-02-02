@@ -48,6 +48,12 @@ const PageCashStatistics = () => {
 				{t('cashStatistics.getCurrentState')}&nbsp;{baseCurrencyKey}
 			</Button>
 			<div className={styles.chartsContainer}>
+				{data && <BarsCashStatistics
+					className={styles.barsChart}
+					width={400}
+					height={400}
+					data={data}
+				/>}
 				<PieChart
 					className={styles.pieChart}
 					width={400}
@@ -59,12 +65,7 @@ const PageCashStatistics = () => {
 						currencyId={baseCurrencyKey}
 					/>}
 				/>
-				<BarsCashStatistics
-					className={styles.barsChart}
-					width={400}
-					height={400}
-					data={data}
-				/>
+
 			</div>
 		</div>
 	);
