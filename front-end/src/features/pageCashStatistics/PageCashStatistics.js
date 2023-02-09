@@ -21,8 +21,7 @@ const PageCashStatistics = () => {
 	const [createStatisticsRecord, { isLoading }] = useCreateStatisticsRecordMutation(baseCurrencyKey);
 	const handleGetNewRecord = () => createStatisticsRecord(baseCurrencyKey);
 	const pieParts = data?.at(-1)?.structure;
-	const totalValueInBaseCurrency = data?.at(-1).total?.valueInBaseCurrency?.toFixed(0) || DEFAULT_ZERO;
-	console.log('data', data);
+	const totalValueInBaseCurrency = data?.at(-1)?.total?.valueInBaseCurrency?.toFixed(0) || DEFAULT_ZERO;
 
 	return (
 		<div className={styles.container}>
@@ -48,24 +47,23 @@ const PageCashStatistics = () => {
 				{t('cashStatistics.getCurrentState')}&nbsp;{baseCurrencyKey}
 			</Button>
 			<div className={styles.chartsContainer}>
-				{data && <BarsCashStatistics
+				{Boolean(data?.length) && <BarsCashStatistics
 					className={styles.barsChart}
 					width={400}
 					height={400}
 					data={data}
 				/>}
-				<PieChart
+				{pieParts && <PieChart
 					className={styles.pieChart}
 					width={400}
 					height={400}
 					data={pieParts}
 					legend={<FinancialValue
-						size='big'
+						size="big"
 						value={totalValueInBaseCurrency}
 						currencyId={baseCurrencyKey}
 					/>}
-				/>
-
+				/>}
 			</div>
 		</div>
 	);

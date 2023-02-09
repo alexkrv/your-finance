@@ -19,7 +19,6 @@ const tooltipStyles = {
 	border: '1px solid white',
 	color: 'white',
 };
-const getDate = d => d.date;
 const getDataValue = d => d.valueInRub;
 const BarsCashStatistics = ({
 	data,
@@ -39,10 +38,10 @@ const BarsCashStatistics = ({
 	const formatDate = index => {
 		return data[index]?.date ? dayjs(data[index].date).format('MM.YY') : DEFAULT_EMPTY_STRING;
 	};
-	const BAR_WIDTH = 20;
+	const BAR_WIDTH = Math.ceil(data.length > 10 ? xMax/(1.4*data.length) : 20);
 	const timeScale = scaleLinear({
 		domain: [0, data.length],
-		range: [BAR_WIDTH, xMax],
+		range: [BAR_WIDTH/2, xMax],
 		nice: true,
 	});
 	const valuesScale = scaleLinear({
@@ -52,23 +51,17 @@ const BarsCashStatistics = ({
 	});
 	const handleTooltip = useCallback(
 		(event) => {
-			const x = parseInt(event.target.getAttribute('x'), 10) + BAR_WIDTH/2 + margin.left;
-			const x0 = Math.floor(timeScale.invert(x)) - 1;
-			const d0 = data[x0 - 1];
-			const d1 = data[x0];
-			let d = d0;
-
-			if (d1 && getDate(d1)) {
-				d = x0.valueOf() - getDate(d0).valueOf() > getDate(d1).valueOf() - x0.valueOf() ? d1 : d0;
-			}
+			const x = Math.floor(parseInt(event.target.getAttribute('x'), 10) + BAR_WIDTH/2);
+			const x0 = Math.ceil(timeScale.invert(x));
+			const d = data[x0];
 
 			showTooltip({
 				tooltipData: d,
-				tooltipLeft: x,
+				tooltipLeft: x + margin.left,
 				tooltipTop: valuesScale(getDataValue(d)) + margin.top,
 			});
 		},
-		[showTooltip, valuesScale, timeScale, data, margin],
+		[showTooltip, valuesScale, timeScale, data, margin, BAR_WIDTH],
 	);
 
 	return (
