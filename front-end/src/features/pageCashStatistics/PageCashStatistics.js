@@ -10,9 +10,9 @@ import { FinancialValue } from '../../components/FinancialValue/FinancialValue';
 
 import styles from './PageCashStatistics.module.scss';
 
-import StatisticsRecord from './StatisticsRecord/StatisticsRecord';
 import BarsCashStatistics from './BarsCashStatistics/BarsCashStatistics';
 import { PieChart } from './PieChart/PieChart';
+import StatisticsList from './StatisticsList/StatisticsList';
 
 const PageCashStatistics = () => {
 	const { t, } = useTranslation();
@@ -33,9 +33,7 @@ const PageCashStatistics = () => {
 					{baseCurrencyKey}
 				</TextStyler>
 			</div>
-			<div className={styles.list}>
-				{data?.map(record => <StatisticsRecord key={record._id} data={record}/>)}
-			</div>
+			{ data && <StatisticsList data={data}/>}
 			<Button
 				type="primary"
 				shape="round"
