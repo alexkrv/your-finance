@@ -18,8 +18,11 @@ import {
 	ROUTE_REGISTRATION,
 } from './constants/routes';
 import PageInvestment from './features/pageInvestments/PageInvestment';
+import { useBaseCurrencyInitializer } from './utils/custom-react-hooks';
 
 const App = () => {
+	useBaseCurrencyInitializer();
+
 	const theme = useSelector( state => state.theme.value);
 
 	return (

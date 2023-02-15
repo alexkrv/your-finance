@@ -1,7 +1,9 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import useLocalStorage from 'use-local-storage';
 
 import { useGetConversionRatesQuery } from '../api';
-import { DEFAULT_ONE, DEFAULT_ZERO } from '../constants/default-values';
+import { DEFAULT_EMPTY_STRING, DEFAULT_ONE, DEFAULT_ZERO } from '../constants/default-values';
+import { changeBaseCurrency } from '../commonSlices/currencyOperationsSlice';
 
 export const useConvertedCurrencyValue = ({ value = DEFAULT_ZERO, currencyId }) => {
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
@@ -17,4 +19,11 @@ export const useConvertedCurrencyValue = ({ value = DEFAULT_ZERO, currencyId }) 
 		convertedValue,
 		currencyId: baseCurrencyKey
 	};
+};
+
+export const useBaseCurrencyInitializer = () => {
+	const dispatch = useDispatch();
+	const [baseCurrencyKey, ] = useLocalStorage('baseCurrencyKey', DEFAULT_EMPTY_STRING);
+
+	dispatch(changeBaseCurrency(baseCurrencyKey));
 };

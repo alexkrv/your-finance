@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation, } from 'react-i18next';
 import {
 	FlagOutlined,
@@ -39,10 +39,6 @@ const HeaderMenu = () => {
 		dispatch(changeBaseCurrency(value));
 		setBaseCurrency(value);
 	};
-
-	useEffect(() => {
-		dispatch(changeBaseCurrency(baseCurrencyKey));
-	}, [baseCurrencyKey]);
 
 	return (
 		<div className={styles.container}>
