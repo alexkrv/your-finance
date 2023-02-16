@@ -1,39 +1,69 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { ROUTE_CASH_CATEGORIES, ROUTE_HOME, ROUTE_INVESTMENTS, ROUTE_STATISTICS } from 'constants/routes';
 
-import { ROUTE_CASH_CATEGORIES, ROUTE_HOME, ROUTE_INVESTMENTS, ROUTE_STATISTICS } from '../../../../constants/routes';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, } from 'react-router-dom';
+import { Menu } from 'antd';
+import {
+	HomeOutlined,
+	PieChartOutlined,
+	ProfileOutlined,
+	StockOutlined
+} from '@ant-design/icons';
+
 
 import styles from './NavigationMenu.module.scss';
 
-import MenuItem from './MenuItem/MenuItem';
-
 const NavigationMenu = () => {
 	const { t, } = useTranslation();
+	const [current, setCurrent] = useState('mail');
+	const onClick = event => setCurrent(event.key);
+
+	useEffect(() => {
+		setCurrent(window.location.pathname);
+	}, []);
+
+	const items = [
+		{
+			label: <Link to={ROUTE_HOME}>
+				{t('header.home')}
+			</Link>,
+			key: ROUTE_HOME,
+			icon: <HomeOutlined />,
+		},
+		{
+			label: <Link to={ROUTE_CASH_CATEGORIES}>
+				{t('header.cashCategories')}
+			</Link>,
+			key: ROUTE_CASH_CATEGORIES,
+			icon: <ProfileOutlined />,
+		},
+		{
+			label: <Link to={ROUTE_INVESTMENTS}>
+				{t('header.investments')}
+			</Link>,
+			key: ROUTE_INVESTMENTS,
+			icon: <StockOutlined />
+		},
+		{
+			label: <Link to={ROUTE_STATISTICS}>
+				{t('header.statistics')}
+			</Link>,
+			key: ROUTE_STATISTICS,
+			icon: <PieChartOutlined />
+		},
+	];
+	// TODO change menu styles
 
 	return (
-		<nav className={styles.navigationMenu}>
-			<MenuItem navigateTo={ROUTE_HOME}>
-				{t('header.home')}
-			</MenuItem>
-			<MenuItem
-				navigateTo={ROUTE_CASH_CATEGORIES}
-				className={styles.menuLink}
-			>
-				{t('header.cashCategories')}
-			</MenuItem>
-			<MenuItem
-				navigateTo={ROUTE_INVESTMENTS}
-				className={styles.menuLink}
-			>
-				{t('header.investments')}
-			</MenuItem>
-			<MenuItem
-				navigateTo={ROUTE_STATISTICS}
-				className={styles.menuLink}
-			>
-				{t('header.statistics')}
-			</MenuItem>
-		</nav>
+		<Menu
+			onClick={onClick}
+			selectedKeys={[current]}
+			mode="horizontal"
+			items={items}
+			className={styles.menu}
+			theme={'dark'}
+		/>
 	);
 };
 
