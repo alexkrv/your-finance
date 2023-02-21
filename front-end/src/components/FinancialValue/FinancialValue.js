@@ -14,6 +14,8 @@ import {
 
 import styles from './FinancialValue.module.scss';
 
+import CurrencyLabel from './CurrencyLabel/CurrencyLabel';
+
 export const FinancialValue = ({ value, type, currencyId, size, className }) => {
 	const timeoutRef = useRef(null);
 	const isVisible = useSelector(state => state.valueVisibility.isVisible);
@@ -48,10 +50,7 @@ export const FinancialValue = ({ value, type, currencyId, size, className }) => 
 			<span className={styles.hiddenValue} data-value-hidden={isHidden}>
 				{value === DEFAULT_ZERO ? DEFAULT_EMPTY_STRING : getSign(type)}
 				<span className={styles[size]}>{Math.abs(value)}</span>
-				{currencyId ?
-					<span className={styles.currency}>&nbsp;{currencyId}</span>
-					: DEFAULT_EMPTY_STRING
-				}
+				<CurrencyLabel currencyId={currencyId}/>
 			</span>
 			<span onClick={handleClick} className={styles.icon}>
 				{ isHidden ? <EyeOutlined /> : <EyeInvisibleOutlined/> }
