@@ -54,10 +54,13 @@ const StatisticsRecord = ({ data }) => {
 			<Typography.Text
 				type='secondary'
 				className={styles.comment}
-				editable={{ onChange: handleDescriptionEdit }}
+				editable={{
+					onChange: handleDescriptionEdit,
+					tooltip: t('cashStatistics.addComment')
+				}}
 				ellipsis={{ tooltip: true }}
 			>
-				{description || t('cashStatistics.addComment')}
+				{description}
 			</Typography.Text>
 		</div>
 	);

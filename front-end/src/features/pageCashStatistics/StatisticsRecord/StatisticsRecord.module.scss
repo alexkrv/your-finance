@@ -31,9 +31,11 @@
 	text-align: left;
 	white-space: break-spaces;
 	user-select: none;
+    justify-self: end;
 }
 
 .deleteIcon {
 	color: var(--text-secondary);
     grid-area: 1 / 4 / 2 / 5;
+    justify-self: end;
 }
