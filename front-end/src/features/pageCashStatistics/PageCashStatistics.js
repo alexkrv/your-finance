@@ -7,6 +7,7 @@ import { useGetCashStatisticsQuery, useCreateStatisticsRecordMutation, } from 'a
 
 import { DEFAULT_ZERO } from '../../constants/default-values';
 import { FinancialValue } from '../../components/FinancialValue/FinancialValue';
+import CurrencyLabel from '../../components/FinancialValue/CurrencyLabel/CurrencyLabel';
 
 import styles from './PageCashStatistics.module.scss';
 
@@ -26,12 +27,14 @@ const PageCashStatistics = () => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.header}>
-				<TextStyler size='large' className={styles.headerCaption}>
+				<TextStyler size='large'>
 					{t('cashStatistics.balanceStates')}
 				</TextStyler>
-				<TextStyler>
-					{baseCurrencyKey}
-				</TextStyler>
+				&#44;
+				<CurrencyLabel
+					currencyId={baseCurrencyKey}
+					className={styles.currencyLabel}
+				/>
 			</div>
 			{ data && <StatisticsList data={data}/>}
 			<Button

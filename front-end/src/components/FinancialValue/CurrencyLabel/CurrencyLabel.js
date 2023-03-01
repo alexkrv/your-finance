@@ -3,10 +3,11 @@ import { CUR_EUR, CUR_RUB, CUR_USD, } from 'constants/default-values';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BiDollar, BiEuro, BiRuble } from 'react-icons/bi';
+import clsx from 'clsx';
 
 import styles from './CurrencyLabel.module.scss';
 
-const CurrencyLabel = ({ currencyId }) => {
+const CurrencyLabel = ({ currencyId, className, }) => {
 	if(!currencyId) {
 		return null;
 	}
@@ -22,7 +23,7 @@ const CurrencyLabel = ({ currencyId }) => {
 	};
 
 	return (
-		<span className={styles.currency}>
+		<span className={clsx(styles.currency, className)}>
 			{getCurrencyLabel(currencyId)}
 		</span>
 	);
