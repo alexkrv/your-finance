@@ -6,6 +6,7 @@ import { useGetConversionRatesQuery } from 'api/index';
 
 import { FinancialValue } from '../../../components/FinancialValue/FinancialValue';
 import { CATEGORY_TYPE_INCOME, CATEGORY_TYPE_SPENDING, DEFAULT_ZERO } from '../../../constants/default-values';
+import TextStyler from '../../../components/TextStyler/TextStyler';
 
 import styles from './NetBalance.module.scss';
 
@@ -19,9 +20,12 @@ const NetBalance = () => {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.title}>{t('cashCategories.netBalance')}</div>
+			<TextStyler size='large'>
+				{t('cashCategories.netBalance')}
+				&#58;&nbsp;
+			</TextStyler>
 			{ isFetching ?
-				<Spin size='small'/>
+				<Spin size='small' wrapperClassName={styles.spinWrapper}/>
 				: <FinancialValue type={type} value={total} currencyId={baseCurrencyKey} size='big'/>
 			}
 		</div>
