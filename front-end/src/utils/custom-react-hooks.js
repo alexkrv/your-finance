@@ -27,3 +27,13 @@ export const useBaseCurrencyInitializer = () => {
 
 	dispatch(changeBaseCurrency(baseCurrencyKey));
 };
+
+export const useGetTotalInBaseCurrency = items => {
+	const baseCurrencyKey = useSelector(state => state.currencies.baseCurrencyKey);
+	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
+	const total = isFetching || error ? DEFAULT_ZERO
+		: parseFloat(items.reduce((acc, el) => acc + el.value/(data.rates[el.currency].value || 1), DEFAULT_ZERO)
+			.toFixed(1));
+
+	return { total, isFetching, error };
+};

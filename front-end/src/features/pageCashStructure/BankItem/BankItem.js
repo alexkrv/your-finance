@@ -9,10 +9,10 @@ import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
 
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
-import { useDeleteBankAccountMutation, useDeleteBankOrganizationMutation, useGetConversionRatesQuery } from '../../../api';
-import { DEFAULT_ZERO } from '../../../constants/default-values';
+import { useDeleteBankAccountMutation, useDeleteBankOrganizationMutation, } from '../../../api';
 import UploadButton from '../../../components/UploadButton/UploadButton';
 import ButtonEdit from '../../../components/ButtonEdit/ButtonEdit';
+import { useGetTotalInBaseCurrency } from '../../../utils/custom-react-hooks';
 
 import styles from './BankItem.module.scss';
 
@@ -25,11 +25,8 @@ const BankItem = ({ bank, }) => {
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const confirmBankAccountRemoving = accountId => deleteBankAccount({ bankId: bank._id, accountId });
 	const confirmBankRemoving = () => deleteBankOrganization(bank._id);
-	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
-	const total = isFetching || error ?
-		DEFAULT_ZERO
-		: parseFloat(bank.accounts.reduce((acc, el) => acc + el.value/(data.rates[el.currencyId].value || 1), DEFAULT_ZERO)
-			.toFixed(1));
+	const getValue = ({ value, currencyId: currency }) => ({ value, currency });
+	const { total, isFetching } = useGetTotalInBaseCurrency(bank.accounts.map(getValue));
 
 	return (
 		<Card className={styles.card}>

@@ -5,15 +5,19 @@ import BankItem from '../BankItem/BankItem';
 import { useGetBanksListQuery } from '../../../api';
 
 const BankItemsWrapper = () => {
-	const { data } = useGetBanksListQuery();
+	const { data, isFetching } = useGetBanksListQuery();
+
+	if(isFetching) {
+		return null;
+	}
 
 	return (
 		<Space size='small' align='start' wrap>
-			{ data?.map(bank =>
+			{ data.map(bank =>
 				<BankItem
 					key={bank._id}
 					bank={bank}
-				/>) || null}
+				/>)}
 		</Space>
 	);
 };

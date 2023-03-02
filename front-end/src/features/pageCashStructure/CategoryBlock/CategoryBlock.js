@@ -2,7 +2,6 @@ import {
 	CATEGORY_TYPE_FROZEN,
 	CATEGORY_TYPE_INCOME,
 	CATEGORY_TYPE_SPENDING,
-	DEFAULT_ZERO
 } from 'constants/default-values';
 
 import React, { useEffect, } from 'react';
@@ -10,11 +9,11 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spin, } from 'antd';
-import { useGetConversionRatesQuery } from 'api/';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import { Card } from 'components/Card/Card';
 
 import { saveTotalSumByType, } from '../PageCashStructureSlice';
+import { useGetTotalInBaseCurrency } from '../../../utils/custom-react-hooks';
 
 import styles from './CategoryBlock.module.scss';
 
@@ -25,17 +24,14 @@ const CategoryBlock = ({ title, type, items, }) => {
 	const dispatch = useDispatch();
 	const { t } = useTranslation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
-	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
-	const total = isFetching || error ?
-		DEFAULT_ZERO
-		: parseFloat(items.reduce((acc, el) => acc + el.sourceValue/(data.rates[el.currency].value || 1), DEFAULT_ZERO)
-			.toFixed(1));
+	const valueAccessor = ({ sourceValue: value, currency }) => ({ value, currency });
+	const { total, error, isFetching } = useGetTotalInBaseCurrency(items.map(valueAccessor));
 
 	useEffect(() => {
-		if(data && !error) {
+		if(!error) {
 			dispatch(saveTotalSumByType({ type, total }));
 		}
-	}, [data, error, total, dispatch, type]);
+	}, [error, total, dispatch, type]);
 
 	return (
 		<Card className={styles.card}>
