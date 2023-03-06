@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import useLocalStorage from 'use-local-storage';
+import { useTranslation } from 'react-i18next';
+import { message } from 'antd';
 
 import { useGetConversionRatesQuery } from '../api';
 import { DEFAULT_EMPTY_STRING, DEFAULT_ONE, DEFAULT_ZERO } from '../constants/default-values';
@@ -36,4 +38,12 @@ export const useGetTotalInBaseCurrency = items => {
 			.toFixed(1));
 
 	return { total, isFetching, error };
+};
+
+export const useCommonErrorMessage = ({ error, text, duration = 2 }) => {
+	const { t } = useTranslation();
+
+	if(error) {
+		message.error(text || t('common.commonError'), duration);
+	}
 };

@@ -33,7 +33,8 @@
     "total": "Total",
     "done": "Done",
     "buy": "Buy",
-    "sell": "Sell"
+    "sell": "Sell",
+    "commonError": "Something went wrong..."
   },
   "description": {
     "part1": "First description",

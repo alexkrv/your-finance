@@ -9,12 +9,16 @@ import TextStyler from 'components/TextStyler/TextStyler';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import { useGetBrokerAssetPriceQuery } from 'api';
 
+import { useCommonErrorMessage } from '../../../../../utils/custom-react-hooks';
+
 import styles from './TickerInfo.module.scss';
 
 const TickerInfo = ({ ticker, amount, averagePrice, }) => {
 	const { t } = useTranslation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
 	const { data, error, isFetching, } = useGetBrokerAssetPriceQuery({ baseCurrencyKey, ticker });
+
+	useCommonErrorMessage({ error, text: ticker });
 
 	return (
 		<div className={styles.container}>

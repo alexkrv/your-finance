@@ -12,6 +12,7 @@ import { useEditBrokerAssetMutation, useRemoveBrokerAssetMutation, } from '../..
 import ButtonEdit from '../../../../components/ButtonEdit/ButtonEdit';
 import TextStyler from '../../../../components/TextStyler/TextStyler';
 import { TYPE_ASSET_CASH } from '../../../../constants/broker-asset-types';
+import { useCommonErrorMessage } from '../../../../utils/custom-react-hooks';
 
 import styles from './InvestmentAsset.module.scss';
 
@@ -29,7 +30,7 @@ const InvestmentAsset = ({
 	const { t, } = useTranslation();
 	const [processedAsset, setProcessAsset] = useState({});
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
-	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
+	const { data, error, } = useGetConversionRatesQuery(baseCurrencyKey);
 	const [editBrokerAsset] = useEditBrokerAssetMutation();
 
 	const editAsset = ({ assetName, amount, purchasePricePerUnit, isBuyMode, currency }) =>
@@ -75,6 +76,8 @@ const InvestmentAsset = ({
 			setProcessAsset(processAsset(asset, data.rates));
 		}
 	}, [asset, data?.rates]);
+
+	useCommonErrorMessage({ error });
 
 	return (
 		<div className={styles.container}>
