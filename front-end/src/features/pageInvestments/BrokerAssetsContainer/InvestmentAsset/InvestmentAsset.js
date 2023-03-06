@@ -28,8 +28,8 @@ const InvestmentAsset = ({
 	const [removeBrokerAsset] = useRemoveBrokerAssetMutation();
 	const { t, } = useTranslation();
 	const [processedAsset, setProcessAsset] = useState({});
-	const { baseCurrencyKey } = useSelector(state => state.currencies); // TODO unite in custom hook
-	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey); // TODO unite in custom hook
+	const { baseCurrencyKey } = useSelector(state => state.currencies);
+	const { data, error, isFetching, } = useGetConversionRatesQuery(baseCurrencyKey);
 	const [editBrokerAsset] = useEditBrokerAssetMutation();
 
 	const editAsset = ({ assetName, amount, purchasePricePerUnit, isBuyMode, currency }) =>

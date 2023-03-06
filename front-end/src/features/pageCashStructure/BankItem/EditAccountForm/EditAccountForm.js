@@ -19,8 +19,8 @@ const EditAccountForm = ({ bankId, account }) => {
 	const initialValues = {
 		bankId: DEFAULT_EMPTY_STRING,
 		accountId: DEFAULT_EMPTY_STRING,
-		accountName: DEFAULT_EMPTY_STRING,
-		accountValue: DEFAULT_ZERO,
+		accountName: account.name,
+		accountValue: account.value,
 	};
 	const onFinish = ({ accountName, accountValue }) => {
 		editBankAccount({ bankId, accountName, accountValue, accountId: account._id });
