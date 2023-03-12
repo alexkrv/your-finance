@@ -1,0 +1,21 @@
+.asset {
+    display: grid;
+    grid-template: 1fr/1fr 1fr;
+    align-items: start;
+    justify-items: start;
+    column-gap: 8px;
+}
+
+.infoBlock {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.caption{
+    margin-right: 8px;
+}
+
+.deleteIcon {
+    padding: 4px;
+}

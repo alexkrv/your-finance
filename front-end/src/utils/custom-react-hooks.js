@@ -47,3 +47,12 @@ export const useCommonErrorMessage = ({ error, text, duration = 2 }) => {
 		message.error(text || t('common.commonError'), duration);
 	}
 };
+
+export const useGetConversionRatesInBaseCurrency = () => {
+	const baseCurrencyKey = useSelector(state => state.currencies.baseCurrencyKey);
+
+	return {
+		...useGetConversionRatesQuery(baseCurrencyKey),
+		baseCurrencyKey
+	};
+};

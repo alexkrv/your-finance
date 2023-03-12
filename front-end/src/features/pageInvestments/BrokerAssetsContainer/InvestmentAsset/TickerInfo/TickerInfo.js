@@ -8,8 +8,7 @@ import { Spin } from 'antd';
 import TextStyler from 'components/TextStyler/TextStyler';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import { useGetBrokerAssetPriceQuery } from 'api';
-
-import { useCommonErrorMessage } from '../../../../../utils/custom-react-hooks';
+import { useCommonErrorMessage } from 'utils/custom-react-hooks';
 
 import styles from './TickerInfo.module.scss';
 
@@ -57,6 +56,7 @@ const TickerInfo = ({ ticker, amount, averagePrice, }) => {
 TickerInfo.propTypes = {
 	ticker: PropTypes.string.isRequired,
 	amount: PropTypes.number.isRequired,
+	averagePrice: PropTypes.number.isRequired,
 };
 
 export default TickerInfo;
