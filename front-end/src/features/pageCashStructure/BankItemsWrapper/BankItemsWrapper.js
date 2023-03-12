@@ -1,19 +1,15 @@
 import React from 'react';
 import { Space } from 'antd';
+import { useGetBanksListQuery } from 'api';
 
 import BankItem from '../BankItem/BankItem';
-import { useGetBanksListQuery } from '../../../api';
 
 const BankItemsWrapper = () => {
-	const { data, isFetching } = useGetBanksListQuery();
-
-	if(isFetching) {
-		return null;
-	}
+	const { data, } = useGetBanksListQuery();
 
 	return (
 		<Space size='small' align='start' wrap>
-			{ data.map(bank =>
+			{ data?.map(bank =>
 				<BankItem
 					key={bank._id}
 					bank={bank}
