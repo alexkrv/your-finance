@@ -19,6 +19,7 @@ import StatisticsList from './StatisticsList/StatisticsList';
 const PageCashStatistics = () => {
 	const { t, } = useTranslation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
+	const isVisible = useSelector(state => state.valueVisibility.isVisible);
 	const { data, error } = useGetCashStatisticsQuery(baseCurrencyKey);
 	const [createStatisticsRecord, { isLoading }] = useCreateStatisticsRecordMutation(baseCurrencyKey);
 	const handleGetNewRecord = () => createStatisticsRecord(baseCurrencyKey);
@@ -50,7 +51,7 @@ const PageCashStatistics = () => {
 			>
 				{t('cashStatistics.getCurrentState')}&nbsp;{baseCurrencyKey}
 			</Button>
-			<div className={styles.chartsContainer}>
+			<div className={styles.chartsContainer} data-value-hidden={!isVisible}>
 				{Boolean(data?.length) && <BarsCashStatistics
 					className={styles.barsChart}
 					width={400}
