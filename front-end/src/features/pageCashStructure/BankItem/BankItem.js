@@ -7,23 +7,20 @@ import ButtonAddItem from 'components/ButtonAddItem/ButtonAddItem';
 import { Card } from 'components/Card/Card';
 import { FinancialValue } from 'components/FinancialValue/FinancialValue';
 import ButtonDeleteItem from 'components/ButtonDeleteItem/ButtonDeleteItem';
+import { useDeleteBankOrganizationMutation, } from 'api';
+import UploadButton from 'components/UploadButton/UploadButton';
+import { useGetTotalInBaseCurrency } from 'utils/custom-react-hooks';
 
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
-import { useDeleteBankAccountMutation, useDeleteBankOrganizationMutation, } from '../../../api';
-import UploadButton from '../../../components/UploadButton/UploadButton';
-import ButtonEdit from '../../../components/ButtonEdit/ButtonEdit';
-import { useGetTotalInBaseCurrency } from '../../../utils/custom-react-hooks';
 
 import styles from './BankItem.module.scss';
 
-import EditAccountForm from './EditAccountForm/EditAccountForm';
+import AccountItem from './AccountItem/AccountItem';
 
 const BankItem = ({ bank, }) => {
 	const { t } = useTranslation();
 	const [deleteBankOrganization] = useDeleteBankOrganizationMutation();
-	const [deleteBankAccount] = useDeleteBankAccountMutation();
 	const { baseCurrencyKey } = useSelector(state => state.currencies);
-	const confirmBankAccountRemoving = accountId => deleteBankAccount({ bankId: bank._id, accountId });
 	const confirmBankRemoving = () => deleteBankOrganization(bank._id);
 	const getValue = ({ value, currencyId: currency }) => ({ value, currency });
 	const { total, isFetching } = useGetTotalInBaseCurrency(bank.accounts.map(getValue));
@@ -50,35 +47,20 @@ const BankItem = ({ bank, }) => {
 					</div>
 					<div className={styles.bankTotalValue}>
 						{t('common.total')}
-						&nbsp;{ isFetching ? <Spin size='small' />: <FinancialValue value={total} currencyId={baseCurrencyKey}/> }
+						&nbsp;{ isFetching
+							? <Spin size='small' />
+							: <FinancialValue value={total} currencyId={baseCurrencyKey}/> }
 					</div>
 				</div>
 			</Space>
 			<Space size='middle' direction='horizontal' wrap>
-				{bank.accounts.map( account => <div key={account._id} className={styles.metaContainer}>
-					<div className={styles.nameContainer}>
-						<div className={styles.accountName}>
-							{account.name}
-						</div>
-						<ButtonEdit
-							title={t('bankItem.editAccount')}
-							afterActionText={t('common.done')}
-							editItemFormElement={<EditAccountForm
-								bankId={bank._id}
-								account={account}
-							/>}
-						/>
-						<ButtonDeleteItem
-							confirmationPlacement="right"
-							confirmationCancelText={t('common.keep')}
-							confirmationOkText={t('common.remove')}
-							onConfirm={() => confirmBankAccountRemoving(account._id)}
-							title={t('common.sureToRemove')}
-							afterActionText={t('bankItem.accountRemoved')}
-						/>
-					</div>
-					<FinancialValue value={account.value} currencyId={account.currencyId}/>
-				</div>)}
+				{bank.accounts.map( account => (
+					<AccountItem
+						key={account._id}
+						account={account}
+						bankId={bank._id}
+					/>
+				))}
 			</Space>
 			<Space size='small'>
 				<ButtonAddItem

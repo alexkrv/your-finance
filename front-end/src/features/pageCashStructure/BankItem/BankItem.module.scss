@@ -22,22 +22,6 @@
 	font-weight: 600;
 }
 
-.nameContainer {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-}
-
-.accountName {
-    margin-right: 4px;
-	color: var(--text-primary);
-	text-align: left;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	font-size: 12px;
-}
-
 .bankTotalValue {
 	display: flex;
 	align-items: center;
