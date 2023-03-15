@@ -5,9 +5,9 @@ import StatisticsRecord from '../StatisticsRecord/StatisticsRecord';
 
 import styles from './StatisticsList.module.scss';
 
-const StatisticsList = ({ data, }) => (
+const StatisticsList = ({ data = [], }) => (
 	<div className={styles.list}>
-		{data?.map(record => <StatisticsRecord key={record._id} data={record}/>)}
+		{[...data].reverse().map(record => <StatisticsRecord key={record._id} data={record}/>)}
 	</div>
 );
 
