@@ -11,12 +11,11 @@ import {
 	StockOutlined
 } from '@ant-design/icons';
 
-
 import styles from './NavigationMenu.module.scss';
 
 const NavigationMenu = () => {
 	const { t, } = useTranslation();
-	const [current, setCurrent] = useState('mail');
+	const [current, setCurrent] = useState(ROUTE_HOME);
 	const onClick = event => setCurrent(event.key);
 
 	useEffect(() => {
@@ -33,7 +32,7 @@ const NavigationMenu = () => {
 		},
 		{
 			label: <Link to={ROUTE_CASH_CATEGORIES}>
-				{t('header.cashCategories')}
+				{t('header.bankAccounts')}
 			</Link>,
 			key: ROUTE_CASH_CATEGORIES,
 			icon: <ProfileOutlined />,
