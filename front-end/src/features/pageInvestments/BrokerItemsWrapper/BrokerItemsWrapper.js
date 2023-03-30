@@ -11,14 +11,12 @@ import styles from './BrokerItemsWrapper.module.scss';
 
 const BrokerItemsWrapper = () => {
 	const { data } = useGetBrokersListQuery();
-	const onChange = key => console.log(key);
 
 	return <div className={styles.container}>
 		{ data?.length ? <Space size='small' align='start' wrap>
 			<Collapse
 				ghost
 				defaultActiveKey={[data?.[DEFAULT_ZERO]._id]}
-				onChange={onChange}
 				expandIcon={({ isActive }) => <div className={styles.iconContainer}>
 					<CaretRightOutlined rotate={isActive ? 90 : 0} className={styles.caret}/>
 				</div>}

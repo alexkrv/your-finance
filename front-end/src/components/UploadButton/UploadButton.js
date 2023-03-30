@@ -15,7 +15,7 @@ const UploadButton = ({ actionUrl, avatar }) => {
 	};
 
 	return (
-		<ImgCrop rotate>
+		<ImgCrop rotationSlider>
 			<Upload
 				name="avatar"
 				listType="picture"

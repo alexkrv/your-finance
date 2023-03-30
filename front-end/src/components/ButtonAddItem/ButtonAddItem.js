@@ -18,7 +18,7 @@ const ButtonAddItem = ({ text, size, addItemFormElement, className }) => {
 				<PlusCircleOutlined className={clsx(styles.icon, styles[size])}/>
 				{text}
 			</div>
-			<Modal width={'fit-content'} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false}>
+			<Modal width={'fit-content'} open={isModalVisible} onOk={handleOk} onCancel={handleCancel} closable={false}>
 				{addItemFormElement}
 			</Modal>
 		</>
