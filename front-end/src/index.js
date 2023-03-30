@@ -1,5 +1,5 @@
 import React, { Suspense, } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Skeleton } from 'antd';
 
@@ -15,16 +15,15 @@ import './i18n';
 // 	worker.start();
 // }
 
-ReactDOM.render(
-	<React.StrictMode>
-		<Suspense fallback={<Skeleton active/>}>
-			<Provider store={store}>
-				<App />
-			</Provider>
-		</Suspense>
-	</React.StrictMode>,
-	document.getElementById('root')
-);
+const root = createRoot(document.getElementById('root'));
+
+root.render(<React.StrictMode>
+	<Suspense fallback={<Skeleton active/>}>
+		<Provider store={store}>
+			<App />
+		</Provider>
+	</Suspense>
+</React.StrictMode>);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

@@ -28,7 +28,7 @@ const ButtonEdit = ({
 			</div>
 			<Modal
 				width={'fit-content'}
-				visible={isVisible}
+				open={isVisible}
 				onOk={handleOkClick}
 				onCancel={() => setIsVisible(false)}
 				closable={false}
