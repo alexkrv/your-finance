@@ -40,7 +40,7 @@ const InvestmentAssetWrapper = ({
 					assetAmount={asset[assetKey].amount}
 					averagePrice={asset[assetKey].averageAssetPrice}
 					editAsset={editAsset}
-					confirmAssetRemoving={confirmAssetRemoving}
+					confirmAssetRemoving={() => confirmAssetRemoving(assetKey)}
 					isCash={asset[assetKey].type === TYPE_ASSET_CASH}
 				/>
 			)}
