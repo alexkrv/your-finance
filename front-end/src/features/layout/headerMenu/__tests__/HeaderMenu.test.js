@@ -2,8 +2,8 @@ import { BrowserRouter, Routes, Route,  } from 'react-router-dom';
 
 import { render, screen } from '../../../../test-render';
 import HeaderMenu from '../HeaderMenu';
-import { ROUTE_HOME } from '../../../../constants/routes';
-import { TEST_ID_THEME_SWITCHER } from '../../../../constants/test-ids';
+import { ROUTE_HOME } from '@root/constants/routes';
+import { TEST_ID_THEME_SWITCHER } from '@root/constants/test-ids';
 
 describe('HeaderMenu test',() => {
 	test('should render ThemeSwitcher component', async () => {
