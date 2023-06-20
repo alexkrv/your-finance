@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import {
-	DEFAULT_ZERO
-} from '../../constants/default-values';
+import { DEFAULT_ZERO } from '@root/constants/default-values';
 
 const initialState = {
 	categories: {

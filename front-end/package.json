@@ -2,7 +2,6 @@
   "name": "your-finance",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@reduxjs/toolkit": "^1.7.1",
@@ -29,7 +28,6 @@
     "react-icons": "^4.7.1",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.9.0",
-    "react-scripts": "5.0.0",
     "sass": "^1.48.0",
     "stylelint-scss": "^4.1.0",
     "use-local-storage": "^2.2.6",
@@ -38,10 +36,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
   },
   "eslintConfig": {
     "extends": [
@@ -71,13 +68,17 @@
     "@visx/responsive": "^2.10.0",
     "@visx/scale": "^2.2.2",
     "@visx/shape": "^2.12.2",
+    "@vitejs/plugin-react": "^4.0.0",
     "d3-time-format": "^4.1.0",
     "jest-matchmedia-mock": "^1.1.0",
     "msw": "^0.45.0",
     "stylelint": "^14.2.0",
     "stylelint-config-standard": "^24.0.0",
     "stylelint-config-standard-scss": "^3.0.0",
-    "stylelint-order": "^5.0.0"
+    "stylelint-order": "^5.0.0",
+    "vite": "^4.3.9",
+    "vite-plugin-svgr": "^3.2.0",
+    "vite-tsconfig-paths": "^4.2.0"
   },
   "msw": {
     "workerDirectory": "public"
