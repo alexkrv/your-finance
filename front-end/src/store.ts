@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import themeSwitcher from './features/switchTheme/SwitchThemeSlice';
 import auth from './features/pageLogin/PageLoginSlice';
 import cashCategories from './features/pageCashStructure/PageCashStructureSlice';
@@ -18,3 +19,6 @@ export const store = configureStore({
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(api.middleware)
 });
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

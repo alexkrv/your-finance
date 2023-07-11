@@ -2,10 +2,11 @@ import './__mocks__/matchMedia.mock';
 import { render, } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { Provider } from 'react-redux';
-import { store } from 'store';
 import { I18nextProvider } from 'react-i18next';
 import i18n from 'i18n';
 import { Skeleton } from 'antd';
+
+import { store } from '@root/store';
 
 const AllTheProviders = ({ children }) => {
 	return (

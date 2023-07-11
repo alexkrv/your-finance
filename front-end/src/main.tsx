@@ -15,7 +15,7 @@ import './i18n';
 // 	worker.start();
 // }
 
-const root = createRoot(document.getElementById('root'));
+const root = createRoot(document.getElementById('root') as Element);
 
 root.render(<React.StrictMode>
 	<Suspense fallback={<Skeleton active/>}>

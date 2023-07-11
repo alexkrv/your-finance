@@ -12,3 +12,9 @@ export const CUR_EUR = 'EUR';
 export const CATEGORY_TYPE_INCOME = 'income';
 export const CATEGORY_TYPE_SPENDING = 'spending';
 export const CATEGORY_TYPE_FROZEN = 'frozen';
+
+export enum CATEGORY_TYPE {
+    INCOME = 'income',
+    SPENDING = 'spending',
+    FROZEN = 'frozen'
+}

@@ -1,13 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import TextStyler from '@root/components/TextStyler/TextStyler';
 import { Button, } from 'antd';
-import { useGetCashStatisticsQuery, useCreateStatisticsRecordMutation, } from '@root/api';
 
+import TextStyler from '@root/components/TextStyler/TextStyler';
+import { useGetCashStatisticsQuery, useCreateStatisticsRecordMutation, } from '@root/api';
 import { DEFAULT_ZERO } from '@root/constants/default-values';
 import { FinancialValue } from '@root/components/FinancialValue/FinancialValue';
-import CurrencyLabel from '@root/components/FinancialValue/CurrencyLabel/CurrencyLabel';
+import { CurrencyLabel } from '@root/components/FinancialValue/CurrencyLabel/CurrencyLabel';
+
 import { useCommonErrorMessage } from '../../utils/custom-react-hooks';
 
 import styles from './PageCashStatistics.module.scss';
