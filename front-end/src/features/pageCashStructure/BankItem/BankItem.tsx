@@ -9,14 +9,14 @@ import ButtonDeleteItem from '@root/components/ButtonDeleteItem/ButtonDeleteItem
 import { useDeleteBankOrganizationMutation, } from '@root/api';
 import UploadButton from '@root/components/UploadButton/UploadButton';
 import { useGetTotalInBaseCurrency } from '@root/utils/custom-react-hooks';
-import { BankItemType } from '@root/features/pageCashStructure/BankItemType';
+import { BankItemType } from '@root/types/BankItemType';
 import { useAppSelector } from '@root/hooks/hooks';
 
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
 
 import styles from './BankItem.module.scss';
 
-import AccountItem from './AccountItem/AccountItem';
+import { AccountItem } from './AccountItem/AccountItem';
 
 export const BankItem: React.FC<{ bank: BankItemType}> = ({ bank, }) => {
 	const { t } = useTranslation();

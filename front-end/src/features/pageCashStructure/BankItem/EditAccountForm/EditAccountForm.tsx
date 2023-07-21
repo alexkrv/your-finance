@@ -1,15 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useRef, } from 'react';
+import React, { useRef, } from 'react';
 import { Button, Form, Input, InputNumber, Space, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useEditBankAccountMutation } from '@root/api';
 
+import { useEditBankAccountMutation } from '@root/api';
 import { DEFAULT_EMPTY_STRING, DEFAULT_ZERO, } from '@root/constants/default-values';
+import { AccountItemType } from '@root/types/AccountItemTypes';
 
 import styles from './EditAccountForm.module.scss';
 
-const EditAccountForm = ({ bankId, account }) => {
+export const EditAccountForm: React.FC<AccountItemType> = ({ bankId, account }) => {
 	const [editBankAccount] = useEditBankAccountMutation();
 	const [form] = Form.useForm();
 	const formRef = useRef();
@@ -22,7 +21,7 @@ const EditAccountForm = ({ bankId, account }) => {
 		accountName: account.name,
 		accountValue: account.value,
 	};
-	const onFinish = ({ accountName, accountValue }) => {
+	const onFinish = ({ accountName, accountValue }: {accountName: string, accountValue: number}) => {
 		editBankAccount({ bankId, accountName, accountValue, accountId: account._id });
 		formRef.current.resetFields(['accountName', 'accountValue']);
 	};
@@ -74,15 +73,3 @@ const EditAccountForm = ({ bankId, account }) => {
 		</Form>
 	);
 };
-
-EditAccountForm.propTypes = {
-	bankId: PropTypes.string.isRequired,
-	account: PropTypes.shape({
-		_id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		currencyId: PropTypes.string.isRequired,
-		value: PropTypes.number.isRequired,
-	}).isRequired
-};
-
-export default EditAccountForm;

@@ -2,9 +2,9 @@ import React from 'react';
 import { Space } from 'antd';
 
 import { useGetBanksListQuery } from '@root/api';
+import { BankItemType } from '@root/types/BankItemType';
 
 import { BankItem } from '../BankItem/BankItem';
-import { BankItemType } from '../BankItemType';
 
 export const BankItemsWrapper = () => {
 	const { data, } = useGetBanksListQuery();

@@ -1,19 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+
 import ButtonEdit from '@root/components/ButtonEdit/ButtonEdit';
 import ButtonDeleteItem from '@root/components/ButtonDeleteItem/ButtonDeleteItem';
 import { FinancialValue } from '@root/components/FinancialValue/FinancialValue';
 import { useDeleteBankAccountMutation } from '@root/api';
+import { AccountItemType } from '@root/types/AccountItemTypes';
 
-import EditAccountForm from '../EditAccountForm/EditAccountForm';
+import { EditAccountForm } from '../EditAccountForm/EditAccountForm';
 
 import styles from './AccountItem.module.scss';
 
-const AccountItem = ({ bankId, account }) => {
+export const AccountItem: React.FC<AccountItemType> = ({ bankId, account }) => {
 	const { t } = useTranslation();
 	const [deleteBankAccount] = useDeleteBankAccountMutation();
-	const confirmBankAccountRemoving = accountId => deleteBankAccount({ bankId, accountId });
+	const confirmBankAccountRemoving = (accountId: string) => deleteBankAccount({ bankId, accountId });
 
 	return (
 		<div className={styles.container}>
@@ -42,15 +43,3 @@ const AccountItem = ({ bankId, account }) => {
 		</div>
 	);
 };
-
-AccountItem.propTypes = {
-	bankId: PropTypes.string.isRequired,
-	account: PropTypes.shape({
-		_id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		currencyId: PropTypes.string.isRequired,
-		value: PropTypes.number.isRequired,
-	}).isRequired
-};
-
-export default AccountItem;

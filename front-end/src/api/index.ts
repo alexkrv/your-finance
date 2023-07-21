@@ -12,7 +12,7 @@ import { setCurrenciesInfo, setConversionRates, } from '../commonSlices/currency
 export const api = createApi({
 	reducerPath: 'api',
 	baseQuery: fetchBaseQuery({ baseUrl: apiUrls.API_URL_BASE }),
-	tagTypes: ['CashStatistics', 'BanksList'],
+	tagTypes: ['CashStatistics', 'BanksList', 'BrokersList'],
 	endpoints: (builder) => ({
 		login: builder.mutation({
 			query: (credentials) => ({
