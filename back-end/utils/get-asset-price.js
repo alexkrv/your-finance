@@ -1,4 +1,5 @@
 const https = require('https');
+const http = require('http');
 
 const { MOSCOW_EXCHANGE, LONDON_EXCHANGE } = require('../constants/common');
 
@@ -122,16 +123,86 @@ const yahooFinanceTickerPrice = ticker => {
 	});
 };
 
+const marketStackTickerLastPrice = tickers => {
+	// `http` because of free plan on marketstack
+	const url = `http://api.marketstack.com/v1/intraday/latest?access_key=${process.env.MARKET_STACK_API_KEY}&symbols=${tickers.join(',')}`;
+
+	return new Promise((resolve) => {
+		const responseHandler = (res) => {
+			const { statusCode, headers } = res;
+			const contentType = headers['content-type'];
+
+			let error;
+			// Any 2xx status code signals a successful response but
+			// here we're only checking for 200.
+
+			if (statusCode !== 200) {
+				error = new Error(`Request Failed.\n Status Code: ${statusCode}`);
+			} else if (!/^application\/json/.test(contentType)) {
+				error = new Error(`Invalid content-type.\n Expected application/json but received ${contentType}`);
+			}
+
+			if (error) {
+				console.error(error.message);
+				// Consume response data to free up memory
+				res.resume();
+
+				resolve({
+					ticker: tickers[0],
+					exchange: '',
+					currencyId: 'USD',
+					currentPrice: 0
+				});
+			}
+
+			let rawData = '';
+			res.setEncoding('utf8');
+			res.on('data', (chunk) => { rawData += chunk; });
+			res.on('end', () => {
+				try {
+					const parsedData = JSON.parse(rawData);
+					console.log(`RESOLVE: ${tickers[0]} ${parsedData.data?.[0].exchange} ${parsedData.data?.[0].last}`);
+					resolve({
+						ticker: tickers[0],
+						exchange: parsedData.data?.[0].exchange || '',
+						currencyId: 'USD',
+						currentPrice: parseFloat(parsedData.data?.[0].last) || 0
+					});
+				} catch (e) {
+					console.error(e.message);
+					resolve({
+						ticker: tickers[0],
+						exchange: '',
+						currencyId: 'USD',
+						currentPrice: 0
+					});
+				}
+			});
+		};
+
+		http.get(url, responseHandler)
+			.on('error', error => {
+				console.error(error);
+				resolve({
+					ticker: tickers[0],
+					exchange: '',
+					currencyId: 'USD',
+					currentPrice: 0
+				});
+			});
+	});
+};
+
 const retrieveAssetPrice = async (assetSymbol) => {
 	const moexTickerPricePromise = moexTickerLast(assetSymbol);
-	const yahooTickerPricePromise = yahooFinanceTickerPrice(assetSymbol);
+	const marketStackTickerPricePromise = marketStackTickerLastPrice([assetSymbol]);
 
-	const [moexTickerPrice, yahooTickerPrice] = await Promise.allSettled([moexTickerPricePromise, yahooTickerPricePromise]);
+	const [moexTickerPrice, marketStackTickerPrice] = await Promise.allSettled([moexTickerPricePromise, marketStackTickerPricePromise]);
 
 	if(moexTickerPrice.value.currentPrice) {
 		return moexTickerPrice.value;
-	} else if(yahooTickerPrice.value.currentPrice) {
-		return yahooTickerPrice.value;
+	} else if(marketStackTickerPrice.value.currentPrice) {
+		return marketStackTickerPrice.value;
 	} else {
 		return { ticker: assetSymbol, exchange: null, currencyId: null, currentPrice: 0 };
 	}

@@ -7,6 +7,7 @@ import { Collapse } from 'antd';
 import { TYPE_ASSET_CASH, TYPE_ASSET_FUNDS, TYPE_ASSET_STOCKS } from '@root/constants/broker-asset-types';
 import { DEFAULT_ONE, DEFAULT_ZERO } from '@root/constants/default-values';
 import { useCommonErrorMessage, useGetConversionRatesInBaseCurrency } from '@root/utils/custom-react-hooks';
+import { AssetItemType, BrokerType } from '@root/types/BrokerTypes';
 
 import styles from './BrokerAssetsContainer.module.scss';
 
@@ -16,12 +17,12 @@ import InvestmentAssetWrapper from './InvestmentAsset/InvestmentAssetWrapper';
 import FormAddStockAsset from './FormAddStockAsset/FormAddStockAsset';
 import FormAddFundAsset from './FormAddFundAsset/FormAddFundAsset';
 
-const BrokerAssetsContainer = ({ broker }) => {
+const BrokerAssetsContainer: React.FC<{broker: BrokerType}> = ({ broker }) => {
 	const { t } = useTranslation();
 	const onChange = () => {/*TODO*/};
 	const { data, error, isFetching, baseCurrencyKey } = useGetConversionRatesInBaseCurrency();
 
-	const processAsset = useCallback((investmentAsset, rates, currencyId, assetType) => {
+	const processAsset = useCallback((investmentAsset: AssetItemType, rates, currencyId, assetType) => {
 		const assetItemNames = investmentAsset ? Object.keys(investmentAsset) : [];
 
 		return assetItemNames.reduce((acc, itemName) => {
