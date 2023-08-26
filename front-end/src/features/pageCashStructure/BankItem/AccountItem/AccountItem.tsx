@@ -5,13 +5,13 @@ import ButtonEdit from '@root/components/ButtonEdit/ButtonEdit';
 import ButtonDeleteItem from '@root/components/ButtonDeleteItem/ButtonDeleteItem';
 import { FinancialValue } from '@root/components/FinancialValue/FinancialValue';
 import { useDeleteBankAccountMutation } from '@root/api';
-import { AccountItemType } from '@root/types/AccountItemTypes';
+import type { AccountItemType } from '@root/types';
 
 import { EditAccountForm } from '../EditAccountForm/EditAccountForm';
 
 import styles from './AccountItem.module.scss';
 
-export const AccountItem: React.FC<AccountItemType> = ({ bankId, account }) => {
+export const AccountItem = ({ bankId, account }: AccountItemType) => {
 	const { t } = useTranslation();
 	const [deleteBankAccount] = useDeleteBankAccountMutation();
 	const confirmBankAccountRemoving = (accountId: string) => deleteBankAccount({ bankId, accountId });

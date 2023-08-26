@@ -1,22 +1,18 @@
+import { ASSET_TYPES } from '@root/enums/AssetTypesEnum';
+
 export type BrokerType = {
     _id: string,
     assets: {
-        [key: string]: AssetType
+        [key: string]: AssetType<ASSET_TYPES>
     },
     avatar: string,
     name: string,
 }
 
-export type AssetType = {
-    cash: {
+export type AssetType<T> = {
+    [Property in keyof T]: {
         [key: string]: AssetItemType[]
-    },
-    stocks: {
-        [key: string]: AssetItemType[]
-    },
-    funds: {
-        [key: string]: AssetItemType[]
-    },
+    }
 }
 
 export type AssetItemType = {

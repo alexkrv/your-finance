@@ -21,7 +21,7 @@ type FinancialValue = {
     className?: string
 }
 
-export const FinancialValue: React.FC<FinancialValue> = ({ value, type, currencyId, size, className }) => {
+export const FinancialValue = ({ value, type, currencyId, size, className }: FinancialValue) => {
 	const timeoutRef = useRef<number | undefined>(undefined);
 	const isVisible = useAppSelector(state => state.valueVisibility.isVisible);
 	const [isHidden, setIsHidden] = useState(!isVisible);

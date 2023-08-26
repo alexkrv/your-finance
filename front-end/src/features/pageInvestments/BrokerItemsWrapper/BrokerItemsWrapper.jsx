@@ -3,9 +3,10 @@ import { Space, Collapse, } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 
 import { useGetBrokersListQuery } from '@root/api';
-import BrokerCollapseHeader from '../BrokerCollapseHeader/BrokerCollapseHeader';
-import BrokerAssetsContainer from '../BrokerAssetsContainer/BrokerAssetsContainer';
 import { DEFAULT_ZERO } from '@root/constants/default-values';
+
+import BrokerCollapseHeader from '../BrokerCollapseHeader/BrokerCollapseHeader';
+import { BrokerAssetsContainer } from '../BrokerAssetsContainer/BrokerAssetsContainer';
 
 import styles from './BrokerItemsWrapper.module.scss';
 

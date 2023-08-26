@@ -1,17 +1,18 @@
 import React, { useRef, } from 'react';
 import { Button, Form, Input, InputNumber, Space, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
+import type { FormInstance } from 'antd/es/form';
 
 import { useEditBankAccountMutation } from '@root/api';
 import { DEFAULT_EMPTY_STRING, DEFAULT_ZERO, } from '@root/constants/default-values';
-import { AccountItemType } from '@root/types/AccountItemTypes';
+import type { AccountItemType } from '@root/types';
 
 import styles from './EditAccountForm.module.scss';
 
-export const EditAccountForm: React.FC<AccountItemType> = ({ bankId, account }) => {
+export const EditAccountForm = ({ bankId, account }: AccountItemType) => {
 	const [editBankAccount] = useEditBankAccountMutation();
 	const [form] = Form.useForm();
-	const formRef = useRef();
+	const formRef = useRef<FormInstance | null>(null);
 	const { t, } = useTranslation();
 	const accountValue = Form.useWatch('accountValue', form);
 	const accountName = Form.useWatch('accountName', form);
@@ -64,7 +65,7 @@ export const EditAccountForm: React.FC<AccountItemType> = ({ bankId, account }) 
 					/>
 				</Form.Item>
 				<Space size="small">
-					<Button disabled={!accountValue && !accountName} type="primary" shape="round" size="medium" htmlType="submit"
+					<Button disabled={!accountValue && !accountName} type="primary" shape="round" size="middle" htmlType="submit"
 						className={styles.button}>
 						{t('common.save')}
 					</Button>

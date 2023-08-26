@@ -2,7 +2,7 @@ import React from 'react';
 import { Space } from 'antd';
 
 import { useGetBanksListQuery } from '@root/api';
-import { BankItemType } from '@root/types/BankItemType';
+import type { BankItemType } from '@root/types';
 
 import { BankItem } from '../BankItem/BankItem';
 

@@ -1,31 +1,39 @@
 import React, { useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse } from 'antd';
 
-import { TYPE_ASSET_CASH, TYPE_ASSET_FUNDS, TYPE_ASSET_STOCKS } from '@root/constants/broker-asset-types';
 import { DEFAULT_ONE, DEFAULT_ZERO } from '@root/constants/default-values';
 import { useCommonErrorMessage, useGetConversionRatesInBaseCurrency } from '@root/utils/custom-react-hooks';
-import { AssetItemType, BrokerType } from '@root/types/BrokerTypes';
+import type { AssetType, BrokerType, CurrencyConversionRate } from '@root/types';
+import { ASSET_TYPES } from '@root/enums/AssetTypesEnum';
 
 import styles from './BrokerAssetsContainer.module.scss';
 
 import AssetName from './InvestmentAsset/AssetName/AssetName';
-import FormAddCashAsset from './FormAddCashAsset/FormAddCashAsset';
-import InvestmentAssetWrapper from './InvestmentAsset/InvestmentAssetWrapper';
-import FormAddStockAsset from './FormAddStockAsset/FormAddStockAsset';
-import FormAddFundAsset from './FormAddFundAsset/FormAddFundAsset';
+import { FormAddCashAsset } from './FormAddCashAsset/FormAddCashAsset';
+import { InvestmentAssetWrapper } from './InvestmentAsset/InvestmentAssetWrapper';
+import { FormAddStockAsset } from './FormAddStockAsset/FormAddStockAsset';
+import { FormAddFundAsset } from './FormAddFundAsset/FormAddFundAsset';
 
-const BrokerAssetsContainer: React.FC<{broker: BrokerType}> = ({ broker }) => {
+export const BrokerAssetsContainer = ({ broker }: BrokerType) => {
 	const { t } = useTranslation();
 	const onChange = () => {/*TODO*/};
 	const { data, error, isFetching, baseCurrencyKey } = useGetConversionRatesInBaseCurrency();
-
-	const processAsset = useCallback((investmentAsset: AssetItemType, rates, currencyId, assetType) => {
+	const processAsset = useCallback((
+		investmentAsset: AssetType<ASSET_TYPES>,
+		rates: CurrencyConversionRate,
+		currencyId: string,
+		assetType: ASSET_TYPES
+	): {
+        brokerId: string, //FIXME not the undefined just why the type errors says that it's possible to be undefined?
+        processedStocks: [],
+        processedFunds: [],
+        processedCash: [],
+    } => {
 		const assetItemNames = investmentAsset ? Object.keys(investmentAsset) : [];
 
-		return assetItemNames.reduce((acc, itemName) => {
+		return assetItemNames.reduce((acc, itemName: string) => {
 			const totalAmountOfItems = investmentAsset[itemName].reduce((amountOfItems, item) => amountOfItems + item.amount, DEFAULT_ZERO);
 			const averageAssetPrice = investmentAsset[itemName].reduce((totalSum, item) =>
 				totalSum + item.amount*item.purchasePricePerUnit/(rates[item.purchaseCurrency].value || DEFAULT_ONE)
@@ -50,15 +58,15 @@ const BrokerAssetsContainer: React.FC<{broker: BrokerType}> = ({ broker }) => {
 			return {};
 		}
 
-		const stocks = broker.assets?.[TYPE_ASSET_STOCKS];
-		const funds = broker.assets?.[TYPE_ASSET_FUNDS];
-		const cash = broker.assets?.[TYPE_ASSET_CASH];
+		const stocks = broker.assets?.[ASSET_TYPES.STOCKS];
+		const funds = broker.assets?.[ASSET_TYPES.FUNDS];
+		const cash = broker.assets?.[ASSET_TYPES.CASH];
 
 		return {
 			brokerId: broker._id,
-			processedStocks: processAsset(stocks, data.rates, baseCurrencyKey, TYPE_ASSET_STOCKS),
-			processedFunds: processAsset(funds, data.rates, baseCurrencyKey, TYPE_ASSET_FUNDS),
-			processedCash: processAsset(cash, data.rates, baseCurrencyKey, TYPE_ASSET_CASH),
+			processedStocks: processAsset(stocks, data.rates, baseCurrencyKey, ASSET_TYPES.STOCKS),
+			processedFunds: processAsset(funds, data.rates, baseCurrencyKey, ASSET_TYPES.FUNDS),
+			processedCash: processAsset(cash, data.rates, baseCurrencyKey, ASSET_TYPES.CASH),
 		};
 	}, [processAsset, broker, data, error, baseCurrencyKey]);
 
@@ -76,7 +84,7 @@ const BrokerAssetsContainer: React.FC<{broker: BrokerType}> = ({ broker }) => {
 					className={styles.collapseContainer}
 				>
 					<Collapse.Panel
-						key={TYPE_ASSET_CASH}
+						key={ASSET_TYPES.CASH}
 						header={<AssetName assetName={t('brokerItem.cash')}/>}
 						className={styles.collapsePanel}
 					>
@@ -88,7 +96,7 @@ const BrokerAssetsContainer: React.FC<{broker: BrokerType}> = ({ broker }) => {
 						/>
 					</Collapse.Panel>
 					<Collapse.Panel
-						key={TYPE_ASSET_STOCKS}
+						key={ASSET_TYPES.STOCKS}
 						header={<AssetName assetName={t('brokerItem.stocksCaption')}/>}
 						className={styles.collapsePanel}
 					>
@@ -100,7 +108,7 @@ const BrokerAssetsContainer: React.FC<{broker: BrokerType}> = ({ broker }) => {
 						/>
 					</Collapse.Panel>
 					<Collapse.Panel
-						key={TYPE_ASSET_FUNDS}
+						key={ASSET_TYPES.FUNDS}
 						header={<AssetName assetName={t('brokerItem.fundsCaption')}/>}
 						className={styles.collapsePanel}
 					>
@@ -115,9 +123,3 @@ const BrokerAssetsContainer: React.FC<{broker: BrokerType}> = ({ broker }) => {
 		</div>
 	);
 };
-
-BrokerAssetsContainer.propTypes = {
-	broker: PropTypes.object.isRequired// TODO shape
-};
-
-export default BrokerAssetsContainer;
