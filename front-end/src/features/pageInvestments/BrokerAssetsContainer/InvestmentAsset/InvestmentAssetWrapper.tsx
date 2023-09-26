@@ -1,24 +1,47 @@
-import { TYPE_ASSET_CASH } from '@root/constants/broker-asset-types';
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import ButtonAddItem from '@root/components/ButtonAddItem/ButtonAddItem';
 
+import ButtonAddItem from '@root/components/ButtonAddItem/ButtonAddItem';
 import { useEditBrokerAssetMutation, useRemoveBrokerAssetMutation, } from '@root/api';
+import { ASSET_TYPES } from '@root/enums/AssetTypesEnum';
 
 import styles from './InvestmentAssetWrapper.module.scss';
 
 import InvestmentAsset from './InvestmentAsset/InvestmentAsset';
 
-const InvestmentAssetWrapper = ({
+type InvestmentAssetWrapperProps = {
+    brokerId: string,
+    asset: {
+        [key: string]: {
+            amount: number,
+            total: number,
+            averageAssetPrice: number,
+            currentAssetPrice: number,
+            currency: string,
+            type: string
+        }
+    },
+    buttonAddAssetText: string,
+    addAssetForm: React.ReactElement,
+}
+
+type AssetForEditType = {
+    assetName: string,
+    amount: number,
+    purchasePricePerUnit: number,
+    isBuyMode: boolean,
+    currency: string
+}
+
+export const InvestmentAssetWrapper = ({
 	brokerId,
 	asset,
 	buttonAddAssetText,
 	addAssetForm,
-}) => {
+}: InvestmentAssetWrapperProps) => {
 	const [removeBrokerAsset] = useRemoveBrokerAssetMutation();
 	const [editBrokerAsset] = useEditBrokerAssetMutation();
-	const editAsset = ({ assetName, amount, purchasePricePerUnit, isBuyMode, currency }) =>
+	const editAsset = ({ assetName, amount, purchasePricePerUnit, isBuyMode, currency }: AssetForEditType) =>
 		editBrokerAsset({
 			brokerId,
 			name: assetName,
@@ -28,7 +51,7 @@ const InvestmentAssetWrapper = ({
 			isBuyMode,
 			currency,
 		});
-	const confirmAssetRemoving = assetName => removeBrokerAsset({ brokerId, name: assetName, type: asset[assetName].type });
+	const confirmAssetRemoving = (assetName: string) => removeBrokerAsset({ brokerId, name: assetName, type: asset[assetName].type });
 
 	return (
 		<div className={styles.container}>
@@ -41,7 +64,7 @@ const InvestmentAssetWrapper = ({
 					averagePrice={asset[assetKey].averageAssetPrice}
 					editAsset={editAsset}
 					confirmAssetRemoving={() => confirmAssetRemoving(assetKey)}
-					isCash={asset[assetKey].type === TYPE_ASSET_CASH}
+					isCash={asset[assetKey].type === ASSET_TYPES.CASH}
 				/>
 			)}
 			<ButtonAddItem
@@ -67,5 +90,3 @@ InvestmentAssetWrapper.propTypes = {
 	buttonAddAssetText: PropTypes.string.isRequired,
 	addAssetForm: PropTypes.node.isRequired,
 };
-
-export default InvestmentAssetWrapper;

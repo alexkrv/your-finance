@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Space, Spin } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+
 import ButtonAddItem from '@root/components/ButtonAddItem/ButtonAddItem';
 import { Card } from '@root/components/Card/Card';
 import { FinancialValue } from '@root/components/FinancialValue/FinancialValue';
@@ -10,19 +9,21 @@ import ButtonDeleteItem from '@root/components/ButtonDeleteItem/ButtonDeleteItem
 import { useDeleteBankOrganizationMutation, } from '@root/api';
 import UploadButton from '@root/components/UploadButton/UploadButton';
 import { useGetTotalInBaseCurrency } from '@root/utils/custom-react-hooks';
+import type { BankItemType } from '@root/types';
+import { useAppSelector } from '@root/hooks/hooks';
 
 import FormAddBankAccount from '../FormAddBankAccount/FormAddBankAccount';
 
 import styles from './BankItem.module.scss';
 
-import AccountItem from './AccountItem/AccountItem';
+import { AccountItem } from './AccountItem/AccountItem';
 
-const BankItem = ({ bank, }) => {
+export const BankItem = ({ bank }: { bank: BankItemType }) => {
 	const { t } = useTranslation();
 	const [deleteBankOrganization] = useDeleteBankOrganizationMutation();
-	const { baseCurrencyKey } = useSelector(state => state.currencies);
+	const { baseCurrencyKey } = useAppSelector(state => state.currencies);
 	const confirmBankRemoving = () => deleteBankOrganization(bank._id);
-	const getValue = ({ value, currencyId: currency }) => ({ value, currency });
+	const getValue = ({ value, currencyId: currency }: {value: number, currencyId: string}) => ({ value, currency });
 	const { total, isFetching } = useGetTotalInBaseCurrency(bank.accounts.map(getValue));
 
 	return (
@@ -73,18 +74,3 @@ const BankItem = ({ bank, }) => {
 		</Card>
 	);
 };
-
-BankItem.propTypes = {
-	bank: PropTypes.shape({
-		_id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		accounts: PropTypes.arrayOf(PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			currencyId: PropTypes.string.isRequired,
-			value: PropTypes.number.isRequired,
-			_id: PropTypes.string.isRequired
-		})),
-	}),
-};
-
-export default BankItem;

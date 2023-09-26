@@ -24,7 +24,7 @@ const getTotalsCashInBase = ({ broker, rates, }) => {
 const getTotalStocks = async ({ broker, rates, baseCurrencyId }) => {
 	const stockTickers = Object.keys(broker.assets.stocks);
 	const prices = {};
-
+	// TODO use api for batch tickers
 	for(let i = 0; i < stockTickers.length; i++) {
 		prices[stockTickers[i]] = (await retrieveAssetPriceUSD(stockTickers[i], rates, baseCurrencyId)).currentPrice;
 	}
@@ -83,14 +83,14 @@ module.exports = {
 				return acc;
 			}, {});
 
-			 const totalInBaseCurrency = allAccounts.reduce(
+			const totalInBaseCurrency = allAccounts.reduce(
 				(acc, { currencyId, value }) => acc + value/(rates[currencyId].value || 1)
 				, 0);
 
-			 return {
-				 totalInBaseCurrency,
-				 allCurrenciesTotals
-			 };
+			return {
+				totalInBaseCurrency,
+				allCurrenciesTotals
+			};
 		} else {
 			return E_NOT_COUNTED;
 		}

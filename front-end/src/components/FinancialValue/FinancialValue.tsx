@@ -1,30 +1,35 @@
 import React, { useState, useEffect, useRef, } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import { EyeOutlined, EyeInvisibleOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 
 import {
-	CATEGORY_TYPE_FROZEN,
-	CATEGORY_TYPE_INCOME,
-	CATEGORY_TYPE_SPENDING,
+	CATEGORY_TYPE,
 	DEFAULT_EMPTY_STRING,
 	DEFAULT_ZERO,
 } from '@root/constants/default-values';
+import { useAppSelector } from '@root/hooks/hooks';
 
 import styles from './FinancialValue.module.scss';
 
-import CurrencyLabel from './CurrencyLabel/CurrencyLabel';
+import { CurrencyLabel } from './CurrencyLabel/CurrencyLabel';
 
-export const FinancialValue = ({ value, type, currencyId, size, className }) => {
-	const timeoutRef = useRef(null);
-	const isVisible = useSelector(state => state.valueVisibility.isVisible);
+type FinancialValue = {
+    value: number | string,
+    type?: CATEGORY_TYPE,
+    currencyId: string,
+    size?: 'small' | 'medium' | 'big',
+    className?: string
+}
+
+export const FinancialValue = ({ value, type, currencyId, size, className }: FinancialValue) => {
+	const timeoutRef = useRef<number | undefined>(undefined);
+	const isVisible = useAppSelector(state => state.valueVisibility.isVisible);
 	const [isHidden, setIsHidden] = useState(!isVisible);
 	const handleClick = () => {
 		setIsHidden(!isHidden);
 
 		if(isHidden && !isVisible) {
-			timeoutRef.current = setTimeout(() => setIsHidden(isHidden), 2000);
+			timeoutRef.current = window.setTimeout(() => setIsHidden(isHidden), 2000);
 		}
 	};
 
@@ -33,13 +38,13 @@ export const FinancialValue = ({ value, type, currencyId, size, className }) => 
 		clearTimeout(timeoutRef.current);
 	}, [isVisible]);
 
-	const getSign = (type) => {
+	const getSign = (type: CATEGORY_TYPE | undefined) => {
 		switch (type){
-			case CATEGORY_TYPE_INCOME: // TODO refactor ex POSITIVE / NEGATIVE or do zero-comparison
+			case CATEGORY_TYPE.INCOME: // TODO refactor ex POSITIVE / NEGATIVE or do zero-comparison
 				return <PlusOutlined className={styles.plusSign}/>;
-			case CATEGORY_TYPE_SPENDING:
+			case CATEGORY_TYPE.SPENDING:
 				return <MinusOutlined className={styles.minusSign}/>;
-			case CATEGORY_TYPE_FROZEN:
+			case CATEGORY_TYPE.FROZEN:
 				return <PlusOutlined className={styles.frozenSign}/>;
 			default: return DEFAULT_EMPTY_STRING;
 		}
@@ -49,7 +54,7 @@ export const FinancialValue = ({ value, type, currencyId, size, className }) => 
 		<span className={clsx(styles.container, className)}>
 			<span className={styles.hiddenValue} data-value-hidden={isHidden}>
 				{value === DEFAULT_ZERO ? DEFAULT_EMPTY_STRING : getSign(type)}
-				<span className={styles[size]}>{Math.abs(value)}</span>
+				<span className={styles[size!]}>{value}</span>
 				<CurrencyLabel currencyId={currencyId}/>
 			</span>
 			<span onClick={handleClick} className={styles.icon}>
@@ -59,9 +64,6 @@ export const FinancialValue = ({ value, type, currencyId, size, className }) => 
 	);
 };
 
-FinancialValue.propTypes = {
-	value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-	type: PropTypes.string,
-	currencyId: PropTypes.string,
-	size: PropTypes.oneOf(['small', 'medium', 'big']),
+FinancialValue.defaultProps = {
+	size: 'medium'
 };

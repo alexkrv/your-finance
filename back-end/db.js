@@ -14,9 +14,8 @@ module.exports = {
 			if (err || !db) {
 				return callback(err);
 			}
-
 			dbConnection = db.db(dbName);
-			console.log('Successfully connected to MongoDB.');
+			console.log('Successfully connected to MongoDB:', dbName);
 
 			return callback();
 		});

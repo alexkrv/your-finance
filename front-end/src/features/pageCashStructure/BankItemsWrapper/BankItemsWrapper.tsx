@@ -1,15 +1,17 @@
 import React from 'react';
 import { Space } from 'antd';
+
 import { useGetBanksListQuery } from '@root/api';
+import type { BankItemType } from '@root/types';
 
-import BankItem from '../BankItem/BankItem';
+import { BankItem } from '../BankItem/BankItem';
 
-const BankItemsWrapper = () => {
+export const BankItemsWrapper = () => {
 	const { data, } = useGetBanksListQuery();
 
 	return (
 		<Space size='small' align='start' wrap>
-			{ data?.map(bank =>
+			{ data?.map((bank: BankItemType) =>
 				<BankItem
 					key={bank._id}
 					bank={bank}
@@ -17,5 +19,3 @@ const BankItemsWrapper = () => {
 		</Space>
 	);
 };
-
-export default BankItemsWrapper;
