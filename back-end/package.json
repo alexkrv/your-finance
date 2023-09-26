@@ -4,7 +4,7 @@
   "description": "the app for managing your finance (back-end)",
   "main": "server/index.js",
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "set NODE_ENV=development && nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "alexkrv",

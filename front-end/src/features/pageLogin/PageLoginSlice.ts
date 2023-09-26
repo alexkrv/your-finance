@@ -1,6 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
+type SliceState = {
+	isAuthenticated: boolean
+}
+
+const initialState: SliceState = {
 	isAuthenticated: true,
 };
 
@@ -8,8 +12,8 @@ export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
-		login: (state) => {
-			state.isAuthenticated = true; // TODO create functionality
+		login: (state, action: PayloadAction<boolean>) => {
+			state.isAuthenticated = false
 		},
 		logout: (state) => {
 			state.isAuthenticated = false; // TODO create functionality

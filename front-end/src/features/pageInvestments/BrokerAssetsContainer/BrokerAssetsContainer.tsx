@@ -5,7 +5,7 @@ import { Collapse } from 'antd';
 
 import { DEFAULT_ONE, DEFAULT_ZERO } from '@root/constants/default-values';
 import { useCommonErrorMessage, useGetConversionRatesInBaseCurrency } from '@root/utils/custom-react-hooks';
-import type { AssetType, BrokerType, CurrencyConversionRate } from '@root/types';
+import type { AssetType, BrokerType, CurrencyConversionRate, AssetItemType} from '@root/types';
 import { ASSET_TYPES } from '@root/enums/AssetTypesEnum';
 
 import styles from './BrokerAssetsContainer.module.scss';
@@ -16,7 +16,16 @@ import { InvestmentAssetWrapper } from './InvestmentAsset/InvestmentAssetWrapper
 import { FormAddStockAsset } from './FormAddStockAsset/FormAddStockAsset';
 import { FormAddFundAsset } from './FormAddFundAsset/FormAddFundAsset';
 
-export const BrokerAssetsContainer = ({ broker }: BrokerType) => {
+type ProcessedAssetType = {[key: string]: {
+	amount: number,
+	total: number,
+	averageAssetPrice: number,
+	currentAssetPrice: number,
+	currency: string,
+	type: string
+}}
+
+export const BrokerAssetsContainer = ({ broker }: {broker: BrokerType}) => {
 	const { t } = useTranslation();
 	const onChange = () => {/*TODO*/};
 	const { data, error, isFetching, baseCurrencyKey } = useGetConversionRatesInBaseCurrency();
@@ -25,17 +34,14 @@ export const BrokerAssetsContainer = ({ broker }: BrokerType) => {
 		rates: CurrencyConversionRate,
 		currencyId: string,
 		assetType: ASSET_TYPES
-	): {
-        brokerId: string, //FIXME not the undefined just why the type errors says that it's possible to be undefined?
-        processedStocks: [],
-        processedFunds: [],
-        processedCash: [],
-    } => {
+	): ProcessedAssetType => {
 		const assetItemNames = investmentAsset ? Object.keys(investmentAsset) : [];
 
 		return assetItemNames.reduce((acc, itemName: string) => {
-			const totalAmountOfItems = investmentAsset[itemName].reduce((amountOfItems, item) => amountOfItems + item.amount, DEFAULT_ZERO);
-			const averageAssetPrice = investmentAsset[itemName].reduce((totalSum, item) =>
+			const totalAmountOfItems = investmentAsset[itemName as keyof AssetType<ASSET_TYPES>]
+				.reduce((amountOfItems: number, item: AssetItemType) => amountOfItems + item.amount, DEFAULT_ZERO);
+			const averageAssetPrice = investmentAsset[itemName as keyof AssetType<ASSET_TYPES>]
+				.reduce((totalSum: number, item: AssetItemType) =>
 				totalSum + item.amount*item.purchasePricePerUnit/(rates[item.purchaseCurrency].value || DEFAULT_ONE)
 			, DEFAULT_ZERO)/totalAmountOfItems;
 			const processedCurrentAssetPrice = investmentAsset[itemName][DEFAULT_ZERO].currentAssetPrice
@@ -53,7 +59,11 @@ export const BrokerAssetsContainer = ({ broker }: BrokerType) => {
 				}
 			};}, {});
 	}, []);
-	const { processedStocks, processedFunds, processedCash, brokerId } = useMemo(() => {
+	const { processedStocks, processedFunds, processedCash } = useMemo((): {
+		processedStocks: [],
+		processedFunds: [],
+		processedCash: [],
+	} => {
 		if(!data || error) {
 			return {};
 		}
@@ -63,7 +73,6 @@ export const BrokerAssetsContainer = ({ broker }: BrokerType) => {
 		const cash = broker.assets?.[ASSET_TYPES.CASH];
 
 		return {
-			brokerId: broker._id,
 			processedStocks: processAsset(stocks, data.rates, baseCurrencyKey, ASSET_TYPES.STOCKS),
 			processedFunds: processAsset(funds, data.rates, baseCurrencyKey, ASSET_TYPES.FUNDS),
 			processedCash: processAsset(cash, data.rates, baseCurrencyKey, ASSET_TYPES.CASH),
@@ -89,7 +98,7 @@ export const BrokerAssetsContainer = ({ broker }: BrokerType) => {
 						className={styles.collapsePanel}
 					>
 						<InvestmentAssetWrapper
-							brokerId={brokerId}
+							brokerId={broker._id}
 							asset={processedCash}
 							buttonAddAssetText={t('brokerItem.addBrokerAssetCash')}
 							addAssetForm={<FormAddCashAsset broker={broker}/>}
@@ -101,7 +110,7 @@ export const BrokerAssetsContainer = ({ broker }: BrokerType) => {
 						className={styles.collapsePanel}
 					>
 						<InvestmentAssetWrapper
-							brokerId={brokerId}
+							brokerId={broker._id}
 							asset={processedStocks}
 							buttonAddAssetText={t('brokerItem.addBrokerStockAsset')}
 							addAssetForm={<FormAddStockAsset broker={broker}/>}
@@ -113,7 +122,7 @@ export const BrokerAssetsContainer = ({ broker }: BrokerType) => {
 						className={styles.collapsePanel}
 					>
 						<InvestmentAssetWrapper
-							brokerId={brokerId}
+							brokerId={broker._id}
 							asset={processedFunds}
 							buttonAddAssetText={t('brokerItem.addBrokerAssetFund')}
 							addAssetForm={<FormAddFundAsset broker={broker}/>}
