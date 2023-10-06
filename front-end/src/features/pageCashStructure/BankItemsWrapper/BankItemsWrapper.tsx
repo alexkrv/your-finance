@@ -8,7 +8,6 @@ import { BankItem } from '../BankItem/BankItem';
 
 export const BankItemsWrapper = () => {
 	const { data, } = useGetBanksListQuery();
-console.log('data', data)
 
 	return (
 		<Space size='small' align='start' wrap>
