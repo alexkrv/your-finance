@@ -8,6 +8,7 @@ import {
 	getCategories
 } from '../features/pageCashStructure/PageCashStructureSlice';
 import { setCurrenciesInfo, setConversionRates, } from '../commonSlices/currencyOperationsSlice';
+import { BankItemType } from '@root/types'
 
 export const api = createApi({
 	reducerPath: 'api',
@@ -113,7 +114,7 @@ export const api = createApi({
 				}
 			},
 		}),
-		getBanksList: builder.query({
+		getBanksList: builder.query<BankItemType[], void>({
 			query: () => apiUrls.API_URL_BANK_ORGANIZATION,
 			providesTags: ['BanksList'],
 		}),

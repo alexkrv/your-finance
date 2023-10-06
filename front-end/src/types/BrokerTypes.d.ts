@@ -3,14 +3,14 @@ import { ASSET_TYPES } from '@root/enums/AssetTypesEnum';
 export type BrokerType = {
     _id: string,
     assets: {
-        [key: string]: AssetType<ASSET_TYPES>
+        [key: string]: AssetType<ASSET_TYPES.CASH | ASSET_TYPES.FUNDS | ASSET_TYPES.STOCKS>
     },
     avatar: string,
     name: string,
 }
 
 export type AssetType<T> = {
-    [Property in keyof T]: {
+    [T]: {
         [key: string]: AssetItemType[]
     }
 }

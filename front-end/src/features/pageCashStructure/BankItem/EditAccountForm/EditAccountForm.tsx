@@ -24,7 +24,7 @@ export const EditAccountForm = ({ bankId, account }: AccountItemType) => {
 	};
 	const onFinish = ({ accountName, accountValue }: {accountName: string, accountValue: number}) => {
 		editBankAccount({ bankId, accountName, accountValue, accountId: account._id });
-		formRef.current.resetFields(['accountName', 'accountValue']);
+		formRef.current?.resetFields(['accountName', 'accountValue']);
 	};
 
 	return (

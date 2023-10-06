@@ -30,7 +30,7 @@ export const BrokerAssetsContainer = ({ broker }: {broker: BrokerType}) => {
 	const onChange = () => {/*TODO*/};
 	const { data, error, isFetching, baseCurrencyKey } = useGetConversionRatesInBaseCurrency();
 	const processAsset = useCallback((
-		investmentAsset: AssetType<ASSET_TYPES>,
+		investmentAsset: {[key: string]: AssetItemType[]}, // TODO figure out correct typing
 		rates: CurrencyConversionRate,
 		currencyId: string,
 		assetType: ASSET_TYPES
@@ -38,20 +38,19 @@ export const BrokerAssetsContainer = ({ broker }: {broker: BrokerType}) => {
 		const assetItemNames = investmentAsset ? Object.keys(investmentAsset) : [];
 
 		return assetItemNames.reduce((acc, itemName: string) => {
-			const totalAmountOfItems = investmentAsset[itemName as keyof AssetType<ASSET_TYPES>]
-				.reduce((amountOfItems: number, item: AssetItemType) => amountOfItems + item.amount, DEFAULT_ZERO);
-			const averageAssetPrice = investmentAsset[itemName as keyof AssetType<ASSET_TYPES>]
-				.reduce((totalSum: number, item: AssetItemType) =>
+			const asset: AssetItemType[] = investmentAsset[itemName]
+			const totalAmountOfItems = asset.reduce((amountOfItems: number, item: AssetItemType) => amountOfItems + item.amount, DEFAULT_ZERO);
+			const averageAssetPrice = asset.reduce((totalSum: number, item: AssetItemType) =>
 				totalSum + item.amount*item.purchasePricePerUnit/(rates[item.purchaseCurrency].value || DEFAULT_ONE)
 			, DEFAULT_ZERO)/totalAmountOfItems;
-			const processedCurrentAssetPrice = investmentAsset[itemName][DEFAULT_ZERO].currentAssetPrice
-				/(rates[investmentAsset[itemName][DEFAULT_ZERO].purchaseCurrency].value || DEFAULT_ONE);
+			const processedCurrentAssetPrice = asset[DEFAULT_ZERO].currentAssetPrice
+				/(rates[asset[DEFAULT_ZERO].purchaseCurrency].value || DEFAULT_ONE);
 
 			return {
 				...acc,
 				[itemName]: {
 					amount: totalAmountOfItems,
-					total: parseFloat((totalAmountOfItems*investmentAsset[itemName][DEFAULT_ZERO].currentAssetPrice).toFixed(1)),
+					total: parseFloat((totalAmountOfItems*asset[DEFAULT_ZERO].currentAssetPrice).toFixed(1)),
 					averageAssetPrice: parseFloat(averageAssetPrice.toFixed(1)),
 					currentAssetPrice: processedCurrentAssetPrice,
 					currency: currencyId,
@@ -60,12 +59,16 @@ export const BrokerAssetsContainer = ({ broker }: {broker: BrokerType}) => {
 			};}, {});
 	}, []);
 	const { processedStocks, processedFunds, processedCash } = useMemo((): {
-		processedStocks: [],
-		processedFunds: [],
-		processedCash: [],
+		processedStocks: ProcessedAssetType,
+		processedFunds: ProcessedAssetType,
+		processedCash: ProcessedAssetType,
 	} => {
 		if(!data || error) {
-			return {};
+			return {
+				processedStocks: {},
+				processedFunds: {},
+				processedCash: {}
+			};
 		}
 
 		const stocks = broker.assets?.[ASSET_TYPES.STOCKS];

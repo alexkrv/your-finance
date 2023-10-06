@@ -34,7 +34,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "vite",
+    "start": "vite --host",
     "build": "tsc && vite build",
     "serve": "vite preview"
   },
